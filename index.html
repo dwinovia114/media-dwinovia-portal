@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Media Dwinovia — pusat materi, game, dan media pembelajaran interaktif.">
+  <title>Media Dwinovia — Belajar dengan Cara yang Lebih Menarik</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="data/media.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Media Dwinovia beranda">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span class="brand-copy"><strong>Media Dwinovia</strong><small>Learning resources</small></span>
+    </a>
+    <nav class="top-nav" aria-label="Navigasi utama">
+      <a href="#explore">Jelajahi</a>
+      <a href="#featured">Unggulan</a>
+      <a href="#about">Tentang</a>
+    </nav>
+    <a class="header-link" href="#explore">Temukan media <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> DIGITAL LEARNING COLLECTION</div>
+        <h1>Belajar lebih menarik.<br><span>Eksplorasi tanpa batas.</span></h1>
+        <p class="hero-description">Satu tempat untuk menemukan materi, latihan interaktif, dan game pembelajaran yang dirancang untuk membuat proses belajar lebih bermakna.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#explore">Jelajahi media <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="#featured">Lihat media unggulan</a>
+        </div>
+        <div class="hero-meta"><span class="meta-check">✓</span> Materi terkurasi <span class="meta-divider"></span> Game interaktif <span class="meta-divider"></span> Mudah diakses</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-card card-back"><div class="mini-icon purple">Aa</div><div class="art-line long"></div><div class="art-line medium"></div><div class="art-line short"></div></div>
+        <div class="art-card card-front"><div class="card-top"><span class="mini-icon blue">✦</span><span class="pill">LEARNING SPACE</span></div><div class="art-title">Discover<br>something new.</div><div class="progress-label"><span>Learning progress</span><b>82%</b></div><div class="progress-track"><span></span></div><div class="floating-star">✳</div></div>
+        <div class="art-bubble bubble-one">Aa</div><div class="art-bubble bubble-two">✓</div>
+      </div>
+    </section>
+
+    <section class="quick-stats" aria-label="Jenis media">
+      <div class="stat"><span class="stat-icon icon-lavender">▤</span><div><strong>Materi</strong><small>Ringkasan & bahan belajar</small></div></div>
+      <div class="stat"><span class="stat-icon icon-mint">⌘</span><div><strong>Game edukasi</strong><small>Belajar sambil bermain</small></div></div>
+      <div class="stat"><span class="stat-icon icon-peach">✎</span><div><strong>Latihan interaktif</strong><small>Asah pemahaman</small></div></div>
+      <div class="stat"><span class="stat-icon icon-sky">↗</span><div><strong>Praktis diakses</strong><small>Melalui browser</small></div></div>
+    </section>
+
+    <section class="section featured-section" id="featured">
+      <div class="section-heading">
+        <div><div class="eyebrow">PILIHAN EDITOR</div><h2>Media unggulan</h2><p>Mulai dari media yang direkomendasikan.</p></div>
+        <a class="subtle-link" href="#explore">Lihat semua media <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="featured-grid" id="featured-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="section explore-section" id="explore">
+      <div class="section-heading">
+        <div><div class="eyebrow">KOLEKSI MEDIA</div><h2>Temukan yang kamu butuhkan</h2><p>Cari berdasarkan judul, mata pelajaran, kelas, atau jenis media.</p></div>
+      </div>
+      <div class="toolbar">
+        <label class="search-box"><span class="search-symbol" aria-hidden="true">⌕</span><span class="sr-only">Cari media</span><input id="search-input" type="search" placeholder="Cari materi, game, atau topik..." autocomplete="off"></label>
+        <label class="filter-wrap"><span class="sr-only">Filter mata pelajaran</span><select id="subject-filter"><option value="">Semua mata pelajaran</option></select></label>
+        <label class="filter-wrap"><span class="sr-only">Filter kelas</span><select id="grade-filter"><option value="">Semua kelas</option></select></label>
+        <label class="filter-wrap"><span class="sr-only">Filter jenis media</span><select id="type-filter"><option value="">Semua jenis</option></select></label>
+      </div>
+      <div class="results-bar"><span id="results-count">Memuat media...</span><button id="reset-filters" class="reset-button" type="button">Reset filter</button></div>
+      <div class="media-grid" id="media-grid" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden><div class="empty-icon">⌕</div><h3>Media belum ditemukan</h3><p>Coba kata kunci atau filter yang berbeda.</p><button id="empty-reset" class="button button-secondary" type="button">Hapus semua filter</button></div>
+    </section>
+
+    <section class="about-band" id="about">
+      <div class="about-mark"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span></div>
+      <div><div class="eyebrow">TENTANG PORTAL</div><h2>Ruang belajar digital milik Dwinovia.</h2><p>Portal ini mengumpulkan materi, game, dan media pembelajaran dalam satu tempat. Koleksi akan terus berkembang.</p></div>
+      <a class="button button-dark" href="#explore">Mulai eksplorasi <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="footer-brand" href="./">Media Dwinovia</a><span>Belajar, mencoba, bertumbuh.</span><span id="footer-year"></span></footer>
+  <noscript><div class="noscript-note">Aktifkan JavaScript pada browser untuk menampilkan katalog media.</div></noscript>
+</body>
+</html>
