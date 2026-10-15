@@ -849,27 +849,41 @@
                 }, 50);
             }
             else if (act.act === 5) {
-                let qState = gameState.act5State[q.id] || { stmtWordsList: [], tagWordsList: [] };
+                let qState = gameState.act5State[q.id] || { stmtIndices: [], tagIndices: [] };
                 let wrapper = document.createElement('div');
                 wrapper.className = 'space-y-6';
                 
                 if(!qState.shuffledStmt) {
-                    qState.shuffledStmt = [...q.stmtWords].sort(() => Math.random() - 0.5);
-                    qState.shuffledTag = [...q.tagWords].sort(() => Math.random() - 0.5);
+                    let stmtIndexed = q.stmtWords.map((w, i) => ({ word: w, index: i }));
+                    qState.shuffledStmt = stmtIndexed.sort(() => Math.random() - 0.5);
+                    let tagIndexed = q.tagWords.map((w, i) => ({ word: w, index: i }));
+                    qState.shuffledTag = tagIndexed.sort(() => Math.random() - 0.5);
                 }
 
-                let stmtChipsHtml = qState.shuffledStmt.map((w) => {
-                    let isUsed = qState.stmtWordsList.includes(w);
+                let stmtChipsHtml = qState.shuffledStmt.map((item) => {
+                    let isUsed = qState.stmtIndices.includes(item.index);
                     if(isUsed) return '';
-                    let escapedW = w.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    return `<button type="button" onclick="addWord(${q.id}, 'stmt', '${escapedW}')" class="px-3.5 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm font-bold text-slate-300 hover:bg-blue-600/30 hover:border-blue-500 transition-all">${w}</button>`;
+                    let escapedW = item.word.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    return `<button type="button" onclick="addWord(${q.id}, 'stmt', ${item.index}, '${escapedW}')" class="px-3.5 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm font-bold text-slate-300 hover:bg-blue-600/30 hover:border-blue-500 transition-all">${item.word}</button>`;
                 }).join('');
 
-                let tagChipsHtml = qState.shuffledTag.map((w) => {
-                    let isUsed = qState.tagWordsList.includes(w);
+                let tagChipsHtml = qState.shuffledTag.map((item) => {
+                    let isUsed = qState.tagIndices.includes(item.index);
                     if(isUsed) return '';
-                    let escapedW = w.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    return `<button type="button" onclick="addWord(${q.id}, 'tag', '${escapedW}')" class="px-3.5 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm font-bold text-slate-300 hover:bg-cyan-600/30 hover:border-cyan-500 transition-all">${w}</button>`;
+                    let escapedW = item.word.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    return `<button type="button" onclick="addWord(${q.id}, 'tag', ${item.index}, '${escapedW}')" class="px-3.5 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm font-bold text-slate-300 hover:bg-cyan-600/30 hover:border-cyan-500 transition-all">${item.word}</button>`;
+                }).join('');
+
+                let stmtSelectedHtml = qState.stmtIndices.map((origIdx, posIdx) => {
+                    let wordObj = q.stmtWords[origIdx];
+                    let escapedW = wordObj.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    return `<span onclick="removeWord(${q.id}, 'stmt', ${posIdx}, '${escapedW}')" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-bold cursor-pointer hover:bg-red-600 transition-all shadow">${wordObj} <i class="fa-solid fa-xmark ml-1"></i></span>`;
+                }).join('');
+
+                let tagSelectedHtml = qState.tagIndices.map((origIdx, posIdx) => {
+                    let wordObj = q.tagWords[origIdx];
+                    let escapedW = wordObj.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    return `<span onclick="removeWord(${q.id}, 'tag', ${posIdx}, '${escapedW}')" class="px-3 py-1.5 bg-cyan-600 text-white rounded-lg text-sm font-bold cursor-pointer hover:bg-red-600 transition-all shadow">${wordObj} <i class="fa-solid fa-xmark ml-1"></i></span>`;
                 }).join('');
 
                 wrapper.innerHTML = `
@@ -877,11 +891,8 @@
                         <div class="glass-card p-5 rounded-2xl border border-slate-700 space-y-4">
                             <p class="text-xs font-bold text-blue-400 uppercase"><i class="fa-solid fa-puzzle-piece mr-2"></i>Build Statement (Click words in order)</p>
                             <div class="min-h-[60px] p-3 bg-slate-900/90 border border-slate-700 rounded-xl flex flex-wrap gap-2 items-center">
-                                ${qState.stmtWordsList.length === 0 ? '<span class="text-xs text-slate-500 italic">Click chips below...</span>' : ''}
-                                ${qState.stmtWordsList.map((w, idx) => {
-                                    let escapedW = w.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                                    return `<span onclick="removeWord(${q.id}, 'stmt', ${idx}, '${escapedW}')" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-bold cursor-pointer hover:bg-red-600 transition-all shadow">${w} <i class="fa-solid fa-xmark ml-1"></i></span>`;
-                                }).join('')}
+                                ${qState.stmtIndices.length === 0 ? '<span class="text-xs text-slate-500 italic">Click chips below...</span>' : ''}
+                                ${stmtSelectedHtml}
                             </div>
                             <div class="flex flex-wrap gap-2 pt-2">
                                 ${stmtChipsHtml}
@@ -891,11 +902,8 @@
                         <div class="glass-card p-5 rounded-2xl border border-slate-700 space-y-4">
                             <p class="text-xs font-bold text-cyan-400 uppercase"><i class="fa-solid fa-puzzle-piece mr-2"></i>Build Question Tag</p>
                             <div class="min-h-[60px] p-3 bg-slate-900/90 border border-slate-700 rounded-xl flex flex-wrap gap-2 items-center">
-                                ${qState.tagWordsList.length === 0 ? '<span class="text-xs text-slate-500 italic">Click chips below...</span>' : ''}
-                                ${qState.tagWordsList.map((w, idx) => {
-                                    let escapedW = w.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                                    return `<span onclick="removeWord(${q.id}, 'tag', ${idx}, '${escapedW}')" class="px-3 py-1.5 bg-cyan-600 text-white rounded-lg text-sm font-bold cursor-pointer hover:bg-red-600 transition-all shadow">${w} <i class="fa-solid fa-xmark ml-1"></i></span>`;
-                                }).join('')}
+                                ${qState.tagIndices.length === 0 ? '<span class="text-xs text-slate-500 italic">Click chips below...</span>' : ''}
+                                ${tagSelectedHtml}
                             </div>
                             <div class="flex flex-wrap gap-2 pt-2">
                                 ${tagChipsHtml}
@@ -1061,13 +1069,13 @@
             recalculateTotalScore();
         }
 
-        function addWord(qId, type, word) {
+        function addWord(qId, type, origIndex, word) {
             sfx.click();
-            let qState = gameState.act5State[qId] || { stmtWordsList: [], tagWordsList: [] };
+            let qState = gameState.act5State[qId] || { stmtIndices: [], tagIndices: [] };
             if(type === 'stmt') {
-                qState.stmtWordsList.push(word);
+                qState.stmtIndices.push(origIndex);
             } else {
-                qState.tagWordsList.push(word);
+                qState.tagIndices.push(origIndex);
             }
             gameState.act5State[qId] = qState;
             loadCurrentQuestion();
@@ -1077,13 +1085,13 @@
             syncProgressToDatabaseQuiet();
         }
 
-        function removeWord(qId, type, index, word) {
+        function removeWord(qId, type, posIndex, word) {
             sfx.click();
             let qState = gameState.act5State[qId];
             if(type === 'stmt') {
-                qState.stmtWordsList.splice(index, 1);
+                qState.stmtIndices.splice(posIndex, 1);
             } else {
-                qState.tagWordsList.splice(index, 1);
+                qState.tagIndices.splice(posIndex, 1);
             }
             loadCurrentQuestion();
             const act = ACTIVITIES[4];
@@ -1094,8 +1102,8 @@
 
         function evaluateAct5(q) {
             let state = gameState.act5State[q.id];
-            let userStmt = state.stmtWordsList.join(' ');
-            let userTag = state.tagWordsList.join(' ');
+            let userStmt = state.stmtIndices.map(i => q.stmtWords[i]).join(' ');
+            let userTag = state.tagIndices.map(i => q.tagWords[i]).join(' ');
             let stmtOk = cleanMatch(userStmt + '.', q.correctStmt) || cleanMatch(userStmt, q.correctStmt);
             let tagOk = cleanMatch(userTag + '?', q.correctTag) || cleanMatch(userTag, q.correctTag);
             let correct = (stmtOk && tagOk);
@@ -1248,7 +1256,6 @@
             try {
                 await server.run('saveStudentProgress', gameState.playerClass, gameState.playerName, {
                     score: gameState.score,
-                    progress: '25/25',
                     answers: gameState.answers,
                     sortingState: gameState.sortingState,
                     act4State: gameState.act4State,
