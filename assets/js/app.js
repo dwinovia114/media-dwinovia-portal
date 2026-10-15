@@ -49,7 +49,7 @@
       <div class="media-cover cover-${theme}${coverClass}">
         ${thumbnailHtml}
         <span class="cover-symbol">${esc(item.symbol || "✦")}</span>
-        <span class="cover-label">${active ? "SIAP DIGUNAKAN" : "SEGERA HADIR"}</span>
+        ${!active ? '<span class="cover-label">SEGERA HADIR</span>' : ''}
       </div>
       <div class="card-content"><div class="card-tags">${tags}</div><h3>${esc(item.title)}</h3><p>${esc(item.description || "")}</p>
       <div class="card-bottom"><span class="card-subject">${esc(item.subject || "Media pembelajaran")}</span>${action}</div></div>
