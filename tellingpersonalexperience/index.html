@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telling Personal Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .8; transform: scale(1.05); }
+        }
+        .animate-pulse-slow { animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+
+        .flip-container { perspective: 1000px; }
+        .flipper {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%; height: 100%;
+        }
+        .flip-container.flipped .flipper { transform: rotateY(180deg); }
+        .front, .back {
+            backface-visibility: hidden; position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .back { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="w-screen h-screen max-h-screen overflow-hidden bg-slate-50 text-slate-800 flex flex-col font-sans select-none">
+
+    <!-- Header -->
+    <header class="h-20 border-b border-blue-900 bg-blue-950 px-6 flex items-center justify-between flex-shrink-0 z-50 shadow-lg relative" id="app-header">
+        <div class="flex items-center space-x-4 shrink-0">
+            <!-- Sidebar Toggle Button -->
+            <button onclick="toggleSidebar()" class="p-2.5 rounded-xl bg-blue-900 hover:bg-white hover:text-blue-950 text-white border border-blue-800 transition hover:scale-105 shadow flex items-center justify-center" title="Toggle Sidebar">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white flex items-center justify-center shadow-lg shadow-white/10 transform transition hover:scale-105">
+                <svg class="w-6 h-6 md:w-7 md:h-7 text-blue-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <div class="hidden sm:block">
+                <h1 class="font-extrabold text-white text-lg md:text-xl tracking-tight leading-tight">Telling Personal Experience</h1>
+                <p class="text-xs text-blue-200 font-medium mt-0.5">Grade 9 Module</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3 shrink-0" id="header-actions"></div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden relative">
+        <!-- Collapsible Sidebar Menu -->
+        <!-- Note: We use lg:-ml-72 in JS for smooth sliding on desktop. Adding it here in comments ensures Tailwind CDN compiles it: lg:-ml-72 -->
+        <aside id="app-sidebar" class="w-72 bg-blue-950 border-r border-blue-900 flex flex-col transition-all duration-300 absolute inset-y-0 left-0 z-40 transform -translate-x-full lg:translate-x-0 lg:static shadow-2xl lg:shadow-none">
+            <div class="p-4 border-b border-blue-900 flex items-center justify-between lg:hidden">
+                <span class="text-white font-bold text-lg">Module Menu</span>
+                <button onclick="toggleSidebar()" class="p-2 rounded-lg bg-blue-900 text-white hover:bg-blue-800">✕</button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar" id="sidebar-nav-content"></div>
+        </aside>
+
+        <!-- Backdrop for mobile sidebar -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden backdrop-blur-sm transition-opacity"></div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-hidden relative flex flex-col bg-slate-50 z-10">
+            <div class="flex-1 overflow-y-auto p-6 md:p-10 relative flex flex-col justify-start scroll-smooth" id="main-content-wrapper">
+                <div id="main-content" class="w-full flex-grow flex flex-col space-y-12 pb-12"></div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="h-20 border-t border-blue-900 bg-blue-950 px-6 md:px-10 flex items-center justify-between flex-shrink-0 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.2)]" id="app-footer"></footer>
+        </main>
+    </div>
+
+    <script>
+        const categories = ['Home', 'Recount Text', 'Language Features', 'Expressions', 'Vocabulary', 'Practice'];
+        
+        const topics = [
+            { id: 'welcome', title: '00. Overview', category: 'Home' },
+            { id: 'recount_def', title: 'A.1 Definition & Function', category: 'Recount Text' },
+            { id: 'recount_char', title: 'A.2 Characteristics', category: 'Recount Text' },
+            { id: 'recount_struct', title: 'A.3 Generic Structures', category: 'Recount Text' },
+            { id: 'recount_5w1h', title: 'A.4 Information (5W+1H)', category: 'Recount Text' },
+            { id: 'lang_pronouns', title: 'L.1 Personal Pronouns', category: 'Language Features' },
+            { id: 'lang_past', title: 'L.2 Simple Past Tense', category: 'Language Features' },
+            { id: 'lang_connectives', title: 'L.3 Time Connectives', category: 'Language Features' },
+            { id: 'lang_adverbs', title: 'L.4 Adverb of Time', category: 'Language Features' },
+            { id: 'lang_emotive', title: 'L.5 Emotive Words', category: 'Language Features' },
+            { id: 'lang_descriptive', title: 'L.6 Descriptive Words', category: 'Language Features' },
+            { id: 'lang_summary_ex', title: 'L.7 Summary Example', category: 'Language Features' },
+            { id: 'lang_summary', title: 'L.8 Quick Summary', category: 'Language Features' },
+            { id: 'exp_surprise', title: 'B.1 Surprise', category: 'Expressions' },
+            { id: 'exp_disbelief', title: 'B.2 Disbelief', category: 'Expressions' },
+            { id: 'exp_vs', title: 'B.3 Surprise vs. Disbelief', category: 'Expressions' },
+            { id: 'vocab_positive', title: 'C.1 Positive Feelings', category: 'Vocabulary' },
+            { id: 'vocab_negative', title: 'C.2 Negative Feelings', category: 'Vocabulary' },
+            { id: 'exp_dialogue', title: 'D.1 Dialogue Practice', category: 'Practice' }
+        ];
+
+        let state = {
+            activeTopic: 'welcome',
+            activeCategory: 'Home'
+        };
+
+        function getCurrentIndex() { return topics.findIndex(t => t.id === state.activeTopic); }
+        function getCurrentTopicObj() { return topics.find(t => t.id === state.activeTopic) || topics[0]; }
+
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('app-sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            if (window.innerWidth >= 1024) {
+                // Desktop toggle with slide effect (toggles margin-left to collapse the width smoothly)
+                sidebar.classList.toggle('lg:-ml-72');
+            } else {
+                // Mobile toggle
+                sidebar.classList.toggle('-translate-x-full');
+                backdrop.classList.toggle('hidden');
+            }
+        }
+
+        window.handleTopicClick = function(topicId) {
+            state.activeTopic = topicId;
+            const topic = topics.find(t => t.id === topicId);
+            if (topic) state.activeCategory = topic.category;
+            renderApp();
+            
+            // Close sidebar on mobile whenever a topic is selected
+            if (window.innerWidth < 1024) {
+                const sidebar = document.getElementById('app-sidebar');
+                const backdrop = document.getElementById('sidebar-backdrop');
+                if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+                if (backdrop && !backdrop.classList.contains('hidden')) {
+                    backdrop.classList.add('hidden');
+                }
+            }
+        };
+
+        window.handleNext = function() {
+            const idx = getCurrentIndex();
+            if (idx < topics.length - 1) handleTopicClick(topics[idx + 1].id);
+        };
+
+        window.handlePrev = function() {
+            const idx = getCurrentIndex();
+            if (idx > 0) handleTopicClick(topics[idx - 1].id);
+        };
+
+        let availableVoices = [];
+        function loadVoices() {
+            availableVoices = window.speechSynthesis.getVoices();
+        }
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+
+        function getVoiceByGender(gender) {
+            let enVoices = availableVoices.filter(v => v.lang.startsWith('en'));
+            if (enVoices.length === 0) enVoices = availableVoices;
+            if (gender === 'female') {
+                return enVoices.find(v => /female|woman|samantha|zira|victoria|monica|susan/i.test(v.name)) || enVoices[0];
+            } else {
+                return enVoices.find(v => /male|man|alex|david|mark|george|arthur/i.test(v.name)) || enVoices.reverse()[0];
+            }
+        }
+
+        window.speakText = function(text, event) {
+            if (event) event.stopPropagation();
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        };
+
+        window.speakTitle = function() {
+            const topic = getCurrentTopicObj();
+            speakText(`You are studying ${topic.title}`);
+        };
+
+        window.currentDialogStep = 0;
+        const dialogLines = [
+            { name: "Rina", gender: "female", text: "Hi, Aldo! How was your holiday?", side: "left" },
+            { name: "Aldo", gender: "male", text: "It was amazing! My family suddenly took me to Bali.", side: "right" },
+            { name: "Rina", gender: "female", text: "Really? What a surprise! I didn't know about it.", side: "left" },
+            { name: "Aldo", gender: "male", text: "Yes! My parents told me one day before the trip.", side: "right" },
+            { name: "Rina", gender: "female", text: "Are you serious? You went to Bali without planning it?", side: "left" },
+            { name: "Aldo", gender: "male", text: "Yes. At first, I was nervous, but then I felt delighted.", side: "right" },
+            { name: "Rina", gender: "female", text: "Wow! What did you do there?", side: "left" },
+            { name: "Aldo", gender: "male", text: "We visited the beach and watched the sunset. I felt very peaceful.", side: "right" }
+        ];
+
+        window.startDialogueSequence = function() {
+            const startPrompt = document.getElementById('dialog-start-prompt');
+            const btnText = document.getElementById('dialog-btn-text');
+            const btnIcon = document.getElementById('dialog-btn-icon');
+            const btn = document.getElementById('dialog-btn');
+            
+            if (btnText.innerText === "Playing Conversation...") return;
+            if(startPrompt) startPrompt.style.display = 'none';
+
+            if(window.currentDialogStep >= dialogLines.length) {
+                window.currentDialogStep = 0;
+                for(let i=0; i<dialogLines.length; i++) {
+                    const bubble = document.getElementById('dialog-bubble-' + i);
+                    if(bubble) {
+                        bubble.classList.add('hidden');
+                        bubble.classList.remove('animate-fade-in-up');
+                    }
+                }
+            }
+
+            btnText.innerText = "Playing Conversation...";
+            btnIcon.innerText = "⏳";
+            btn.classList.add('opacity-70', 'cursor-not-allowed', 'scale-95');
+
+            window.playNextDialog();
+        };
+
+        window.playNextDialog = function() {
+            if (state.activeTopic !== 'exp_dialogue') {
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                return;
+            }
+
+            if(window.currentDialogStep < dialogLines.length) {
+                const line = dialogLines[window.currentDialogStep];
+                const bubble = document.getElementById('dialog-bubble-' + window.currentDialogStep);
+                
+                bubble.classList.remove('hidden');
+                bubble.classList.add('animate-fade-in-up');
+                
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(line.text);
+                    utterance.rate = 0.9;
+                    utterance.lang = 'en-US';
+                    const voice = getVoiceByGender(line.gender);
+                    if(voice) utterance.voice = voice;
+                    utterance.pitch = line.gender === 'female' ? 1.3 : 0.8; 
+                    
+                    utterance.onend = function() {
+                        window.currentDialogStep++;
+                        setTimeout(() => {
+                            if(state.activeTopic === 'exp_dialogue') {
+                                window.playNextDialog();
+                            }
+                        }, 500); 
+                    };
+
+                    utterance.onerror = function() {
+                        window.currentDialogStep++;
+                        setTimeout(() => {
+                             if(state.activeTopic === 'exp_dialogue') window.playNextDialog();
+                        }, 500);
+                    }
+
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    window.currentDialogStep++;
+                    setTimeout(() => window.playNextDialog(), 2500);
+                }
+                
+                setTimeout(() => {
+                    const container = document.getElementById('chat-container');
+                    if(container) container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+                }, 50);
+
+            } else {
+                const btnText = document.getElementById('dialog-btn-text');
+                const btnIcon = document.getElementById('dialog-btn-icon');
+                const btn = document.getElementById('dialog-btn');
+                
+                if (btnText) btnText.innerText = "Restart Conversation";
+                if (btnIcon) btnIcon.innerText = "🔄";
+                if (btn) btn.classList.remove('opacity-70', 'cursor-not-allowed', 'scale-95');
+            }
+        };
+
+        function renderHeaderActions() {
+            document.getElementById('header-actions').innerHTML = `
+                <button onclick="speakTitle()" class="p-2.5 rounded-xl bg-blue-900 hover:bg-white hover:text-blue-950 text-white border border-blue-800 transition hover:scale-105 shadow" title="Read Title">🔊</button>
+            `;
+        }
+
+        function renderSidebarNav() {
+            let html = '';
+            categories.forEach(category => {
+                const catTopics = topics.filter(t => t.category === category);
+                html += `
+                    <div class="space-y-1.5">
+                        <div class="px-3 text-xs font-black uppercase tracking-wider text-blue-400 mb-2">${category}</div>
+                        <div class="space-y-1">`;
+                catTopics.forEach(t => {
+                    const isActive = t.id === state.activeTopic;
+                    const activeClass = isActive ? 'bg-blue-800 text-white font-bold border-l-4 border-white shadow' : 'text-blue-200 hover:bg-blue-900/60 hover:text-white font-medium border-l-4 border-transparent';
+                    html += `
+                        <button onclick="handleTopicClick('${t.id}')" class="w-full text-left px-3 py-2.5 rounded-xl text-sm transition-all flex items-center space-x-2 ${activeClass}">
+                            <span class="truncate">${t.title}</span>
+                        </button>`;
+                });
+                html += `</div></div>`;
+            });
+            document.getElementById('sidebar-nav-content').innerHTML = html;
+        }
+
+        function renderFooter() {
+            const currentIndex = getCurrentIndex();
+            const currentTopic = getCurrentTopicObj();
+            const isPrevDisabled = currentIndex === 0;
+            const isNextDisabled = currentIndex === topics.length - 1;
+
+            const prevClass = isPrevDisabled ? 'opacity-40 cursor-not-allowed text-blue-400 bg-blue-950 border-blue-900' : 'bg-blue-800 hover:bg-blue-700 text-white border-blue-700 hover:scale-105 shadow';
+            const nextClass = isNextDisabled ? 'opacity-40 cursor-not-allowed text-blue-400 bg-blue-950 border-blue-900' : 'bg-white hover:bg-blue-50 text-blue-950 font-extrabold shadow-lg shadow-blue-900/10 hover:scale-105 border-blue-200';
+
+            document.getElementById('app-footer').innerHTML = `
+                <button ${isPrevDisabled ? 'disabled' : ''} onclick="handlePrev()" class="px-6 py-3 rounded-xl text-sm font-bold flex items-center space-x-2 transition-all border ${prevClass}">
+                    <span>← Previous Topic</span>
+                </button>
+                <span class="text-sm text-slate-400 font-medium hidden sm:inline">Module: <strong class="text-white text-base ml-2">${currentTopic.title}</strong></span>
+                <button ${isNextDisabled ? 'disabled' : ''} onclick="handleNext()" class="px-6 py-3 rounded-xl text-sm flex items-center space-x-2 transition-all border border-transparent ${nextClass}">
+                    <span>Next Topic →</span>
+                </button>
+            `;
+        }
+
+        const buildHeader = (topicStr, title, subtitle) => `
+            <div class="border-b border-blue-200 pb-5">
+                <span class="text-sm font-bold text-blue-600 tracking-widest uppercase">${topicStr}</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-blue-950 mt-2">${title}</h2>
+                ${subtitle ? `<p class="text-slate-600 mt-2 text-lg">${subtitle}</p>` : ''}
+            </div>
+        `;
+
+        const buildSubHeader = (title, subtitle) => `
+            <div class="mb-5 border-l-4 border-blue-500 pl-4 animate-fade-in-up">
+                <h3 class="text-2xl font-extrabold text-blue-900">${title}</h3>
+                ${subtitle ? `<p class="text-slate-600 mt-1 text-base md:text-lg">${subtitle}</p>` : ''}
+            </div>
+        `;
+
+        function getTopicPages(topicId) {
+            let pages = [];
+
+            if (topicId === 'welcome') {
+                pages.push(`
+                <div class="relative w-full flex items-center justify-center max-w-6xl mx-auto py-10 md:py-20 animate-fade-in-up">
+                    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl mix-blend-screen animate-pulse-slow pointer-events-none"></div>
+                    <div class="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-blue-600/5 rounded-full blur-3xl mix-blend-screen animate-pulse-slow pointer-events-none" style="animation-delay: 1.5s;"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row items-center gap-16 w-full">
+                        <div class="flex-1 space-y-8 text-center md:text-left z-20">
+                            <div class="inline-flex items-center space-x-3 px-5 py-2.5 bg-white border border-blue-200 rounded-full text-blue-900 text-sm font-bold uppercase tracking-widest shadow-sm">
+                                <span class="animate-bounce inline-block text-lg">✨</span><span>Interactive English Module</span>
+                            </div>
+                            <h2 class="text-5xl md:text-7xl font-extrabold text-blue-950 tracking-tight leading-tight">Mastering <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-500">Personal Experience</span></h2>
+                            <p class="text-slate-600 text-lg leading-relaxed max-w-xl mx-auto md:mx-0">Step into an engaging digital journey! Learn how to beautifully recount your past stories, express sudden surprises naturally, and expand your vocabulary. Scroll down or use the sidebar menu to begin!</p>
+                            <div class="pt-4 flex justify-center md:justify-start">
+                                <button onclick="handleNext()" class="group relative px-10 py-5 bg-blue-950 hover:bg-blue-800 text-white rounded-2xl text-lg font-extrabold shadow-xl shadow-blue-900/20 transition-all hover:-translate-y-1 overflow-hidden">
+                                    <span class="relative flex items-center space-x-3"><span>Start Learning Journey</span><svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-1 w-full max-w-lg relative hidden md:block min-h-[450px]">
+                            <div class="absolute top-0 right-10 w-72 p-6 bg-blue-950 backdrop-blur-xl border border-blue-800 rounded-3xl shadow-2xl transform rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-500 z-10 animate-float"><div class="w-14 h-14 rounded-2xl bg-white text-blue-900 flex items-center justify-center text-3xl mb-5 font-bold shadow-sm">📖</div><h3 class="text-white font-bold text-xl mb-2">Recount Text</h3><p class="text-sm text-blue-200 leading-relaxed">Master the 5W+1H, generic structures, and Simple Past Tense storytelling.</p></div>
+                            <div class="absolute bottom-10 left-0 w-72 p-6 bg-blue-950 backdrop-blur-xl border border-blue-800 rounded-3xl shadow-2xl transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500 z-20 animate-float" style="animation-delay: 1s;"><div class="w-14 h-14 rounded-2xl bg-white text-blue-900 flex items-center justify-center text-3xl mb-5 font-bold shadow-sm">😲</div><h3 class="text-white font-bold text-xl mb-2">Expressions & Vocab</h3><p class="text-sm text-blue-200 leading-relaxed">Learn how to react to unexpected news naturally and fluently.</p></div>
+                        </div>
+                    </div>
+                </div>`);
+            } 
+            else if (topicId === 'recount_def') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module A.1', 'Definition & Social Function')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white hover:bg-blue-50 transition-colors border border-blue-200 rounded-3xl p-8 space-y-4 shadow-lg group"><div class="flex items-center space-x-3 text-blue-950 font-bold text-xl border-b border-blue-100 pb-4"><span class="text-3xl group-hover:scale-110 transition-transform">📚</span><h3>Definition</h3></div><p class="text-lg text-slate-700 leading-relaxed pt-2">A <strong class="text-blue-950 font-black">Personal Recount Text</strong> is a type of spoken or written text that retells past events or personal experiences that the author has lived through in chronological order.</p></div>
+                        <div class="bg-white hover:bg-blue-50 transition-colors border border-blue-200 rounded-3xl p-8 space-y-4 shadow-lg group"><div class="flex items-center space-x-3 text-blue-950 font-bold text-xl border-b border-blue-100 pb-4"><span class="text-3xl group-hover:scale-110 transition-transform">🎯</span><h3>Social Function</h3></div><ul class="text-lg text-slate-700 space-y-4 list-disc list-inside leading-relaxed pt-2"><li>To retell past experiences to family, friends, or readers.</li><li>To <strong class="text-blue-950 font-black">inform</strong> the audience about what happened.</li><li>To <strong class="text-blue-950 font-black border-b-2 border-blue-400">entertain</strong> or share emotional connections through personal stories.</li></ul></div>
+                    </div>
+                    <div class="bg-blue-950 text-white rounded-3xl p-6 md:p-8 space-y-3 shadow-xl relative overflow-hidden animate-float" style="animation-duration: 4s;"><h4 class="text-sm font-extrabold uppercase tracking-widest flex items-center space-x-2 text-blue-300"><span class="text-xl">💡</span> <span>Key Takeaway for 9th Graders</span></h4><p class="text-lg font-medium leading-relaxed relative z-10 mt-2">Unlike fictional stories (narrative), a Personal Recount is strictly based on <strong class="font-extrabold text-xl bg-blue-800 px-2 rounded">REAL</strong> personal occurrences (e.g., "My Holiday in Bali", "A Memorable Camping Trip").</p></div>
+                </div>`);
+            }
+            else if (topicId === 'recount_char') {
+                const chars = [
+                    { num: "01", title: "First-Person Perspective", desc: "Uses personal pronouns such as I, WE, MY FAMILY, OUR CLASS." },
+                    { num: "02", title: "Chronological Sequence", desc: "Events are told in real-time order using sequence connectors (first, next, then, finally)." },
+                    { num: "03", title: "Past Tense Predominance", desc: "Action verbs are written in Simple Past Tense (e.g., went, visited, played, bought)." },
+                    { num: "04", title: "Specific Participants", desc: "Focuses on specific actors (me, my best friend) rather than general subjects." }
+                ];
+                let charHtml = chars.map((item, index) => `
+                    <div class="bg-white hover:bg-blue-50 transition-all duration-300 border border-blue-200 p-6 rounded-3xl flex items-start space-x-5 shadow-lg group animate-fade-in-up" style="animation-delay: ${index * 0.1}s">
+                        <span class="text-2xl font-mono font-black text-blue-900 bg-blue-100 p-4 rounded-2xl border border-blue-200 shadow-sm group-hover:bg-white transition-colors">${item.num}</span>
+                        <div class="pt-1"><h3 class="text-xl font-bold mb-2 text-blue-950">${item.title}</h3><p class="text-base text-slate-600 leading-relaxed">${item.desc}</p></div>
+                    </div>`).join('');
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 w-full">
+                    ${buildHeader('Module A.2', 'Key Characteristics')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${charHtml}</div>
+                </div>`);
+            }
+            else if (topicId === 'recount_struct') {
+                pages.push(`
+                <div class="max-w-7xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module A.3', 'Generic Structures', 'How is a Recount Text organized? Follow these 3 steps:')}
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg hover:border-blue-400 transition flex flex-col group animate-fade-in-up">
+                            <div class="flex items-center space-x-4 mb-5"><div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-white bg-blue-950 text-white font-bold text-2xl shadow-md shrink-0 transition-transform group-hover:scale-110">1</div><h3 class="font-bold text-2xl text-blue-950">Orientation</h3></div>
+                            <p class="text-slate-600 text-lg leading-relaxed mb-6 flex-grow">Provides the background information needed to understand the text. Identifies <strong class="text-blue-900">who</strong> was involved, <strong class="text-blue-900">where</strong> it happened, and <strong class="text-blue-900">when</strong>.</p>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-l-blue-600 mt-auto"><p class="text-sm text-blue-900 italic">"Last weekend, my family and I went on a trip to the local zoo."</p></div>
+                        </div>
+                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg hover:border-blue-400 transition flex flex-col group animate-fade-in-up" style="animation-delay: 0.1s">
+                            <div class="flex items-center space-x-4 mb-5"><div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-white bg-blue-950 text-white font-bold text-2xl shadow-md shrink-0 transition-transform group-hover:scale-110">2</div><h3 class="font-bold text-2xl text-blue-950">Events</h3></div>
+                            <p class="text-slate-600 text-lg leading-relaxed mb-6 flex-grow">A series of events ordered in a chronological sequence (what happened first, what happened next).</p>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-l-blue-600 mt-auto"><p class="text-sm text-blue-900 italic">"First, we visited the elephants... After that, we ate lunch near the monkey cage..."</p></div>
+                        </div>
+                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg hover:border-blue-400 transition flex flex-col group animate-fade-in-up" style="animation-delay: 0.2s">
+                            <div class="flex items-center space-x-4 mb-5"><div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-white bg-blue-950 text-white font-bold text-2xl shadow-md shrink-0 transition-transform group-hover:scale-110">3</div><h3 class="font-bold text-2xl text-blue-950">Re-orientation</h3></div>
+                            <p class="text-slate-600 text-lg leading-relaxed mb-6 flex-grow">A personal comment about the event or what happened in the end. <em class="text-blue-500 font-medium">(Optional)</em></p>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-l-blue-600 mt-auto"><p class="text-sm text-blue-900 italic">"We were very tired, but we felt extremely happy. It was the best weekend ever."</p></div>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'recount_5w1h') {
+                const whData = [
+                    { t: "Who", emoji: "👤", desc: "Who were the characters involved in the story?" },
+                    { t: "What", emoji: "📌", desc: "What exactly happened during the event?" },
+                    { t: "Where", emoji: "📍", desc: "Where did the story take place?" },
+                    { t: "When", emoji: "⏰", desc: "When did the event occur? (e.g., Yesterday)" },
+                    { t: "Why", emoji: "🤔", desc: "Why did the event happen? (The reason)" },
+                    { t: "How", emoji: "⚙️", desc: "How did it happen? How did the participants feel?" }
+                ];
+                let whHtml = whData.map((item, index) => `
+                    <div class="bg-white border border-blue-200 rounded-3xl p-6 text-center hover:-translate-y-2 hover:border-blue-500 group transition duration-300 shadow-lg animate-fade-in-up" style="animation-delay: ${index * 0.1}s">
+                        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">${item.emoji}</div>
+                        <h3 class="text-2xl font-bold text-blue-950 mb-2">${item.t}</h3>
+                        <p class="text-slate-600 text-lg">${item.desc}</p>
+                    </div>`).join('');
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module A.4', 'Information (5W+1H)', 'A good recount text should answer these six basic questions.')}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">${whHtml}</div>
+                </div>`);
+            }
+            else if (topicId === 'lang_pronouns') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 md:space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.1', 'Personal Pronouns', 'A personal recount text uses personal pronouns to refer to specific people or groups.')}
+                    <div class="bg-white border border-blue-200 p-5 md:p-8 rounded-3xl shadow-xl flex flex-col justify-center">
+                        <p class="text-base md:text-lg text-slate-700 leading-relaxed mb-6 text-center max-w-3xl mx-auto">
+                            The most common pronouns in a personal recount text are <strong class="text-blue-950 font-black border-b border-blue-400">I, me, my, we, us, and our</strong>.
+                        </p>
+                        
+                        <div class="w-full overflow-x-auto pb-2 no-scrollbar">
+                            <div class="flex flex-col gap-4 min-w-[600px] w-full mx-auto">
+                                <div class="flex items-stretch shadow-sm rounded-xl overflow-hidden border border-blue-200 bg-blue-50">
+                                    <div class="w-1/4 bg-blue-950 text-white font-bold p-3 flex items-center justify-center md:justify-start md:px-6">Subject Pronouns</div>
+                                    <div class="w-3/4 flex gap-2 p-3">
+                                        ${['I', 'you', 'he', 'she', 'it', 'we', 'they'].map(w => `<div class="flex-1 bg-white border border-blue-200 py-2.5 rounded-lg text-base flex items-center justify-center font-bold text-blue-950 shadow-sm">${w}</div>`).join('')}
+                                    </div>
+                                </div>
+                                <div class="flex items-stretch shadow-sm rounded-xl overflow-hidden border border-blue-200 bg-blue-50">
+                                    <div class="w-1/4 bg-blue-950 text-white font-bold p-3 flex items-center justify-center md:justify-start md:px-6">Object Pronouns</div>
+                                    <div class="w-3/4 flex gap-2 p-3">
+                                        ${['me', 'you', 'him', 'her', 'it', 'us', 'them'].map(w => `<div class="flex-1 bg-white border border-blue-200 py-2.5 rounded-lg text-base flex items-center justify-center font-bold text-blue-700 shadow-sm">${w}</div>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 md:space-y-8 animate-fade-in-up w-full mt-4">
+                    ${buildSubHeader('Personal Pronouns (Examples)')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-xl font-bold text-blue-950 mb-6 flex items-center space-x-2"><span class="text-2xl group-hover:scale-110 transition-transform">👤</span> <span>Using Subject Pronouns</span></h4>
+                            <div class="space-y-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 opacity-80">
+                                    <p class="text-lg text-red-500 line-through decoration-red-500">Riana watered the plants yesterday.</p>
+                                </div>
+                                <div class="bg-blue-50 p-5 rounded-xl border border-blue-300 shadow-inner">
+                                    <p class="text-xl text-blue-900 italic">"<strong class="text-blue-700 font-extrabold text-2xl">She</strong> watered the plants yesterday."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-xl font-bold text-blue-950 mb-6 flex items-center space-x-2"><span class="text-2xl group-hover:scale-110 transition-transform">👥</span> <span>Replacing Groups</span></h4>
+                            <div class="space-y-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 opacity-80">
+                                    <p class="text-lg text-red-500 line-through decoration-red-500">My friends and I went to the museum.</p>
+                                </div>
+                                <div class="bg-blue-50 p-5 rounded-xl border border-blue-300 shadow-inner">
+                                    <p class="text-xl text-blue-900 italic">"<strong class="text-blue-700 font-extrabold text-2xl">We</strong> were very happy."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-950 border-l-8 border-l-blue-400 p-8 rounded-r-3xl shadow-xl text-white transform hover:scale-[1.02] transition-transform mt-6">
+                        <h4 class="text-sm font-bold text-blue-300 uppercase tracking-widest mb-3">Example in a Recount Text</h4>
+                        <p class="text-xl leading-relaxed font-medium">
+                            "Last holiday, <strong class="text-blue-200 underline decoration-blue-400 underline-offset-4 font-black">I</strong> went to the beach with <strong class="text-blue-200 underline decoration-blue-400 underline-offset-4 font-black">my</strong> family. <strong class="text-blue-200 underline decoration-blue-400 underline-offset-4 font-black">We</strong> played in the sand and took many pictures. My father bought some food for <strong class="text-blue-200 underline decoration-blue-400 underline-offset-4 font-black">us</strong>."
+                        </p>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_past') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 md:space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.2', 'Simple Past Tense (Verbal Sentence)', 'Describes events or experiences that happened and finished in the past.')}
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg space-y-4">
+                        <div class="overflow-hidden rounded-2xl border border-blue-200 shadow-sm">
+                            <table class="w-full text-left text-sm md:text-base border-collapse">
+                                <thead><tr class="bg-blue-950 text-white"><th class="p-3 md:p-4">Form</th><th class="p-3 md:p-4">Pattern</th><th class="p-3 md:p-4">Example</th></tr></thead>
+                                <tbody class="text-slate-800">
+                                    <tr class="bg-white border-b border-blue-100"><td class="p-3 md:p-4 font-bold text-green-600">Positive (+)</td><td class="p-3 md:p-4">Subject + <strong>Verb 2</strong> + Complement</td><td class="p-3 md:p-4">I <strong>visited</strong> the museum.</td></tr>
+                                    <tr class="bg-slate-50 border-b border-blue-100"><td class="p-3 md:p-4 font-bold text-red-600">Negative (-)</td><td class="p-3 md:p-4">Subject + <strong>did not + Verb 1</strong> + Comp</td><td class="p-3 md:p-4">I <strong>did not visit</strong> the museum.</td></tr>
+                                    <tr class="bg-white"><td class="p-3 md:p-4 font-bold text-yellow-600">Question (?)</td><td class="p-3 md:p-4"><strong>Did</strong> + Subject + <strong>Verb 1</strong> + Comp?</td><td class="p-3 md:p-4"><strong>Did</strong> you <strong>visit</strong> the museum?</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="space-y-3 mt-4">
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl text-blue-900 flex items-start space-x-4 shadow-sm">
+                                <span class="text-2xl">💡</span>
+                                <div>
+                                    <strong class="text-blue-700 uppercase tracking-wider block mb-1 text-sm">What is a Complement?</strong>
+                                    <p class="text-sm md:text-base">In a Verbal Sentence, a complement completes the verb's meaning. It is usually an <strong>Object</strong> (e.g., <em>the museum, food</em>), an <strong>Adverb of Place</strong> (e.g., <em>to the beach</em>), or an <strong>Adverb of Time</strong>.</p>
+                                </div>
+                            </div>
+                            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl text-red-900 flex items-start space-x-4 shadow-sm">
+                                <span class="text-2xl">⚠️</span>
+                                <div>
+                                    <strong class="text-red-700 uppercase tracking-wider block mb-1 text-sm">Pay attention!</strong>
+                                    <p class="text-sm md:text-base">In positive sentences, we use <strong>Verb 2</strong>. In negative and interrogative sentences, we use <strong>Verb 1</strong> because <em>did/did not</em> already shows the past tense.</p>
+                                    <p class="mt-2 text-xs md:text-sm text-red-600 font-mono font-bold">❌ I did not <em>visited</em>... &nbsp;&nbsp; ❌ Did you <em>visited</em>...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Regular vs Irregular Verbs')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div class="bg-white p-5 md:p-6 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-lg font-bold text-blue-950 mb-4 flex items-center space-x-2"><span class="text-xl group-hover:scale-110 transition-transform">✅</span> <span>Regular Verbs (+ed)</span></h4>
+                            <div class="grid grid-cols-2 gap-2 text-center text-sm font-medium">
+                                <div class="bg-blue-950 text-white p-1.5 rounded-lg">Verb 1</div><div class="bg-blue-950 text-white p-1.5 rounded-lg">Verb 2</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">visit</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-green-700 font-bold">visited</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">play</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-green-700 font-bold">played</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">watch</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-green-700 font-bold">watched</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">clean</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-green-700 font-bold">cleaned</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">explore</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-green-700 font-bold">explored</div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 md:p-6 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-lg font-bold text-blue-950 mb-4 flex items-center space-x-2"><span class="text-xl group-hover:scale-110 transition-transform">⚠️</span> <span>Irregular Verbs</span></h4>
+                            <div class="grid grid-cols-2 gap-2 text-center text-sm font-medium">
+                                <div class="bg-blue-950 text-white p-1.5 rounded-lg">Verb 1</div><div class="bg-blue-950 text-white p-1.5 rounded-lg">Verb 2</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">go</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-yellow-700 font-bold">went</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">see</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-yellow-700 font-bold">saw</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">eat</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-yellow-700 font-bold">ate</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">take</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-yellow-700 font-bold">took</div>
+                                <div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-slate-700">buy</div><div class="bg-blue-50 border border-blue-200 p-1.5 rounded-lg text-yellow-700 font-bold">bought</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Action Verbs Examples')}
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg">
+                            <h4 class="font-extrabold text-blue-950 mb-4 text-lg border-b border-blue-100 pb-3">Using "visit"</h4>
+                            <p class="mb-3 text-slate-700"><span class="inline-block w-8 text-green-600 font-bold">(+)</span> I <strong class="text-blue-900">visited</strong> my grandmother last weekend.</p>
+                            <p class="mb-3 text-slate-700"><span class="inline-block w-8 text-red-600 font-bold">(-)</span> I <strong class="text-blue-900">did not visit</strong> my grandmother last weekend.</p>
+                            <p class="text-slate-700"><span class="inline-block w-8 text-yellow-600 font-bold">(?)</span> <strong class="text-blue-900">Did</strong> you <strong class="text-blue-900">visit</strong> your grandmother last weekend?</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg">
+                            <h4 class="font-extrabold text-blue-950 mb-4 text-lg border-b border-blue-100 pb-3">Using "go"</h4>
+                            <p class="mb-3 text-slate-700"><span class="inline-block w-8 text-green-600 font-bold">(+)</span> We <strong class="text-blue-900">went</strong> to the beach.</p>
+                            <p class="mb-3 text-slate-700"><span class="inline-block w-8 text-red-600 font-bold">(-)</span> We <strong class="text-blue-900">did not go</strong> to the beach.</p>
+                            <p class="text-slate-700"><span class="inline-block w-8 text-yellow-600 font-bold">(?)</span> <strong class="text-blue-900">Did</strong> you <strong class="text-blue-900">go</strong> to the beach?</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg">
+                            <h4 class="font-extrabold text-blue-950 mb-4 text-lg border-b border-blue-100 pb-3">Using "play"</h4>
+                            <p class="mb-3 text-slate-700"><span class="inline-block w-8 text-green-600 font-bold">(+)</span> They <strong class="text-blue-900">played</strong> football.</p>
+                            <p class="mb-3 text-slate-700"><span class="inline-block w-8 text-red-600 font-bold">(-)</span> They <strong class="text-blue-900">did not play</strong> football.</p>
+                            <p class="text-slate-700"><span class="inline-block w-8 text-yellow-600 font-bold">(?)</span> <strong class="text-blue-900">Did</strong> they <strong class="text-blue-900">play</strong> football?</p>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Simple Past with Was/Were (Nominal)', 'We use was/were to describe a condition, feeling, place, or situation in the past.')}
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg space-y-4">
+                        <div class="overflow-hidden rounded-2xl border border-blue-200 shadow-sm">
+                            <table class="w-full text-left text-sm md:text-base border-collapse">
+                                <thead><tr class="bg-blue-950 text-white"><th class="p-3 md:p-4">Form</th><th class="p-3 md:p-4">Pattern</th><th class="p-3 md:p-4">Example</th></tr></thead>
+                                <tbody class="text-slate-800">
+                                    <tr class="bg-white border-b border-blue-100"><td class="p-3 md:p-4 font-bold text-green-600">Positive (+)</td><td class="p-3 md:p-4">Subject + <strong>was/were</strong> + Complement</td><td class="p-3 md:p-4">I <strong>was</strong> very happy.</td></tr>
+                                    <tr class="bg-slate-50 border-b border-blue-100"><td class="p-3 md:p-4 font-bold text-red-600">Negative (-)</td><td class="p-3 md:p-4">Subject + <strong>was/were + not</strong> + Comp</td><td class="p-3 md:p-4">They <strong>were not</strong> at the museum.</td></tr>
+                                    <tr class="bg-white"><td class="p-3 md:p-4 font-bold text-yellow-600">Question (?)</td><td class="p-3 md:p-4"><strong>Was/Were</strong> + Subject + Complement?</td><td class="p-3 md:p-4"><strong>Were</strong> you tired?</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl text-blue-900 flex items-start space-x-4 shadow-sm mt-4">
+                            <span class="text-2xl">💡</span>
+                            <div>
+                                <strong class="text-blue-700 uppercase tracking-wider block mb-1 text-sm">What is a Complement?</strong>
+                                <p class="text-sm md:text-base">Because there is no action verb, the complement can be an <strong>Adjective</strong> (tired, happy), a <strong>Noun</strong> (a student), or an <strong>Adverb of Place</strong> (at the museum).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Usage of Was & Were', 'Notice the difference in subject pairs when using Was and Were.')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-xl font-bold text-blue-950 mb-4 flex items-center space-x-2"><span class="text-2xl group-hover:scale-110 transition-transform">👥</span> <span>Subject Matching</span></h4>
+                            <div class="grid grid-cols-3 gap-2 text-center text-sm font-medium">
+                                <div class="bg-blue-950 text-white p-2 rounded-xl shadow">Subject</div><div class="bg-blue-950 text-white p-2 rounded-xl shadow">Positive</div><div class="bg-blue-950 text-white p-2 rounded-xl shadow">Negative</div>
+                                <div class="bg-blue-50 border border-blue-200 p-2 rounded-lg flex items-center justify-center text-slate-700 font-bold text-base">I, He, She, It</div>
+                                <div class="bg-blue-50 border border-blue-200 p-2 rounded-lg text-green-700 flex items-center justify-center font-bold text-lg">was</div>
+                                <div class="bg-blue-50 border border-blue-200 p-2 rounded-lg text-red-700 flex items-center justify-center font-bold">was not / wasn't</div>
+                                <div class="bg-blue-50 border border-blue-200 p-2 rounded-lg flex items-center justify-center text-slate-700 font-bold text-base">You, We, They</div>
+                                <div class="bg-blue-50 border border-blue-200 p-2 rounded-lg text-green-700 flex items-center justify-center font-bold text-lg">were</div>
+                                <div class="bg-blue-50 border border-blue-200 p-2 rounded-lg text-red-700 flex items-center justify-center font-bold">were not / weren't</div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg flex flex-col justify-center">
+                            <h4 class="text-xl font-bold text-blue-950 mb-5 border-b border-blue-100 pb-3">Examples in Sentences</h4>
+                            <div class="space-y-4 text-slate-700">
+                                <div class="space-y-1.5">
+                                    <p class="text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-50 inline-block px-2 py-1 rounded-md border border-blue-100 mb-1">Using WAS</p>
+                                    <p><span class="inline-block w-8 text-green-600 font-bold">(+)</span> She <strong class="text-blue-900">was</strong> very excited.</p>
+                                    <p><span class="inline-block w-8 text-red-600 font-bold">(-)</span> She <strong class="text-blue-900">was not</strong> very excited.</p>
+                                    <p><span class="inline-block w-8 text-yellow-600 font-bold">(?)</span> <strong class="text-blue-900">Was</strong> she very excited?</p>
+                                </div>
+                                <div class="space-y-1.5 mt-2 pt-2 border-t border-blue-100">
+                                    <p class="text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-50 inline-block px-2 py-1 rounded-md border border-blue-100 mb-1">Using WERE</p>
+                                    <p><span class="inline-block w-8 text-green-600 font-bold">(+)</span> We <strong class="text-blue-900">were</strong> at the campsite.</p>
+                                    <p><span class="inline-block w-8 text-red-600 font-bold">(-)</span> We <strong class="text-blue-900">were not</strong> at the campsite.</p>
+                                    <p><span class="inline-block w-8 text-yellow-600 font-bold">(?)</span> <strong class="text-blue-900">Were</strong> we at the campsite?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Remember! (Quick Summary)')}
+                    <div class="bg-white border-l-[12px] border-blue-950 p-8 md:p-12 rounded-r-3xl shadow-xl flex flex-col gap-6">
+                        <div>
+                            <h4 class="font-black text-blue-950 text-xl uppercase tracking-widest mb-3">Action Verb</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-base">
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 shadow-sm"><span class="text-green-700 font-bold">Positive:</span> Verb 2</div>
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 shadow-sm"><span class="text-red-600 font-bold">Negative:</span> didn't + Verb 1</div>
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 shadow-sm"><span class="text-yellow-700 font-bold">Question:</span> Did + Verb 1?</div>
+                            </div>
+                        </div>
+                        <div class="h-px w-full bg-blue-100"></div>
+                        <div>
+                            <h4 class="font-black text-blue-950 text-xl uppercase tracking-widest mb-3">Be (Was/Were)</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-base">
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 shadow-sm"><span class="text-green-700 font-bold">Positive:</span> was/were</div>
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 shadow-sm"><span class="text-red-600 font-bold">Negative:</span> wasn't/weren't</div>
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 shadow-sm"><span class="text-yellow-700 font-bold">Question:</span> Was/Were...?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_connectives') {
+                const connectives = [
+                    { en: 'First / Firstly', id: 'Pertama-tama' }, { en: 'Before', id: 'Sebelum' }, { en: 'After', id: 'Sesudah/Setelah' },
+                    { en: 'Then', id: 'Lalu/Kemudian' }, { en: 'Next', id: 'Selanjutnya' }, { en: 'Eventually', id: 'Lama-kelamaan' },
+                    { en: 'Finally', id: 'Akhirnya' }, { en: 'Afterwards', id: 'Setelah itu' }, { en: 'Shortly after', id: 'Sesaat setelahnya' },
+                    { en: 'In the end', id: 'Pada akhirnya' }, { en: 'While', id: 'Sementara/Saat' }, { en: 'Meanwhile', id: 'Sementara itu' }
+                ];
+                let connHtml = connectives.map((c, i) => `
+                    <div class="flip-container cursor-pointer w-full h-16 md:h-20 animate-fade-in-up group" style="animation-delay: ${i*0.05}s" onclick="this.classList.toggle('flipped')">
+                        <div class="flipper shadow-sm hover:shadow-md rounded-xl">
+                            <div class="front bg-white border border-blue-200 rounded-xl flex items-center justify-center p-2 group-hover:bg-blue-50 transition-colors">
+                                <span class="text-sm md:text-base font-bold text-blue-950 text-center">${c.en}</span>
+                            </div>
+                            <div class="back bg-blue-800 border border-blue-700 rounded-xl flex items-center justify-center p-2">
+                                <span class="text-sm md:text-base font-bold text-white text-center">${c.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.3', 'Time Connectives', 'Help us know when something happened and connect one event to another in sequence. <strong class="text-blue-600 block mt-1">(💡 Click the cards to see translation!)</strong>')}
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+                        ${connHtml}
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Time Connectives in Action')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg">
+                            <h4 class="text-xl font-bold text-blue-950 mb-6 border-b border-blue-100 pb-4">Sentence Examples</h4>
+                            <ul class="space-y-4 text-slate-700 text-lg">
+                                <li><strong class="text-blue-900 text-xl">First</strong>, we arrived at the campsite.</li>
+                                <li><strong class="text-blue-900 text-xl">Then</strong>, we set up our tents.</li>
+                                <li><strong class="text-blue-900 text-xl">After that</strong>, we cooked dinner.</li>
+                                <li><strong class="text-blue-900 text-xl">Finally</strong>, we went to bed.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-950 p-8 rounded-3xl shadow-xl text-white flex flex-col justify-center text-center transform hover:scale-[1.02] transition-transform">
+                            <h4 class="text-sm font-bold text-blue-300 uppercase tracking-widest mb-6">Example in a Recount Text</h4>
+                            <p class="text-2xl leading-relaxed font-medium">"<strong class="text-blue-200 underline decoration-blue-400">First</strong>, we arrived at the museum. <strong class="text-blue-200 underline decoration-blue-400">Then</strong>, we bought the tickets. <strong class="text-blue-200 underline decoration-blue-400">Afterwards</strong>, we explored the museum. <strong class="text-blue-200 underline decoration-blue-400">Finally</strong>, we went home."</p>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_adverbs') {
+                const adverbs = [
+                    { en: "yesterday", id: "kemarin" }, { en: "last night", id: "tadi malam" }, { en: "last week", id: "minggu lalu" },
+                    { en: "last month", id: "bulan lalu" }, { en: "last year", id: "tahun lalu" }, { en: "last holiday", id: "liburan lalu" },
+                    { en: "two days ago", id: "dua hari lalu" }, { en: "three weeks ago", id: "tiga minggu lalu" }, { en: "this morning", id: "pagi ini" },
+                    { en: "in the afternoon", id: "sore/siang hari" }, { en: "in the evening", id: "malam hari" }, { en: "at night", id: "pada malam hari" },
+                    { en: "at 7 a.m.", id: "jam 7 pagi" }, { en: "on Sunday", id: "pada hari Minggu" }, { en: "in 2025", id: "pada tahun 2025" }
+                ];
+                let advHtml = adverbs.map((a, i) => `
+                    <div class="flip-container cursor-pointer w-full h-14 md:h-16 animate-fade-in-up group" style="animation-delay: ${i*0.03}s" onclick="this.classList.toggle('flipped')">
+                        <div class="flipper shadow-sm hover:shadow-md rounded-lg">
+                            <div class="front bg-white border border-blue-200 rounded-lg flex items-center justify-center p-2 group-hover:bg-blue-50 transition-colors">
+                                <span class="text-sm font-semibold text-blue-950 text-center leading-tight">${a.en}</span>
+                            </div>
+                            <div class="back bg-blue-800 border border-blue-700 rounded-lg flex items-center justify-center p-2">
+                                <span class="text-xs md:text-sm font-bold text-white text-center leading-tight">${a.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.4', 'Adverbs of Time', 'Words or phrases that answer the question: <strong>When did it happen?</strong> <strong class="text-blue-600 block mt-1">(💡 Click the cards!)</strong>')}
+                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        ${advHtml}
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Adverbs of Time Examples')}
+                    <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg">
+                        <ul class="space-y-5 text-lg text-slate-700">
+                            <li class="flex items-center space-x-4"><span class="text-2xl">🔹</span> <p>I visited my grandmother <strong class="text-blue-900 border-b-2 border-blue-400">yesterday</strong>.</p></li>
+                            <li class="flex items-center space-x-4"><span class="text-2xl">🔹</span> <p>We went to the beach <strong class="text-blue-900 border-b-2 border-blue-400">last Sunday</strong>.</p></li>
+                            <li class="flex items-center space-x-4"><span class="text-2xl">🔹</span> <p>They arrived <strong class="text-blue-900 border-b-2 border-blue-400">at 8 a.m.</strong></p></li>
+                            <li class="flex items-center space-x-4"><span class="text-2xl">🔹</span> <p>We had dinner <strong class="text-blue-900 border-b-2 border-blue-400">in the evening</strong>.</p></li>
+                            <li class="flex items-center space-x-4"><span class="text-2xl">🔹</span> <p>She visited Bali <strong class="text-blue-900 border-b-2 border-blue-400">last holiday</strong>.</p></li>
+                        </ul>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Connectives vs. Adverbs of Time', 'Students often confuse these two. Here is the difference:')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-xl font-bold text-blue-950 mb-4 flex items-center space-x-3"><span class="text-2xl group-hover:scale-110 transition-transform">🔗</span> <span>Time Connectives</span></h4>
+                            <p class="text-sm text-blue-900 mb-4 font-medium bg-blue-50 p-3 rounded-xl border border-blue-200 text-center">They show the <strong class="text-blue-950">sequence</strong> of events.</p>
+                            <ul class="text-base text-slate-700 space-y-2">
+                                <li><strong class="text-blue-900">First</strong>, we arrived.</li>
+                                <li><strong class="text-blue-900">Then</strong>, we had lunch.</li>
+                                <li><strong class="text-blue-900">Finally</strong>, we went home.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-blue-200 shadow-lg group">
+                            <h4 class="text-xl font-bold text-blue-950 mb-4 flex items-center space-x-3"><span class="text-2xl group-hover:scale-110 transition-transform">⏰</span> <span>Adverbs of Time</span></h4>
+                            <p class="text-sm text-blue-900 mb-4 font-medium bg-blue-50 p-3 rounded-xl border border-blue-200 text-center">They tell us <strong class="text-blue-950">when</strong> the event happened.</p>
+                            <ul class="text-base text-slate-700 space-y-2">
+                                <li>We arrived <strong class="text-blue-900">at 8 a.m.</strong></li>
+                                <li>We had lunch <strong class="text-blue-900">at noon.</strong></li>
+                                <li>We went home <strong class="text-blue-900">in the evening.</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-blue-950 text-white p-5 rounded-2xl shadow-xl flex flex-col md:flex-row justify-around items-center text-center transform hover:scale-[1.01] transition-transform mt-4">
+                        <p class="font-black uppercase tracking-widest text-xs text-blue-300 md:w-1/4">Easy Way to Remember</p>
+                        <div class="flex flex-col md:flex-row justify-around flex-1 w-full mt-3 md:mt-0 space-y-2 md:space-y-0 text-sm font-bold">
+                            <span class="bg-blue-900 px-3 py-1.5 rounded-lg border border-blue-800 shadow-inner">Time Connectives → What happened next?</span>
+                            <span class="bg-blue-900 px-3 py-1.5 rounded-lg border border-blue-800 shadow-inner">Adverbs of Time → When did it happen?</span>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_emotive') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.5', 'Emotive Words', 'Used in a personal recount text to express the person\'s feelings.')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg text-blue-950 group">
+                            <h3 class="text-2xl font-black text-blue-700 mb-6 flex items-center space-x-3"><span class="text-3xl group-hover:scale-110 transition-transform">😄</span> <span>Positive Feelings</span></h3>
+                            <div class="flex flex-wrap gap-3">
+                                ${['happy', 'excited', 'proud', 'surprised', 'grateful', 'touched', 'delighted'].map(w => `<span class="px-4 py-2 bg-blue-50 text-blue-800 rounded-lg text-base font-bold shadow-sm border border-blue-200">${w}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg text-blue-950 group">
+                            <h3 class="text-2xl font-black text-red-600 mb-6 flex items-center space-x-3"><span class="text-3xl group-hover:scale-110 transition-transform">😢</span> <span>Negative Feelings</span></h3>
+                            <div class="flex flex-wrap gap-3">
+                                ${['sad', 'angry', 'nervous', 'scared', 'worried', 'disappointed', 'tired'].map(w => `<span class="px-4 py-2 bg-red-50 text-red-800 rounded-lg text-base font-bold shadow-sm border border-red-200">${w}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Emotive Words in Sentences')}
+                    <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg mb-6">
+                        <ul class="space-y-6 text-xl text-slate-700 text-center">
+                            <li>I was very <strong class="text-blue-900 border-b-2 border-blue-400">touched</strong> when my friend gave me a gift.</li>
+                            <li>My sister was <strong class="text-red-700 border-b-2 border-red-400">angry</strong> when I broke her favorite vase.</li>
+                            <li>We were <strong class="text-blue-900 border-b-2 border-blue-400">excited</strong> about the camping trip.</li>
+                            <li>I felt <strong class="text-red-700 border-b-2 border-red-400">nervous</strong> before the competition.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-950 p-6 rounded-2xl text-center shadow-xl transform hover:scale-[1.02] transition-transform">
+                        <p class="text-lg text-blue-200 font-medium">So, emotive words tell us: <strong class="text-white font-black block mt-2 text-3xl">How did the person feel?</strong></p>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_descriptive') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.6', 'Descriptive Words', 'Used to describe objects, people, places, or actions in the story.')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg group hover:bg-blue-50 transition flex flex-col">
+                            <h3 class="text-xl font-bold text-blue-950 mb-2 flex items-center space-x-3"><span class="text-3xl group-hover:scale-110 transition-transform">🏖️</span> <span>Things or Places</span></h3>
+                            <p class="text-sm text-slate-500 mb-6 font-medium italic">Answering: "What was it like?"</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${['beautiful', 'big', 'small', 'clean', 'peaceful', 'crowded', 'colorful', 'interesting'].map(w => `<span class="px-4 py-2 bg-blue-50 text-blue-900 rounded-lg text-sm font-medium border border-blue-200 shadow-sm">${w}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 md:p-8 rounded-3xl border border-blue-200 shadow-lg group hover:bg-blue-50 transition flex flex-col">
+                            <h3 class="text-xl font-bold text-blue-950 mb-2 flex items-center space-x-3"><span class="text-3xl group-hover:scale-110 transition-transform">🏃</span> <span>Actions</span></h3>
+                            <p class="text-sm text-slate-500 mb-6 font-medium italic">Answering: "How did the action happen?"</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${['quickly', 'slowly', 'carefully', 'quietly', 'happily', 'suddenly'].map(w => `<span class="px-4 py-2 bg-blue-50 text-blue-900 rounded-lg text-sm font-medium border border-blue-200 shadow-sm">${w}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Descriptive Words in Sentences')}
+                    <div class="bg-white p-8 md:p-12 rounded-3xl border border-blue-200 shadow-xl text-slate-800 text-center mb-6">
+                        <ul class="space-y-6 text-xl md:text-2xl font-medium">
+                            <li>The beach was <strong class="text-blue-700 underline decoration-blue-300 underline-offset-4">beautiful</strong>.</li>
+                            <li>We visited a <strong class="text-blue-700 underline decoration-blue-300 underline-offset-4">peaceful</strong> village.</li>
+                            <li>The museum was <strong class="text-blue-700 underline decoration-blue-300 underline-offset-4">large</strong> and <strong class="text-blue-700 underline decoration-blue-300 underline-offset-4">interesting</strong>.</li>
+                            <li>We walked <strong class="text-blue-700 underline decoration-blue-300 underline-offset-4">quietly</strong> so that the baby didn't wake up.</li>
+                        </ul>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_summary_ex') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-4 md:space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.7', 'All Language Features in One Example')}
+                    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-blue-100 text-blue-950 transform hover:scale-[1.01] transition-transform">
+                        <h3 class="font-black text-3xl mb-6 text-center border-b border-blue-100 pb-4">🏕️ My Camping Trip</h3>
+                        <p class="leading-relaxed text-lg md:text-xl font-medium text-slate-800">
+                            <span class="bg-yellow-100 px-2 py-0.5 rounded shadow-sm border border-yellow-200" title="Adverb of Time">Last holiday</span>, <span class="text-blue-700 font-bold" title="Pronoun">I</span> <span class="text-green-700 font-bold" title="Past Tense">went</span> camping with <span class="text-blue-700 font-bold" title="Pronoun">my</span> classmates. <span class="bg-purple-100 px-2 py-0.5 rounded shadow-sm border border-purple-200" title="Time Connective">First</span>, <span class="text-blue-700 font-bold" title="Pronoun">we</span> <span class="text-green-700 font-bold" title="Past Tense">arrived</span> at the campsite <span class="bg-yellow-100 px-2 py-0.5 rounded shadow-sm border border-yellow-200" title="Adverb of Time">in the afternoon</span>. The campsite <span class="text-green-700 font-bold" title="Past Tense (Be)">was</span> <span class="text-orange-600 font-bold underline decoration-orange-300" title="Descriptive">beautiful</span> and <span class="text-orange-600 font-bold underline decoration-orange-300" title="Descriptive">peaceful</span>. <span class="bg-purple-100 px-2 py-0.5 rounded shadow-sm border border-purple-200" title="Time Connective">Then</span>, <span class="text-blue-700 font-bold" title="Pronoun">we</span> <span class="text-orange-600 font-bold underline decoration-orange-300" title="Descriptive">carefully</span> <span class="text-green-700 font-bold" title="Past Tense">set up</span> our tents. <span class="text-blue-700 font-bold" title="Pronoun">I</span> <span class="text-green-700 font-bold" title="Past Tense (Be)">was</span> very <span class="text-red-600 font-black italic bg-red-50 px-1 rounded border border-red-100" title="Emotive">excited</span> because it <span class="text-green-700 font-bold" title="Past Tense (Be)">was</span> my first camping experience. <span class="bg-purple-100 px-2 py-0.5 rounded shadow-sm border border-purple-200" title="Time Connective">After that</span>, <span class="text-blue-700 font-bold" title="Pronoun">we</span> <span class="text-green-700 font-bold" title="Past Tense">cooked</span> dinner together. <span class="bg-purple-100 px-2 py-0.5 rounded shadow-sm border border-purple-200" title="Time Connective">Finally</span>, <span class="text-blue-700 font-bold" title="Pronoun">we</span> <span class="text-green-700 font-bold" title="Past Tense">sat</span> around the <span class="text-orange-600 font-bold underline decoration-orange-300" title="Descriptive">warm</span> campfire and <span class="text-green-700 font-bold" title="Past Tense">shared</span> <span class="text-orange-600 font-bold underline decoration-orange-300" title="Descriptive">funny</span> stories. <span class="text-blue-700 font-bold" title="Pronoun">We</span> <span class="text-green-700 font-bold" title="Past Tense (Be)">were</span> very <span class="text-red-600 font-black italic bg-red-50 px-1 rounded border border-red-100" title="Emotive">happy</span> <span class="bg-yellow-100 px-2 py-0.5 rounded shadow-sm border border-yellow-200" title="Adverb of Time">that night</span>.
+                        </p>
+                    </div>
+                </div>`);
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-4 md:space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Let\'s Find the Language Features!')}
+                    <div class="bg-white rounded-3xl border border-blue-200 overflow-hidden shadow-xl">
+                        <table class="w-full text-left text-sm md:text-base border-collapse">
+                            <thead><tr class="bg-blue-950 text-white"><th class="p-3 md:p-5">Language Feature</th><th class="p-3 md:p-5">Examples from text</th></tr></thead>
+                            <tbody class="text-slate-800 font-medium">
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-5 text-blue-900 font-bold">Personal Pronouns</td><td class="p-3 md:p-5">I, my, we</td></tr>
+                                <tr class="border-b border-blue-100 bg-slate-50 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-5 text-blue-900 font-bold">Simple Past Tense</td><td class="p-3 md:p-5">went, arrived, was, set up, cooked, sat, shared, were</td></tr>
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-5 text-blue-900 font-bold">Time Connectives</td><td class="p-3 md:p-5">First, Then, After that, Finally</td></tr>
+                                <tr class="border-b border-blue-100 bg-slate-50 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-5 text-blue-900 font-bold">Adverbs of Time</td><td class="p-3 md:p-5">Last holiday, in the afternoon, that night</td></tr>
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-5 text-blue-900 font-bold">Emotive Words</td><td class="p-3 md:p-5">excited, happy</td></tr>
+                                <tr class="hover:bg-blue-50 transition-colors bg-slate-50"><td class="p-3 md:p-5 text-blue-900 font-bold">Descriptive Words</td><td class="p-3 md:p-5">beautiful, peaceful, carefully, warm, funny</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'lang_summary') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-4 md:space-y-6 animate-fade-in-up w-full">
+                    ${buildHeader('Module L.8', 'Quick Summary')}
+                    <div class="bg-white rounded-3xl border border-blue-200 overflow-hidden shadow-xl mt-4">
+                        <table class="w-full text-left text-xs md:text-sm lg:text-base border-collapse">
+                            <thead><tr class="bg-blue-950 text-white"><th class="p-3 md:p-4 text-sm md:text-base">Language Feature</th><th class="p-3 md:p-4 text-sm md:text-base">Main Function</th><th class="p-3 md:p-4 text-sm md:text-base">Examples</th></tr></thead>
+                            <tbody class="text-slate-800">
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-4 font-bold text-blue-900">Personal Pronouns</td><td class="p-3 md:p-4">Show who is involved</td><td class="p-3 md:p-4 italic">I, me, we, us, she, they</td></tr>
+                                <tr class="border-b border-blue-100 bg-slate-50 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-4 font-bold text-blue-900">Simple Past Tense</td><td class="p-3 md:p-4">Tell past events</td><td class="p-3 md:p-4 italic">went, visited, played, was, were</td></tr>
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-4 font-bold text-blue-900">Time Connectives</td><td class="p-3 md:p-4">Sequence events</td><td class="p-3 md:p-4 italic">first, then, after that, finally</td></tr>
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-4 font-bold text-blue-900">Adverbs of Time</td><td class="p-3 md:p-4">Tell when events happened</td><td class="p-3 md:p-4 italic">yesterday, last week, at 7 p.m.</td></tr>
+                                <tr class="border-b border-blue-100 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-4 font-bold text-blue-900">Emotive Words</td><td class="p-3 md:p-4">Show feelings</td><td class="p-3 md:p-4 italic">happy, excited, nervous, angry</td></tr>
+                                <tr class="bg-slate-50 hover:bg-blue-50 transition-colors"><td class="p-3 md:p-4 font-bold text-blue-900">Descriptive Words</td><td class="p-3 md:p-4">Describe things/actions</td><td class="p-3 md:p-4 italic">beautiful, peaceful, quickly, carefully</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'exp_surprise') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module B.1', 'Surprise 😮')}
+                    <div class="bg-white p-8 md:p-12 rounded-3xl border border-blue-200 shadow-lg text-center relative overflow-hidden">
+                        <div class="absolute -top-10 -right-10 text-9xl opacity-5">😮</div>
+                        <p class="text-2xl md:text-3xl text-slate-700 font-medium mb-10 leading-relaxed">We use expressions of surprise when something is <strong class="text-blue-600 font-black">unexpected</strong>.</p>
+                        <div class="flex flex-col md:flex-row justify-center gap-6 mb-10">
+                            <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex-1 flex flex-col items-center hover:scale-105 transition-transform shadow-sm">
+                                <span class="text-5xl mb-4">👋</span>
+                                <p class="text-xl font-bold text-blue-900">Meeting an old friend</p>
+                            </div>
+                            <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex-1 flex flex-col items-center hover:scale-105 transition-transform shadow-sm">
+                                <span class="text-5xl mb-4">🏆</span>
+                                <p class="text-xl font-bold text-blue-900">Winning a competition</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-950 p-6 md:p-8 rounded-2xl inline-block shadow-xl transform hover:scale-105 transition-transform">
+                            <p class="text-blue-300 font-bold tracking-widest uppercase text-sm mb-2">Remember</p>
+                            <p class="text-2xl md:text-4xl text-white font-black tracking-tight">SURPRISE = "I didn't expect that!"</p>
+                        </div>
+                    </div>
+                </div>`);
+
+                const surpriseList = [
+                    { en: "What?", id: "Apa?" }, { en: "Really?", id: "Benarkah?" }, { en: "My goodness!", id: "Astaga!" },
+                    { en: "Wow!", id: "Wah!" }, { en: "I'm speechless!", id: "Aku tidak bisa berkata-kata!" }, { en: "Oh my God!", id: "Ya Tuhan!" },
+                    { en: "That's fantastic!", id: "Luar biasa!" }, { en: "What a surprise!", id: "Benar-benar kejutan!" },
+                    { en: "I'm in shock!", id: "Aku sangat terkejut!" }, { en: "That's very surprising!", id: "Sangat mengejutkan!" }
+                ];
+                let sListHtml = surpriseList.map((item, i) => `
+                    <div class="flip-container cursor-pointer w-full h-16 md:h-20 animate-fade-in-up group" style="animation-delay: ${i*0.05}s" onclick="this.classList.toggle('flipped')">
+                        <div class="flipper shadow-sm hover:shadow-md rounded-2xl">
+                            <div class="front bg-white border-2 border-blue-100 rounded-2xl flex items-center justify-center p-2 group-hover:border-blue-400 transition-colors">
+                                <span class="text-lg md:text-xl font-bold text-blue-900 text-center leading-tight">${item.en}</span>
+                            </div>
+                            <div class="back bg-blue-700 border-2 border-blue-600 rounded-2xl flex items-center justify-center p-2">
+                                <span class="text-sm md:text-base font-bold text-white text-center leading-tight">${item.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                pages.push(`
+                <div class="max-w-4xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Expressions of Surprise 😮', '<strong class="text-blue-600 block mt-1">(💡 Click the cards to see translation!)</strong>')}
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
+                        ${sListHtml}
+                    </div>
+                </div>`);
+
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Surprise in Dialogues 💬')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg hover:shadow-xl transition-shadow">
+                            <div class="flex items-start space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-xl font-bold text-blue-800 shrink-0">A</div>
+                                <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200"><p class="text-xl text-slate-700">I met my old friend yesterday.</p></div>
+                            </div>
+                            <div class="flex items-start space-x-4 flex-row-reverse space-x-reverse">
+                                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-xl font-bold text-green-800 shrink-0">B</div>
+                                <div class="bg-blue-600 p-4 rounded-2xl rounded-tr-none shadow-md"><p class="text-xl text-white font-bold">Really?</p></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg hover:shadow-xl transition-shadow">
+                            <div class="flex items-start space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-xl font-bold text-blue-800 shrink-0">A</div>
+                                <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200"><p class="text-xl text-slate-700">My parents gave me a gift.</p></div>
+                            </div>
+                            <div class="flex items-start space-x-4 flex-row-reverse space-x-reverse">
+                                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-xl font-bold text-green-800 shrink-0">B</div>
+                                <div class="bg-blue-600 p-4 rounded-2xl rounded-tr-none shadow-md"><p class="text-xl text-white font-bold">What a surprise!</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'exp_disbelief') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module B.2', 'Disbelief 😲')}
+                    <div class="bg-white p-8 md:p-12 rounded-3xl border border-blue-200 shadow-lg text-center relative overflow-hidden">
+                        <div class="absolute -top-10 -right-10 text-9xl opacity-5">😲</div>
+                        <p class="text-2xl md:text-3xl text-slate-700 font-medium mb-10 leading-relaxed">We use expressions of disbelief when something is <strong class="text-red-500 font-black">difficult to believe</strong>.</p>
+                        <div class="flex justify-center mb-10">
+                            <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex flex-col items-center hover:scale-105 transition-transform shadow-sm max-w-md w-full">
+                                <span class="text-5xl mb-4">🦖</span>
+                                <p class="text-xl font-bold text-slate-700 mb-2 text-center">"I saw a dinosaur yesterday."</p>
+                                <span class="text-3xl font-black text-red-600">"No way!"</span>
+                            </div>
+                        </div>
+                        <div class="bg-blue-950 p-6 md:p-8 rounded-2xl inline-block shadow-xl transform hover:scale-105 transition-transform">
+                            <p class="text-blue-300 font-bold tracking-widest uppercase text-sm mb-2">Remember</p>
+                            <p class="text-2xl md:text-4xl text-white font-black tracking-tight">DISBELIEF = "I don't believe it!"</p>
+                        </div>
+                    </div>
+                </div>`);
+
+                const disbeliefList = [
+                    { en: "Are you serious?", id: "Kamu serius?" }, { en: "You're kidding!", id: "Kamu bercanda!" },
+                    { en: "That's unbelievable!", id: "Sulit dipercaya!" }, { en: "No way!", id: "Tidak mungkin!" },
+                    { en: "It's impossible!", id: "Itu mustahil!" }, { en: "I find it hard to believe.", id: "Sulit mempercayainya." },
+                    { en: "Is that so?", id: "Masa sih?" }, { en: "Oh, come on!", id: "Ayolah!" },
+                    { en: "It can't be true.", id: "Tidak mungkin benar." }, { en: "I don't believe it.", id: "Aku tidak percaya." }
+                ];
+                let dListHtml = disbeliefList.map((item, i) => `
+                    <div class="flip-container cursor-pointer w-full h-16 md:h-20 animate-fade-in-up group" style="animation-delay: ${i*0.05}s" onclick="this.classList.toggle('flipped')">
+                        <div class="flipper shadow-sm hover:shadow-md rounded-2xl">
+                            <div class="front bg-white border-2 border-red-100 rounded-2xl flex items-center justify-center p-2 group-hover:border-red-400 transition-colors">
+                                <span class="text-base md:text-lg lg:text-xl font-bold text-red-900 text-center leading-tight">${item.en}</span>
+                            </div>
+                            <div class="back bg-red-600 border-2 border-red-500 rounded-2xl flex items-center justify-center p-2">
+                                <span class="text-xs md:text-sm lg:text-base font-bold text-white text-center leading-tight">${item.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                pages.push(`
+                <div class="max-w-4xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Expressions of Disbelief 😲', '<strong class="text-blue-600 block mt-1">(💡 Click the cards to see translation!)</strong>')}
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
+                        ${dListHtml}
+                    </div>
+                </div>`);
+
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full mt-6">
+                    ${buildSubHeader('Disbelief in Dialogues 💬')}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg hover:shadow-xl transition-shadow">
+                            <div class="flex items-start space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-xl font-bold text-blue-800 shrink-0">A</div>
+                                <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200"><p class="text-xl text-slate-700">I finished 100 pages in ten minutes.</p></div>
+                            </div>
+                            <div class="flex items-start space-x-4 flex-row-reverse space-x-reverse">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-xl font-bold text-red-800 shrink-0">B</div>
+                                <div class="bg-red-500 p-4 rounded-2xl rounded-tr-none shadow-md"><p class="text-xl text-white font-bold">Are you serious?</p></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg hover:shadow-xl transition-shadow">
+                            <div class="flex items-start space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-xl font-bold text-blue-800 shrink-0">A</div>
+                                <div class="bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200"><p class="text-xl text-slate-700">I saw a flying car yesterday.</p></div>
+                            </div>
+                            <div class="flex items-start space-x-4 flex-row-reverse space-x-reverse">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-xl font-bold text-red-800 shrink-0">B</div>
+                                <div class="bg-red-500 p-4 rounded-2xl rounded-tr-none shadow-md"><p class="text-xl text-white font-bold">No way!</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'exp_vs') {
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module B.3', "What's the Difference?", "Surprise vs. Disbelief")}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-3xl border-t-8 border-t-blue-500 border-l border-r border-b border-blue-200 shadow-lg text-center flex flex-col h-full group">
+                            <span class="text-6xl mb-4 group-hover:scale-110 transition-transform">😮</span>
+                            <h3 class="text-3xl font-black text-blue-950 mb-4">SURPRISE</h3>
+                            <p class="text-xl text-slate-600 mb-6 font-medium flex-grow">Something is <strong class="text-blue-600">unexpected</strong>.</p>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
+                                <p class="text-lg font-bold text-blue-900">"I didn't expect that!"</p>
+                            </div>
+                            <div class="text-left bg-slate-50 p-4 rounded-xl">
+                                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Example</p>
+                                <p class="text-xl font-bold text-slate-800">Wow! What a surprise!</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl border-t-8 border-t-red-500 border-l border-r border-b border-blue-200 shadow-lg text-center flex flex-col h-full group">
+                            <span class="text-6xl mb-4 group-hover:scale-110 transition-transform">😲</span>
+                            <h3 class="text-3xl font-black text-blue-950 mb-4">DISBELIEF</h3>
+                            <p class="text-xl text-slate-600 mb-6 font-medium flex-grow">Something is <strong class="text-red-500">difficult to believe</strong>.</p>
+                            <div class="bg-red-50 p-4 rounded-xl border border-red-100 mb-6">
+                                <p class="text-lg font-bold text-red-900">"I don't believe that!"</p>
+                            </div>
+                            <div class="text-left bg-slate-50 p-4 rounded-xl">
+                                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Example</p>
+                                <p class="text-xl font-bold text-slate-800">No way!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'vocab_positive') {
+                const pos = [
+                    {w: "Happy", e: "😊", id: "Bahagia/Senang"}, {w: "Proud", e: "🦚", id: "Bangga"}, {w: "Confident", e: "😎", id: "Percaya Diri"}, 
+                    {w: "Peaceful", e: "🕊️", id: "Damai/Tenang"}, {w: "Delighted", e: "😄", id: "Sangat Senang"}, {w: "Cherished", e: "🥰", id: "Disayangi"}, {w: "Relieved", e: "😌", id: "Lega"}
+                ];
+                let html = pos.map((item, i) => `
+                    <div class="flip-container cursor-pointer w-full h-32 animate-fade-in-up group" style="animation-delay: ${i*0.05}s" onclick="this.classList.toggle('flipped')">
+                        <div class="flipper shadow-sm hover:shadow-xl rounded-3xl">
+                            <div class="front bg-white border border-blue-100 rounded-3xl flex flex-col items-center justify-center p-4 group-hover:bg-blue-50 transition-colors">
+                                <span class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">${item.e}</span>
+                                <span class="text-lg font-bold text-blue-950 text-center">${item.w}</span>
+                            </div>
+                            <div class="back bg-blue-800 border border-blue-700 rounded-3xl flex items-center justify-center p-4">
+                                <span class="text-base md:text-lg font-bold text-white text-center">${item.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module C.1', 'Positive Feelings 😊', 'Words to describe good, happy, or pleasant emotions. <strong class="text-blue-600 block mt-1">(💡 Click the cards!)</strong>')}
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-8">
+                        ${html}
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'vocab_negative') {
+                const neg = [
+                    {w: "Worried", e: "😟", id: "Khawatir"}, {w: "Hurt", e: "🤕", id: "Terluka"}, {w: "Lonely", e: "🚶‍♂️", id: "Kesepian"}, 
+                    {w: "Scared", e: "😨", id: "Takut"}, {w: "Annoyed", e: "😒", id: "Kesal"}, {w: "Shy", e: "🫣", id: "Malu"}, 
+                    {w: "Mad", e: "😡", id: "Marah"}, {w: "Stressed", e: "😫", id: "Stres"}, {w: "Nervous", e: "😬", id: "Gugup"}, 
+                    {w: "Bored", e: "🥱", id: "Bosan"}, {w: "Sad", e: "😢", id: "Sedih"}, {w: "Suspicious", e: "🤨", id: "Curiga"}, {w: "Confused", e: "😕", id: "Bingung"}
+                ];
+                let html = neg.map((item, i) => `
+                    <div class="flip-container cursor-pointer w-full h-28 animate-fade-in-up group" style="animation-delay: ${i*0.03}s" onclick="this.classList.toggle('flipped')">
+                        <div class="flipper shadow-sm hover:shadow-xl rounded-2xl">
+                            <div class="front bg-white border border-blue-100 rounded-2xl flex flex-col items-center justify-center p-2 group-hover:bg-red-50 transition-colors">
+                                <span class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300">${item.e}</span>
+                                <span class="text-base font-bold text-blue-950 text-center">${item.w}</span>
+                            </div>
+                            <div class="back bg-red-700 border border-red-600 rounded-2xl flex items-center justify-center p-2">
+                                <span class="text-sm md:text-base font-bold text-white text-center leading-tight">${item.id}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                pages.push(`
+                <div class="max-w-5xl mx-auto space-y-8 animate-fade-in-up w-full">
+                    ${buildHeader('Module C.2', 'Negative Feelings 😟', 'Words to describe bad, uncomfortable, or unpleasant emotions. <strong class="text-blue-600 block mt-1">(💡 Click the cards!)</strong>')}
+                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-5 mt-8">
+                        ${html}
+                    </div>
+                </div>`);
+            }
+            else if (topicId === 'exp_dialogue') {
+                pages.push(`
+                <div class="max-w-4xl mx-auto space-y-4 animate-fade-in-up w-full">
+                    ${buildHeader('Module D.1', 'Dialogue Practice 💬', 'An Unexpected Trip')}
+                    
+                    <div class="flex-grow bg-slate-200/50 rounded-3xl border border-blue-100 shadow-inner p-4 md:p-6 overflow-y-auto flex flex-col space-y-4 relative no-scrollbar" id="chat-container" style="height: 50vh;">
+                        <div id="dialog-start-prompt" class="text-center text-slate-400 font-medium my-auto animate-pulse mt-10">Click the button below to start the conversation</div>
+                        
+                        ${dialogLines.map((line, i) => `
+                            <div id="dialog-bubble-${i}" class="hidden flex w-full ${line.side === 'right' ? 'justify-end' : 'justify-start'}">
+                                <div class="flex flex-col ${line.side === 'right' ? 'items-end' : 'items-start'} max-w-[80%] md:max-w-[70%]">
+                                    <span class="text-xs text-slate-500 font-bold mb-1 px-1">${line.name}</span>
+                                    <div class="p-3 md:p-4 rounded-2xl shadow-md ${line.side === 'right' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-white text-slate-800 border border-slate-200 rounded-tl-sm'}">
+                                        <p class="text-base md:text-lg">${line.text.replace(/'/g, "&#39;")}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="flex justify-center pt-2">
+                        <button id="dialog-btn" onclick="startDialogueSequence()" class="px-8 py-4 bg-blue-950 hover:bg-blue-800 text-white rounded-2xl font-bold shadow-xl transition-all hover:-translate-y-1 flex items-center space-x-3 group">
+                            <span class="text-2xl group-hover:scale-110 transition-transform" id="dialog-btn-icon">▶️</span> <span id="dialog-btn-text">Start Conversation</span>
+                        </button>
+                    </div>
+                </div>`);
+            }
+            else {
+                 pages.push(`
+                <div class="max-w-5xl mx-auto space-y-6 animate-fade-in-up w-full">
+                    ${buildHeader('Module', getCurrentTopicObj().title)}
+                    <div class="bg-white p-8 rounded-3xl border border-blue-200 shadow-lg text-center py-16">
+                        <span class="text-6xl block mb-4 animate-bounce">🚧</span><h3 class="text-2xl font-bold text-blue-950 mb-2">Content Under Construction</h3><p class="text-lg text-slate-600">This module is currently being updated.</p>
+                    </div>
+                </div>`);
+            }
+            return pages;
+        }
+
+        function renderContent() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            
+            if (state.activeTopic === 'exp_dialogue') {
+                window.currentDialogStep = 0;
+            }
+
+            const container = document.getElementById('main-content');
+            const wrapper = document.getElementById('main-content-wrapper');
+            const pages = getTopicPages(state.activeTopic);
+            
+            const dividerHTML = `<div class="w-full flex justify-center py-4 md:py-8"><div class="w-2/3 border-b-2 border-dashed border-blue-300 opacity-50"></div></div>`;
+            
+            container.innerHTML = pages.join(dividerHTML);
+            wrapper.scrollTo(0, 0);
+        }
+
+        function renderApp() {
+            renderHeaderActions();
+            renderSidebarNav();
+            renderContent();
+            renderFooter();
+        }
+
+        window.onload = () => { renderApp(); };
+
+        document.addEventListener('keydown', (event) => {
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                window.handleNext();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                window.handlePrev();
+            }
+        });
+    </script>
+</body>
+</html>
