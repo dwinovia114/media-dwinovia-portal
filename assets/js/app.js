@@ -40,9 +40,14 @@
     const action = active
       ? `<a class="card-open" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">Buka media <span aria-hidden="true">↗</span></a>`
       : `<span class="card-open" aria-label="Media segera tersedia" style="color:#9098a8">Segera hadir</span>`;
+    const thumbnailHtml = item.thumbnail
+      ? '<img class="media-thumbnail" src="' + esc(item.thumbnail) + '" alt="Thumbnail ' + esc(item.title) + '" loading="lazy">'
+      : "";
+    const coverClass = item.thumbnail ? " has-thumbnail" : "";
+
     return `<article class="media-card ${isFeatured ? "featured-card" : ""}">
-      <div class="media-cover cover-${theme} ${item.thumbnail ? "has-thumbnail" : ""}">
-        ${item.thumbnail ? `<img class="media-thumbnail" src="${esc(item.thumbnail)}" alt="Thumbnail ${esc(item.title)}" loading="lazy" onerror="this.hidden=true;this.parentElement.classList.remove('has-thumbnail')">` : ""}
+      <div class="media-cover cover-${theme}${coverClass}">
+        ${thumbnailHtml}
         <span class="cover-symbol">${esc(item.symbol || "✦")}</span>
         <span class="cover-label">${active ? "SIAP DIGUNAKAN" : "SEGERA HADIR"}</span>
       </div>
@@ -50,6 +55,16 @@
       <div class="card-bottom"><span class="card-subject">${esc(item.subject || "Media pembelajaran")}</span>${action}</div></div>
     </article>`;
   }
+
+  // Hide a thumbnail that fails to load and restore the fallback cover.
+  document.addEventListener("error", event => {
+    const image = event.target;
+    if (image && image.classList && image.classList.contains("media-thumbnail")) {
+      image.hidden = true;
+      const cover = image.parentElement;
+      if (cover) cover.classList.remove("has-thumbnail");
+    }
+  }, true);
 
   function renderFeatured() {
     const featured = validItems.filter(x=>x.featured).slice(0,3);
