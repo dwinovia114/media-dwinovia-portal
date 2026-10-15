@@ -1,27 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>School Adventure | Media Dwinovia</title>
   <meta name="description" content="School Adventure - interactive English learning game.">
+
   <style>
-    * { box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background: #f0f4ff; }
-    #game-frame { display: block; width: 100%; height: 100%; height: 100dvh; border: 0; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f0f4ff;
+    }
+
+    #game-frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      border: 0;
+    }
+
     #setup-message {
-      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-      padding: 24px; background: #f0f4ff; color: #334155; font: 600 16px/1.6 system-ui, sans-serif;
-      text-align: center; z-index: 2;
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: #f0f4ff;
+      color: #334155;
+      font: 600 16px/1.6 system-ui, sans-serif;
+      text-align: center;
+      z-index: 2;
     }
   </style>
 </head>
+
 <body>
-  <!-- GANTI URL_DI_BAWAH dengan URL Web App Google Apps Script yang berakhiran /exec. -->
+
   <div id="setup-message">
-    School Adventure belum dikonfigurasi.<br>
-    Edit file index.html dan ganti URL_DI_BAWAH dengan URL Web App Google Apps Script.
+    School Adventure sedang dimuat...
   </div>
+
   <iframe
     id="game-frame"
     title="School Adventure"
@@ -30,15 +60,17 @@
     allowfullscreen
     referrerpolicy="strict-origin-when-cross-origin">
   </iframe>
-  <script>
-    <script>
-  const frame = document.getElementById('game-frame');
-  const message = document.getElementById('setup-message');
 
-  if (frame.getAttribute('src') &&
-      !frame.getAttribute('src').includes('https://script.google.com/macros/s/AKfycbzxtnY5LP-gbmZ-2fSkflzlXPYi9mcrwYBsw3K16CNWXX_3O3jyjLhyepVry5l7jw/exec')) {
-    message.style.display = 'none';
-  }
-</script>
+  <script>
+    const frame = document.getElementById('game-frame');
+    const message = document.getElementById('setup-message');
+
+    // URL Web App sudah dipasang.
+    // Sembunyikan pesan konfigurasi dan tampilkan game.
+    if (frame.getAttribute('src')) {
+      message.style.display = 'none';
+    }
+  </script>
+
 </body>
 </html>
