@@ -41,7 +41,11 @@
       ? `<a class="card-open" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">Buka media <span aria-hidden="true">↗</span></a>`
       : `<span class="card-open" aria-label="Media segera tersedia" style="color:#9098a8">Segera hadir</span>`;
     return `<article class="media-card ${isFeatured ? "featured-card" : ""}">
-      <div class="media-cover cover-${theme}"><span class="cover-symbol">${esc(item.symbol || "✦")}</span><span class="cover-label">${active ? "SIAP DIGUNAKAN" : "SEGERA HADIR"}</span></div>
+      <div class="media-cover cover-${theme} ${item.thumbnail ? "has-thumbnail" : ""}">
+        ${item.thumbnail ? `<img class="media-thumbnail" src="${esc(item.thumbnail)}" alt="Thumbnail ${esc(item.title)}" loading="lazy" onerror="this.hidden=true;this.parentElement.classList.remove('has-thumbnail')">` : ""}
+        <span class="cover-symbol">${esc(item.symbol || "✦")}</span>
+        <span class="cover-label">${active ? "SIAP DIGUNAKAN" : "SEGERA HADIR"}</span>
+      </div>
       <div class="card-content"><div class="card-tags">${tags}</div><h3>${esc(item.title)}</h3><p>${esc(item.description || "")}</p>
       <div class="card-bottom"><span class="card-subject">${esc(item.subject || "Media pembelajaran")}</span>${action}</div></div>
     </article>`;
