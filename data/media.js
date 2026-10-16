@@ -43,5 +43,19 @@ const MEDIA_ITEMS = [
     theme: "mint",
     symbol: "✦",
     status: "active"
-  }
+  },
+  {
+    id: "telling-personal-experience",
+    title: "Telling Personal Experience",
+    description: "Materi interaktif Bahasa Inggris tentang menceritakan pengalaman.",
+    url: "https://media.dwinovia.my.id/tellingpersonalexperience/",
+    thumbnail: "assets/thumbnails/school-adventure.png",
+    subject: "Bahasa Inggris",
+    grades: ["Kelas 9"],
+    type: "Materi",
+    featured: true,
+    latest: true,
+    theme: "Dark",
+    symbol: "Aa",
+    status: "active"
 ];
