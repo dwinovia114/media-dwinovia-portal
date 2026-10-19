@@ -49,7 +49,7 @@ const MEDIA_ITEMS = [
     title: "Telling Personal Experience",
     description: "Materi interaktif Bahasa Inggris tentang menceritakan pengalaman.",
     url: "https://media.dwinovia.my.id/tellingpersonalexperience/",
-    thumbnail: "assets/thumbnails/personal-recount.png",
+    thumbnail: "assets/thumbnails/personal-experience.png",
     subject: "Bahasa Inggris",
     grades: ["Kelas 9"],
     type: "Materi",
