@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2B3674">
+    <title>Classroom Detective Hunt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4361EE;
+            --primary-shadow: #2B44BA;
+            --accent: #FFB703;
+            --accent-shadow: #CC9202;
+            --success: #06D6A0;
+            --success-shadow: #04A67C;
+            --bg-grad-1: #F4F7FE;
+            --bg-grad-2: #E0E5F2;
+            --text-main: #2B3674;
+            --text-muted: #A3AED0;
+            --card-front: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+            color: var(--text-main);
+            /* NO SCROLL SETUP */
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 15px rgba(112, 144, 176, 0.05);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 0 var(--primary-shadow);
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 1.5px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 16px;
+            padding: 15px 25px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 transparent !important;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: translateY(6px);
+            box-shadow: 0 0 0 transparent !important;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 6px 0 var(--primary-shadow);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #5C4100;
+            box-shadow: 0 6px 0 var(--accent-shadow);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 6px 0 var(--success-shadow);
+        }
+
+        .tool-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: #FFFFFF;
+            color: var(--text-main);
+            font-size: 20px;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            border: 2px solid #E9EDF7;
+            box-shadow: 0 4px 0 #E9EDF7;
+            transition: all 0.1s;
+        }
+        
+        .tool-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 transparent;
+        }
+
+        .main-workspace {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .grid-layout {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            height: 100%;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            padding-bottom: 10px;
+        }
+
+        .grid-layout.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 12px 20px;
+            box-shadow: 0 15px 35px rgba(43, 54, 116, 0.05);
+            border: 2px solid #FFFFFF;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .stat-box {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 10px 15px;
+            border: 2px solid #E9EDF7;
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .progress-bar-bg {
+            height: 10px;
+            background: #E9EDF7;
+            border-radius: 99px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--success), #48E5BB);
+            border-radius: 99px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .center-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            perspective: 1500px;
+        }
+
+        .card-wrapper {
+            /* Mengunci dimensi secara ketat: lebar penuh, tapi dibatasi oleh tinggi layar dan rasio 4:3 */
+            width: 100%;
+            max-width: min(500px, calc(45vh * 1.3333));
+            aspect-ratio: 4 / 3;
+            position: relative;
+            margin: 0 auto;
+            flex-shrink: 0;
+        }
+
+        .card-wrapper.shuffling {
+            animation: cardShuffleAnim 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes cardShuffleAnim {
+            0% { transform: translateX(0) rotate(0deg) scale(1); opacity: 1; }
+            40% { transform: translateX(120%) rotate(15deg) scale(0.8); opacity: 0; }
+            50% { transform: translateX(-120%) rotate(-15deg) scale(0.8); opacity: 0; }
+            100% { transform: translateX(0) rotate(0deg) scale(1); opacity: 1; }
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute; /* Dipaksa absolut agar ukurannya paten mengikuti wrapper */
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(43, 54, 116, 0.15), inset 0 0 0 2px #E9EDF7;
+            background: var(--card-front);
+            border: 8px solid #FFFFFF;
+        }
+
+        .card-front {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .card-front img, .card-front svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            background: #F4F7FE; /* Soft bg for transparent images */
+        }
+
+        .card-back {
+            background: var(--primary);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-color: var(--primary-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Sunburst Background Effect */
+        .card-back::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                rgba(255,255,255,0.1) 0deg 15deg,
+                transparent 15deg 30deg
+            );
+            animation: rotateBurst 30s linear infinite;
+        }
+
+        @keyframes rotateBurst {
+            100% { transform: rotate(360deg); }
+        }
+
+        .number-badge {
+            background: #FFFFFF;
+            padding: 8px 25px;
+            border-radius: 99px;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .number-display {
+            font-size: clamp(80px, 15vh, 160px);
+            font-weight: 900;
+            line-height: 1;
+            z-index: 2;
+            position: relative;
+            /* 3D Text Effect */
+            color: #FFFFFF;
+            text-shadow: 
+                0 4px 0 #CBD5E1,
+                0 8px 0 #94A3B8,
+                0 15px 20px rgba(0,0,0,0.3);
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.3));
+        }
+
+        .controls-panel {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 15px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .controls-panel .btn {
+            width: 100%;
+            max-width: 250px;
+            height: 60px;
+            font-size: 16px;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(43, 54, 116, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: #FFFFFF;
+            padding: 50px 40px;
+            border-radius: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 4px solid #FFFFFF;
+        }
+
+        .overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .modal h2 {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            font-size: 16px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* Premium Landing Page Styles */
+        .modal {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 40px 80px rgba(15, 23, 42, 0.3), inset 0 0 0 4px #FFFFFF;
+            border: 1px solid #E2E8F0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .landing-badge {
+            display: inline-block;
+            background: #EFF6FF;
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            border: 1px solid #BFDBFE;
+        }
+
+        .landing-icon-wrapper {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+        }
+
+        .landing-icon-glow {
+            position: absolute;
+            inset: 0;
+            background: conic-gradient(from 0deg, var(--primary), var(--accent), var(--success), var(--primary));
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(15px);
+            animation: spin 5s linear infinite;
+        }
+
+        .landing-svg {
+            position: relative;
+            z-index: 2;
+            width: 65px;
+            height: 65px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 14px;
+            box-shadow: 0 10px 25px rgba(43, 54, 116, 0.15);
+            transform: rotate(-10deg);
+            animation: float-icon 3s ease-in-out infinite;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0) rotate(-10deg); }
+            50% { transform: translateY(-12px) rotate(-5deg); }
+        }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .landing-title {
+            font-size: 38px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .landing-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .btn-shine {
+            width: 100%;
+            height: 65px;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4), 0 6px 0 var(--primary-shadow);
+        }
+
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shine 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .landing-footer-text {
+            margin-top: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #A3AED0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive adjustments for Tablets and Mobile */
+        @media (max-width: 1024px) {
+            .grid-layout {
+                gap: 10px;
+                padding-bottom: 5px;
+            }
+            .panel {
+                padding: 10px;
+                flex-wrap: wrap;
+            }
+            .stat-box { flex: 1; min-width: 120px; margin-bottom: 0; }
+            .controls-panel .btn { height: 55px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="brand">
+            <div class="logo-icon">⌕</div>
+            <div class="brand-text">
+                <h1>Detective Hunt</h1>
+                <p>MYSTERY CARDS</p>
+            </div>
+        </div>
+        <div class="toolbar">
+            <button class="tool-btn" id="btn-sound" title="Toggle Sound">🔊</button>
+            <button class="tool-btn" id="btn-fullscreen" title="Toggle Fullscreen">⛶</button>
+        </div>
+    </header>
+
+    <main class="main-workspace">
+        <div class="grid-layout" id="game-grid">
+            
+            <!-- Left Column: Stats -->
+            <div class="panel">
+                <div class="stat-box">
+                    <div class="stat-title">Mission Progress</div>
+                    <div class="stat-value" id="progress-text">Card 1 / 100</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">Cards Remaining</div>
+                    <div class="stat-value" id="cards-left">99</div>
+                </div>
+            </div>
+
+            <!-- Center Column: The Wide Card -->
+            <div class="center-stage">
+                <div class="card-wrapper">
+                    <div class="card" id="main-card">
+                        <div class="card-face card-front">
+                            <div id="card-art" style="width: 100%; height: 100%;">
+                                <!-- Image or SVG injected here -->
+                            </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <div class="number-badge">Mystery Number</div>
+                            <div class="number-display" id="card-number">46</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Controls -->
+            <div class="controls-panel">
+                <button class="btn btn-primary" id="btn-flip">↻ FLIP CARD</button>
+                <button class="btn btn-accent" id="btn-shuffle">⤨ SHUFFLE CARD</button>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="overlay active" id="landing-overlay">
+        <div class="modal">
+            <div class="landing-badge">MISSION BRIEFING</div>
+            
+            <div class="landing-icon-wrapper">
+                <div class="landing-icon-glow"></div>
+                <!-- Clean, animated SVG Icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="landing-svg">
+                    <circle cx="11" cy="11" r="8" stroke="var(--primary)"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="var(--primary)"></line>
+                    <path d="M11 8v2" stroke="var(--accent)"></path>
+                    <path d="M11 14h.01" stroke="var(--accent)"></path>
+                </svg>
+            </div>
+
+            <h2 class="landing-title">Classroom<br>Detective Hunt</h2>
+            <p class="landing-desc">100 mystery cards await. Look closely at the picture, guess the number, and flip to reveal!</p>
+            
+            <button class="btn btn-primary btn-shine" id="btn-start">
+                START ADVENTURE →
+            </button>
+            
+            <div class="landing-footer-text">Grade 4 • 100 Unique Cards</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="end-overlay">
+        <div class="modal">
+            <div class="modal-icon">🏆</div>
+            <h2>Mission<br>Accomplished!</h2>
+            <p>You have successfully reviewed all 100 mystery cards. Great job, Detective!</p>
+            <button class="btn btn-success" id="btn-restart" style="width: 100%; height: 70px; font-size: 20px;">PLAY AGAIN ↻</button>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti" style="position:fixed; inset:0; pointer-events:none; z-index:999;"></canvas>
+
+    <script>
+        const words = [
+            ["school","School Facilities","school"],["classroom","School Facilities","classroom"],["library","School Facilities","library"],["canteen","School Facilities","canteen"],["computer room","School Facilities","computer"],["big hall","School Facilities","hall"],["medical center","School Facilities","medical"],["teachers' room","School Facilities","teachersroom"],["headmaster's room","School Facilities","office"],["desk","Things in the Classroom","desk"],["chair","Things in the Classroom","chair"],["teacher's desk","Things in the Classroom","teachdesk"],["window","Things in the Classroom","window"],["door","Things in the Classroom","door"],["board","Things in the Classroom","board"],["student","People at School","student"],["boy","People at School","boy"],["girl","People at School","girl"],["teacher","People at School","teacher"],["headmaster","People at School","headmaster"]
+        ];
+        const nums = [
+            [24,37,46,68,95],[21,34,57,73,89],[26,41,58,76,92],[23,39,54,71,86],[28,43,61,79,97],[22,36,52,74,91],[25,42,59,77,94],[27,38,56,72,88],[29,44,63,81,99],[20,35,53,69,84],[23,37,46,68,95],[24,40,55,78,93],[21,33,51,75,90],[26,45,62,80,96],[22,39,57,70,87],[25,43,60,74,98],[28,36,54,71,85],[20,41,58,76,92],[27,44,64,82,100],[30,47,65,83,97]
+        ];
+        
+        let cards = [];
+        words.forEach((w, i) => {
+            nums[i].forEach((n, j) => {
+                cards.push({id: i * 5 + j + 1, word: w[0], category: w[1], kind: w[2], n: n});
+            });
+        });
+
+        let deck = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let soundEnabled = true;
+        let audioCtx;
+
+        const uiGrid = document.getElementById('game-grid');
+        const overlayLanding = document.getElementById('landing-overlay');
+        const overlayEnd = document.getElementById('end-overlay');
+        const elCard = document.getElementById('main-card');
+        const elCardArt = document.getElementById('card-art');
+        const elCardNum = document.getElementById('card-number');
+        const elProgText = document.getElementById('progress-text');
+        const elProgFill = document.getElementById('progress-fill');
+        const elCardsLeft = document.getElementById('cards-left');
+        
+        const btnFlip = document.getElementById('btn-flip');
+        const btnShuffle = document.getElementById('btn-shuffle');
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function playTone(freq = 400, type = 'sine', duration = 0.1) {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        // Robust fallback if assets are missing
+        function getSVG(kind) {
+            const wrap = x => `<svg viewBox="0 0 180 180" style="background:transparent; width:100%; height:100%;" xmlns="http://www.w3.org/2000/svg"><g stroke="#2B3674" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${x}</g></svg>`;
+            const person = (shirt, hair='#57463d') => `<circle cx="90" cy="55" r="30" fill="#fff"/><path d="M66 50Q63 20 91 20Q118 20 115 50L108 40Q89 48 71 38Z" fill="${hair}" stroke="none"/><path d="M45 150Q50 90 90 85Q130 90 135 150Z" fill="${shirt}"/><path d="M75 65q15 10 30 0" fill="none"/>`;
+            
+            switch(kind) {
+                case 'school': return wrap(`<path d="M25 72 90 25l65 47v75H25Z" fill="#FFB703"/><rect x="80" y="90" width="20" height="40" fill="#4361EE"/><rect x="45" y="90" width="20" height="20" fill="#fff"/><rect x="115" y="90" width="20" height="20" fill="#fff"/>`);
+                case 'classroom': return wrap(`<rect x="25" y="40" width="130" height="80" rx="5" fill="#fff"/><rect x="35" y="50" width="110" height="60" fill="#4361EE" stroke="none"/>`);
+                case 'student': case 'boy': return wrap(person('#4361EE'));
+                case 'girl': return wrap(person('#F72585'));
+                case 'teacher': case 'headmaster': return wrap(person('#FFB703', '#333'));
+                case 'chair': return wrap(`<rect x="60" y="40" width="60" height="50" rx="5" fill="#4361EE"/><path d="M60 90h60v20H60z" fill="#FFB703"/><path d="M65 110v40m50-40v40" fill="none"/>`);
+                case 'desk': case 'teachdesk': return wrap(`<path d="M40 70h100l-10 20H50Z" fill="#FFB703"/><path d="M50 90v50m80-50v50" fill="none"/>`);
+                case 'board': return wrap(`<rect x="30" y="40" width="120" height="70" rx="5" fill="#2B3674"/><rect x="40" y="50" width="100" height="50" fill="#4361EE" stroke="none"/>`);
+                default: return wrap(`<circle cx="90" cy="90" r="50" fill="#FFB703"/><text x="90" y="100" text-anchor="middle" font-size="30" fill="#2B3674" stroke="none" font-family="sans-serif">?</text>`);
+            }
+        }
+
+        function updateUI() {
+            if (deck.length === 0) return;
+            
+            const cardData = deck[currentIndex];
+            
+            // Image handling with fallback
+            elCardArt.innerHTML = `<img src="assets/${cardData.kind}.png" alt="Card" draggable="false" onerror="this.onerror=null; this.outerHTML=getSVG('${cardData.kind}')">`;
+            
+            elCardNum.textContent = cardData.n;
+            
+            // Progress Stats
+            const cardNum = currentIndex + 1;
+            const total = deck.length;
+            const pct = Math.round((cardNum / total) * 100);
+            
+            elProgText.textContent = `Card ${cardNum} / ${total}`;
+            elProgFill.style.width = `${pct}%`;
+            elCardsLeft.textContent = total - cardNum;
+
+            // Buttons & Flip State
+            if (isFlipped) {
+                elCard.classList.add('flipped');
+                
+                if (currentIndex === total - 1) {
+                    btnShuffle.textContent = 'FINISH ✓';
+                    btnShuffle.classList.replace('btn-accent', 'btn-success');
+                } else {
+                    btnShuffle.textContent = '⤨ SHUFFLE CARD';
+                    btnShuffle.classList.replace('btn-success', 'btn-accent');
+                }
+            } else {
+                elCard.classList.remove('flipped');
+            }
+        }
+
+        function startGame() {
+            deck = shuffleArray(cards);
+            currentIndex = 0;
+            isFlipped = false;
+            
+            overlayLanding.classList.remove('active');
+            uiGrid.classList.add('active');
+            
+            playTone(600, 'sine', 0.1);
+            setTimeout(() => playTone(800, 'sine', 0.15), 100);
+            
+            updateUI();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            playTone(550, 'triangle', 0.15); 
+            updateUI();
+        }
+
+        function shuffleNextCard() {
+            if (btnShuffle.disabled) return;
+            
+            // Prevent double-clicking during animation
+            btnShuffle.disabled = true;
+            btnFlip.disabled = true;
+
+            const wrapper = document.querySelector('.card-wrapper');
+            wrapper.classList.add('shuffling');
+            
+            // Play a mechanical shuffling tone sequence
+            playTone(400, 'sine', 0.1);
+            setTimeout(() => playTone(300, 'sine', 0.1), 100);
+
+            // Change the card halfway through the animation (when opacity is 0)
+            setTimeout(() => {
+                if (currentIndex < deck.length - 1) {
+                    currentIndex++;
+                    isFlipped = false;
+                    updateUI();
+                } else {
+                    showEndScreen();
+                }
+            }, 300);
+
+            // Remove the animation class once complete
+            setTimeout(() => {
+                wrapper.classList.remove('shuffling');
+                btnShuffle.disabled = false;
+                btnFlip.disabled = false;
+            }, 600);
+        }
+
+        function showEndScreen() {
+            overlayEnd.classList.add('active');
+            fireConfetti();
+            playTone(500, 'sine', 0.1);
+            setTimeout(() => playTone(700, 'sine', 0.1), 150);
+            setTimeout(() => playTone(900, 'sine', 0.3), 300);
+        }
+
+        function restartGame() {
+            overlayEnd.classList.remove('active');
+            startGame();
+        }
+
+        document.getElementById('btn-start').addEventListener('click', startGame);
+        btnFlip.addEventListener('click', flipCard);
+        btnShuffle.addEventListener('click', shuffleNextCard);
+        document.getElementById('btn-restart').addEventListener('click', restartGame);
+        
+        elCard.addEventListener('click', flipCard);
+
+        // Sound & Fullscreen
+        document.getElementById('btn-sound').addEventListener('click', (e) => {
+            soundEnabled = !soundEnabled;
+            e.target.textContent = soundEnabled ? '🔊' : '🔇';
+            e.target.style.opacity = soundEnabled ? '1' : '0.5';
+            if(soundEnabled) playTone(600);
+        });
+
+        document.getElementById('btn-fullscreen').addEventListener('click', async () => {
+            try {
+                if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+                else await document.exitFullscreen();
+            } catch (err) {}
+        });
+
+        // Simple Confetti
+        const canvas = document.getElementById("confetti");
+        const ctx2d = canvas.getContext("2d");
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function fireConfetti() {
+            const colors = ['#4361EE', '#06D6A0', '#FFB703', '#F72585'];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: canvas.width / 2, y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 30, vy: (Math.random() - 1) * 25 - 5,
+                    size: Math.random() * 12 + 8,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360, rotSpeed: (Math.random() - 0.5) * 15,
+                    life: 1
+                });
+            }
+        }
+
+        function animateConfetti() {
+            ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx; p.y += p.vy;
+                p.vy += 0.5; // gravity
+                p.rot += p.rotSpeed; p.life -= 0.012;
+                
+                ctx2d.save();
+                ctx2d.translate(p.x, p.y);
+                ctx2d.rotate((p.rot * Math.PI) / 180);
+                ctx2d.fillStyle = p.color;
+                ctx2d.globalAlpha = Math.max(0, p.life);
+                ctx2d.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx2d.restore();
+                
+                if (p.life <= 0 || p.y > canvas.height) particles.splice(i, 1);
+            }
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+
+    </script>
+</body>
+</html>
