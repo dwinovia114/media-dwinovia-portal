@@ -58,4 +58,5 @@ const MEDIA_ITEMS = [
     theme: "Dark",
     symbol: "Aa",
     status: "active"
+  },
 ];
