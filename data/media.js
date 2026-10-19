@@ -49,7 +49,7 @@ const MEDIA_ITEMS = [
     title: "Telling Personal Experience",
     description: "Materi interaktif Bahasa Inggris tentang menceritakan pengalaman.",
     url: "https://media.dwinovia.my.id/tellingpersonalexperience/",
-    thumbnail: "assets/thumbnails/school-adventure.png",
+    thumbnail: "assets/thumbnails/personal-recount.png",
     subject: "Bahasa Inggris",
     grades: ["Kelas 9"],
     type: "Materi",
@@ -57,6 +57,21 @@ const MEDIA_ITEMS = [
     latest: true,
     theme: "Dark",
     symbol: "Aa",
+    status: "active"
+  },
+  {
+    id: "the-counting-challenge",
+    title: "The Counting Challenge",
+    description: "Game pembelajaran interaktif bertema jumlah barang-barang sekolah.",
+    url: "https://media.dwinovia.my.id/thecountingchallenge/",
+    thumbnail: "assets/thumbnails/counting-challenge.png",
+    subject: "Bahasa Inggris",
+    grades: ["Kelas 4"],
+    type: "Game",
+    featured: true,
+    latest: true,
+    theme: "mint",
+    symbol: "✦",
     status: "active"
   },
 ];
