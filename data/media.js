@@ -74,4 +74,19 @@ const MEDIA_ITEMS = [
     symbol: "✦",
     status: "active"
   },
+  {
+    id: "quiz-clash",
+    title: "Quiz Clash",
+    description: "Game kuis interaktif dua tim yang menggabungkan adu cepat menjawab soal dengan teknologi pengenalan gerakan tangan dan dapat disesuaikan untuk berbagai mata pelajaran.",
+    url: "https://media.dwinovia.my.id/quizclash/",
+    thumbnail: "assets/thumbnails/quiz-clash.png",
+    subject: "Bahasa Inggris",
+    grades: ["Kelas 9"],
+    type: "Game",
+    featured: true,
+    latest: false,
+    theme: "dark",
+    symbol: "Q?",
+    status: "active"
+  },
 ];
