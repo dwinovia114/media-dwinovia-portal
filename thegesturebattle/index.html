@@ -293,7 +293,7 @@
 
         .game-nav-controls {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -306,9 +306,9 @@
             background: rgba(13, 27, 42, 0.9);
             border: 2px solid rgba(255,255,255,0.3);
             color: white;
-            padding: 10px 22px;
+            padding: 8px 20px;
             border-radius: 14px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
@@ -333,17 +333,17 @@
 
         .options-container {
             position: absolute;
-            top: 180px; 
-            bottom: 70px;
+            top: 0; 
+            bottom: 0;
             width: 50%;
             overflow: hidden;
             z-index: 15;
-            display: none !important;
+            display: none;
             opacity: 0;
         }
 
         .options-container.active {
-            display: block !important;
+            display: block;
             opacity: 1;
         }
 
@@ -361,22 +361,22 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 125px;
-            height: 125px;
+            width: 85px;
+            height: 85px;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             opacity: 0;
-            padding: 8px;
+            padding: 6px;
             top: -200px;
         }
 
         .option-btn.animate-fall {
             opacity: 1;
-            animation: fallDownAnimation 20s linear forwards;
+            animation: fallDownAnimation 28s linear forwards;
         }
 
         @keyframes fallDownAnimation {
             0% { transform: translateY(0); }
-            100% { transform: translateY(calc(64vh + 200px)); }
+            100% { transform: translateY(calc(100vh + 350px)); }
         }
 
         .option-btn:nth-child(1) { left: 8%; }
@@ -387,25 +387,6 @@
         .option-btn[data-team="blue"] { border-color: var(--blue); }
         .option-btn[data-team="yellow"] { border-color: var(--yellow); }
 
-        .option-label {
-            background-color: var(--white);
-            color: var(--navy);
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin-bottom: 2px;
-            font-size: 12px;
-            font-weight: 900;
-            flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        }
-
-        .option-btn[data-team="blue"] .option-label { background-color: var(--blue); color: white;}
-        .option-btn[data-team="yellow"] .option-label { background-color: var(--yellow); color: var(--navy);}
-
         .option-content { 
             position: relative; 
             z-index: 2; 
@@ -415,9 +396,9 @@
             justify-content: center;
             width: 100%; 
             text-align: center;
-            font-size: 11px;
-            font-weight: 700;
-            line-height: 1.15;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.1;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
         }
 
@@ -452,7 +433,7 @@
 
         .team-status {
             position: absolute;
-            bottom: 25px;
+            bottom: 20px;
             font-size: 13px;
             font-weight: 900;
             color: var(--white);
@@ -465,8 +446,8 @@
             backdrop-filter: blur(5px);
             letter-spacing: 1px;
         }
-        #status-blue { left: 30px; }
-        #status-yellow { right: 30px; }
+        #status-blue { left: 20px; }
+        #status-yellow { right: 20px; }
 
         #pointers-layer {
             position: fixed;
@@ -560,39 +541,31 @@
             gap: 16px;
             padding-right: 12px;
         }
-        .question-list::-webkit-scrollbar {
-            width: 8px;
-        }
-        .question-list::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-        .question-list::-webkit-scrollbar-thumb {
-            background: var(--blue);
-            border-radius: 10px;
-        }
+        .question-list::-webkit-scrollbar { width: 8px; }
+        .question-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .question-list::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
 
         .q-card {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 18px;
+            border-radius: 16px;
             padding: 20px 24px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             transition: all 0.2s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         .q-card:hover {
             border-color: var(--blue);
             transform: translateY(-2px);
-            background: rgba(30, 41, 59, 0.95);
+            box-shadow: 0 15px 35px rgba(58, 134, 255, 0.2);
         }
-        .q-card-main {
+        .q-card-top {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 80%;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
         }
         .q-card-title {
             font-size: 16px;
@@ -600,45 +573,45 @@
             color: #f8fafc;
             line-height: 1.4;
         }
-        .q-card-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
+        .q-card-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .q-opt-item {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 10px;
             font-size: 13px;
-            color: #94a3b8;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .q-opt-badge {
-            background: rgba(58, 134, 255, 0.15);
-            border: 1px solid rgba(58, 134, 255, 0.4);
-            padding: 4px 10px;
-            border-radius: 8px;
-            color: #60a5fa;
-            font-weight: 600;
-        }
-        .q-ans-badge {
+        .q-opt-item.is-correct {
+            border-color: rgba(46, 204, 113, 0.6);
             background: rgba(46, 204, 113, 0.15);
-            border: 1px solid rgba(46, 204, 113, 0.4);
-            padding: 4px 12px;
-            border-radius: 8px;
             color: #4ade80;
             font-weight: 700;
         }
         .q-card-actions {
             display: flex;
             gap: 10px;
+            flex-shrink: 0;
         }
         .q-card-actions button {
-            padding: 10px 18px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             transition: transform 0.2s;
         }
         .q-card-actions button:hover { transform: scale(1.05); }
-        .btn-card-edit { background: var(--yellow); color: var(--navy); box-shadow: 0 4px 15px rgba(255, 183, 3, 0.3); }
-        .btn-card-delete { background: var(--red); color: white; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
+        .btn-card-edit { background: var(--yellow); color: var(--navy); box-shadow: 0 4px 12px rgba(255, 183, 3, 0.3); }
+        .btn-card-delete { background: var(--red); color: white; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3); }
         
         .modal-overlay {
             position: fixed;
@@ -662,13 +635,8 @@
             box-shadow: 0 30px 70px rgba(0,0,0,0.7);
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        .modal-content::-webkit-scrollbar-thumb {
-            background: var(--blue);
-            border-radius: 10px;
-        }
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
         .form-group { margin-bottom: 18px; text-align: left;}
         .form-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; color: #cbd5e1;}
         .form-group input, .form-group textarea, .form-group select {
@@ -783,7 +751,6 @@
         </div>
     </div>
 
-    <!-- QUESTION EDITOR SCREEN -->
     <div id="screen-editor" class="screen hidden" style="background-color: var(--navy);">
         <div class="editor-container">
             <div class="editor-header">
@@ -836,14 +803,13 @@
         </div>
     </div>
 
-    <!-- HOW TO PLAY -->
     <div id="screen-how-to" class="screen hidden">
         <div class="result-panel">
             <h2 style="color: var(--yellow); margin-bottom: 20px;">How To Play</h2>
             <div style="text-align: left; font-size: 17px; margin: 20px 0; line-height: 1.6; color: #e2e8f0;">
                 <p>1. <b>Team Blue</b> stands on the LEFT. <b>Team Yellow</b> stands on the RIGHT.</p>
                 <p>2. Point your index finger to aim at the falling answer balloons.</p>
-                <p>3. <b>Hold to Select:</b> Keep your finger steady on a correct balloon for 1.2 seconds to lock and burst it!</p>
+                <p>3. <b>Hold to Select:</b> Keep your finger steady on the correct answer for 1.2 seconds to lock and burst it!</p>
                 <p>4. <b>Speed Bonus:</b> Answer correctly and quickly to earn extra points!</p>
                 <p>5. Wrong answer locks your team out of the round, giving the other team a chance to answer.</p>
             </div>
@@ -871,7 +837,6 @@
         </div>
     </div>
 
-    <!-- GAME SCREEN -->
     <div id="screen-game" class="screen hidden">
         
         <!-- Countdown Overlay -->
@@ -904,7 +869,7 @@
             <div class="round-indicator" id="round-display">ROUND 1 OF 20</div>
         </div>
         
-        <!-- Navigation Controls on Bottom Center -->
+        <!-- Navigation Controls on Center Bottom -->
         <div class="game-nav-controls">
             <button class="nav-btn" onclick="confirmBackToHome()">🏠 HOME</button>
             <button class="nav-btn btn-end" onclick="confirmEndGame()">⏹ END GAME</button>
@@ -942,32 +907,32 @@
 
     <script>
         const defaultQuestions = [
-            { id: 1, question: "1. You visit your friend's school and see a beautiful garden full of colorful flowers. What should you say to express your admiration?", options: { A: "Ouch! What a beautiful garden!", B: "Wow! What a beautiful garden!", C: "Oops! What a beautiful garden!", D: "Hmm... What a beautiful garden!" }, correct: "B" },
+            { id: 1, question: "1. You visit your friend's school and see a beautiful garden full of colorful flowers. What should you say to express your admiration?", options: { A: "Ouch!", B: "Wow!", C: "Oops!", D: "Hmm..." }, correct: "B" },
             { id: 2, question: "2. Your friend shows you a lovely bag with a beautiful design. You feel delighted when you see it. Which interjection is the most appropriate?", options: { A: "Ooh!", B: "Ouch!", C: "Oops!", D: "Hmm..." }, correct: "A" },
-            { id: 3, question: "3. You enter your school's new library for the first time. You are surprised by how wonderful it looks. What should you say?", options: { A: "Oops! It looks wonderful!", B: "Ouch! It looks wonderful!", C: "Oh! It looks wonderful!", D: "Hmm... It looks wonderful!" }, correct: "C" },
+            { id: 3, question: "3. You enter your school's new library for the first time. You are surprised by how wonderful it looks. What should you say?", options: { A: "Oops!", B: "Ouch!", C: "Oh!", D: "Hmm..." }, correct: "C" },
             { id: 4, question: "4. Your friend explains a difficult question to you. Suddenly, you understand the answer. Which interjection should you use?", options: { A: "Ouch!", B: "Oops!", C: "Hurray!", D: "Aha!" }, correct: "D" },
-            { id: 5, question: "5. Your class wins first place in an English competition. You want to celebrate the achievement with your classmates. What should you say?", options: { A: "Hmm... We won the competition!", B: "Hurray! We won the competition!", C: "Oops! We won the competition!", D: "Ouch! We won the competition!" }, correct: "B" },
+            { id: 5, question: "5. Your class wins first place in an English competition. You want to celebrate the achievement with your classmates. What should you say?", options: { A: "Hmm...", B: "Hurray!", C: "Oops!", D: "Ouch!" }, correct: "B" },
             { id: 6, question: "6. You accidentally drop your English book while walking to your desk. Which interjection is appropriate?", options: { A: "Wow!", B: "Aha!", C: "Oops!", D: "Hurray!" }, correct: "C" },
             { id: 7, question: "7. You accidentally hit your foot against a chair and feel pain. What should you say?", options: { A: "Ouch!", B: "Ooh!", C: "Aha!", D: "Wow!" }, correct: "A" },
             { id: 8, question: "8. Your teacher asks you to choose between two activities. You are not sure which one to choose and need time to think. Which interjection should you use?", options: { A: "Hurray!", B: "Oops!", C: "Ouch!", D: "Hmm..." }, correct: "D" },
-            { id: 9, question: "9. You visit your friend's house and discover a beautiful painting on the wall. You are impressed by it. Which response is the most appropriate?", options: { A: "Oops! What a beautiful painting!", B: "Wow! What a beautiful painting!", C: "Ouch! What a beautiful painting!", D: "Hmm... What a beautiful painting!" }, correct: "B" },
-            { id: 10, question: "10. Your friend tells you that the school library has a new reading corner. You did not know about it before. What should you say to express surprise or realization?", options: { A: "Ouch! I didn't know that before!", B: "Hurray! I didn't know that before!", C: "Oh! I didn't know that before!", D: "Oops! I didn't know that before!" }, correct: "C" },
-            { id: 11, question: "11. Rina: Look at the butterfly! Its wings are so colorful!\nDina: ______! I've never seen such beautiful wings before.", options: { A: "Wow", B: "Oops", C: "Ouch", D: "Hmm" }, correct: "A" },
-            { id: 12, question: "12. Alya: Oh no! I accidentally deleted my homework file.\nNina: ______! I hope you can recover it.", options: { A: "Hurray", B: "Oops", C: "Aha", D: "Ooh" }, correct: "B" },
-            { id: 13, question: "13. Rafi: I finally understand how to solve this math problem!\nDoni: ______! Now you can explain it to me.", options: { A: "Ouch", B: "Hmm", C: "Aha", D: "Oops" }, correct: "C" },
-            { id: 14, question: "14. Teacher: Congratulations! Our class has won first place in the competition!\nStudents: ______! We did it!", options: { A: "Ouch", B: "Oops", C: "Hmm", D: "Hurray" }, correct: "D" },
-            { id: 15, question: "15. Maya: Ouch! I just hit my knee against the table.\nLina: Are you okay? Does it hurt a lot?", options: { A: "Ouch!", B: "Wow!", C: "Aha!", D: "Hurray!" }, correct: "A" },
-            { id: 16, question: "16. Fahri: Guess what? We have an extra day off next week!\nRizky: ______! I didn't know that.", options: { A: "Oops", B: "Oh", C: "Ouch", D: "Hmm" }, correct: "B" },
-            { id: 17, question: "17. Nadia: Should we play badminton or basketball after school?\nSalsa: ______... Let me think about it first.", options: { A: "Hurray", B: "Wow", C: "Hmm", D: "Ouch" }, correct: "C" },
-            { id: 18, question: "18. Aisyah: Look at that tiny puppy! It's so cute!\nZahra: ______! I want to pet it.", options: { A: "Oops", B: "Ouch", C: "Aha", D: "Ooh" }, correct: "D" },
-            { id: 19, question: "19. Bima: I found the answer in the last paragraph of the text!\nArman: ______! Now we can finish the assignment.", options: { A: "Aha", B: "Ouch", C: "Oops", D: "Hmm" }, correct: "A" },
-            { id: 20, question: "20. Dika: I accidentally sent my message to the wrong class group.\nReno: ______! You should check the group before sending messages next time.", options: { A: "Hurray", B: "Oops", C: "Wow", D: "Ooh" }, correct: "B" }
+            { id: 9, question: "9. You visit your friend's house and discover a beautiful painting on the wall. You are impressed by it. Which response is the most appropriate?", options: { A: "Oops!", B: "Wow!", C: "Ouch!", D: "Hmm..." }, correct: "B" },
+            { id: 10, question: "10. Your friend tells you that the school library has a new reading corner. You did not know about it before. What should you say to express surprise or realization?", options: { A: "Ouch!", B: "Hurray!", C: "Oh!", D: "Oops!" }, correct: "C" },
+            { id: 11, question: "11. Alya: This is our school garden.\nNadia: \"_____! What a beautiful garden!\"\nAlya: Thank you! We take care of it every Friday.", options: { A: "Ouch", B: "Oops", C: "Hmm", D: "Wow" }, correct: "D" },
+            { id: 12, question: "12. Rina: What do you think of my drawing?\nDina: \"_____! Your drawing is amazing!\"\nRina: Thank you!", options: { A: "Wow", B: "Ouch", C: "Oops", D: "Hmm" }, correct: "A" },
+            { id: 13, question: "13. Alya: This is my cat, Milo.\nNadia: \"_____! What a cute cat!\"\nAlya: Thank you. He is very friendly, too.", options: { A: "Oops", B: "Ooh", C: "Ouch", D: "Hmm" }, correct: "B" },
+            { id: 14, question: "14. Rafi: Have you seen our new library?\nDimas: \"_____! It looks wonderful!\"\nRafi: The library is comfortable, isn't it?", options: { A: "Oops", B: "Ouch", C: "Oh", D: "Hmm" }, correct: "C" },
+            { id: 15, question: "15. Fahri: I finally understand why the plants in our school garden grow so well!\nRizky: \"_____! Now you understand the explanation.\"", options: { A: "Ouch", B: "Oops", C: "Hmm", D: "Aha" }, correct: "D" },
+            { id: 16, question: "16. Teacher: Congratulations! Our class has won first place in the competition!\nStudents: \"_____! We did it!\"", options: { A: "Hurray", B: "Oops", C: "Ouch", D: "Hmm" }, correct: "A" },
+            { id: 17, question: "17. Dina: Oh no! I accidentally dropped my notebook.\nRina: \"_____! I hope it isn't damaged.\"", options: { A: "Wow", B: "Oops", C: "Hurray", D: "Aha" }, correct: "B" },
+            { id: 18, question: "18. Bima: I hit my elbow against the table!\nDoni: \"_____! Does it hurt?\"", options: { A: "Hurray", B: "Aha", C: "Ouch", D: "Wow" }, correct: "C" },
+            { id: 19, question: "19. Nadia: Should we visit the library or the school garden first?\nAlya: \"_____... Let me think about it.\"", options: { A: "Ouch", B: "Hurray", C: "Wow", D: "Hmm" }, correct: "D" },
+            { id: 20, question: "20. Rafi: Look at this new reading corner in our library!\nDimas: \"_____! I didn't notice it before. It looks wonderful!\"", options: { A: "Oh", B: "Ouch", C: "Oops", D: "Hmm" }, correct: "A" }
         ];
 
         let activeQuestions = [];
 
         function loadQuestions() {
-            const saved = localStorage.getItem('interjectionBattleQuestions');
+            const saved = localStorage.getItem('interjectionBattleQuestions20');
             if (saved) {
                 try { 
                     activeQuestions = JSON.parse(saved); 
@@ -1024,19 +989,18 @@
                 const card = document.createElement('div');
                 card.className = 'q-card';
                 card.innerHTML = `
-                    <div class="q-card-main">
-                        <div class="q-card-title">Q${index + 1}: ${q.question.replace(/\n/g, ' ')}</div>
-                        <div class="q-card-options">
-                            <span class="q-opt-badge">A: ${q.options.A}</span>
-                            <span class="q-opt-badge">B: ${q.options.B}</span>
-                            <span class="q-opt-badge">C: ${q.options.C}</span>
-                            <span class="q-opt-badge">D: ${q.options.D}</span>
-                            <span class="q-ans-badge">Ans: ${q.correct}</span>
+                    <div class="q-card-top">
+                        <div class="q-card-title"><strong>Q${index + 1}:</strong> ${q.question.replace(/\n/g, ' ')}</div>
+                        <div class="q-card-actions">
+                            <button class="btn-card-edit" onclick="openQuestionModal(${index})">Edit</button>
+                            <button class="btn-card-delete" onclick="deleteQuestion(${index})">Delete</button>
                         </div>
                     </div>
-                    <div class="q-card-actions">
-                        <button class="btn-card-edit" onclick="openQuestionModal(${index})">Edit</button>
-                        <button class="btn-card-delete" onclick="deleteQuestion(${index})">Delete</button>
+                    <div class="q-card-options-grid">
+                        <div class="q-opt-item ${q.correct === 'A' ? 'is-correct' : ''}"><span><strong>A:</strong> ${q.options.A}</span> ${q.correct === 'A' ? '✓' : ''}</div>
+                        <div class="q-opt-item ${q.correct === 'B' ? 'is-correct' : ''}"><span><strong>B:</strong> ${q.options.B}</span> ${q.correct === 'B' ? '✓' : ''}</div>
+                        <div class="q-opt-item ${q.correct === 'C' ? 'is-correct' : ''}"><span><strong>C:</strong> ${q.options.C}</span> ${q.correct === 'C' ? '✓' : ''}</div>
+                        <div class="q-opt-item ${q.correct === 'D' ? 'is-correct' : ''}"><span><strong>D:</strong> ${q.options.D}</span> ${q.correct === 'D' ? '✓' : ''}</div>
                     </div>
                 `;
                 list.appendChild(card);
@@ -1086,7 +1050,7 @@
             if(!newQ.question || !newQ.options.A || !newQ.options.B) { alert("Fill all fields."); return; }
             if (idVal !== "") activeQuestions[parseInt(idVal)] = newQ;
             else activeQuestions.push(newQ);
-            localStorage.setItem('interjectionBattleQuestions', JSON.stringify(activeQuestions));
+            localStorage.setItem('interjectionBattleQuestions20', JSON.stringify(activeQuestions));
             closeQuestionModal();
             renderEditorList();
         }
@@ -1094,7 +1058,7 @@
         function deleteQuestion(index) {
             confirmAction("Delete Question?", "Are you sure you want to delete this question?", () => {
                 activeQuestions.splice(index, 1);
-                localStorage.setItem('interjectionBattleQuestions', JSON.stringify(activeQuestions));
+                localStorage.setItem('interjectionBattleQuestions20', JSON.stringify(activeQuestions));
                 renderEditorList();
             });
         }
@@ -1102,7 +1066,7 @@
         function resetDefaultQuestions() {
             confirmAction("Reset Questions?", "This will restore all default questions.", () => {
                 activeQuestions = JSON.parse(JSON.stringify(defaultQuestions));
-                localStorage.setItem('interjectionBattleQuestions', JSON.stringify(activeQuestions));
+                localStorage.setItem('interjectionBattleQuestions20', JSON.stringify(activeQuestions));
                 renderEditorList();
             });
         }
@@ -1560,12 +1524,11 @@
                     btn.setAttribute('data-team', team);
                     btn.setAttribute('data-option', key);
                     
-                    const fallDuration = 18 + (index * 0.7);
+                    const fallDuration = 26 + (index * 1.5);
                     btn.style.animationDuration = `${fallDuration}s`;
 
                     btn.innerHTML = `
                         <div class="option-content">
-                            <div class="option-label">${key}</div>
                             <span>${q.options[key]}</span>
                         </div>
                     `;
@@ -1603,7 +1566,7 @@
                 boxBlue.classList.add('winner');
             } else if (gameState.yellow.score > gameState.blue.score) {
                 winText.innerText = "TEAM YELLOW WINS!";
-                winText.style.color = "var(--yellow)";
+                winText.style.color = "yellow";
                 boxYellow.classList.add('winner');
             } else {
                 winText.innerText = "IT'S A TIE!";
