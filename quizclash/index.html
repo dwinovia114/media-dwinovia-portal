@@ -62,13 +62,13 @@
         h1, h2, h3 { text-align: center; text-transform: uppercase; }
         
         .btn {
-            padding: clamp(12px, 2.2vh, 18px) clamp(22px, 3.2vw, 38px);
-            font-size: clamp(14px, 1.8vh, 20px);
+            padding: clamp(10px, 1.8vh, 16px) clamp(20px, 2.8vw, 34px);
+            font-size: clamp(13px, 1.6vh, 18px);
             font-weight: 800;
             border: 2px solid rgba(255,255,255,0.2);
             border-radius: 50px;
             cursor: pointer;
-            margin: 8px;
+            margin: 6px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -90,6 +90,7 @@
             background: radial-gradient(circle at 50% 30%, #1b263b 0%, #080f18 100%);
             position: relative;
             overflow: hidden;
+            padding: 20px;
         }
 
         .hero-bg-glow {
@@ -114,8 +115,9 @@
             flex-direction: column;
             align-items: center;
             width: min(940px, 94vw);
-            min-height: min(640px, 85vh);
-            padding: clamp(30px, 5vh, 60px) clamp(25px, 4vw, 55px);
+            min-height: min(720px, 90vh);
+            max-height: 94vh;
+            padding: clamp(25px, 4vh, 50px) clamp(25px, 4vw, 55px);
             background: rgba(13, 27, 42, 0.88);
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 36px;
@@ -128,24 +130,24 @@
             background: linear-gradient(135deg, rgba(58, 134, 255, 0.25), rgba(255, 183, 3, 0.25));
             border: 1px solid rgba(58, 134, 255, 0.6);
             color: #60a5fa;
-            padding: clamp(8px, 1.2vh, 10px) clamp(20px, 2.5vw, 30px);
+            padding: clamp(6px, 1vh, 9px) clamp(18px, 2.5vw, 28px);
             border-radius: 30px;
-            font-size: clamp(12px, 1.5vh, 15px);
+            font-size: clamp(11px, 1.4vh, 14px);
             font-weight: 700;
             letter-spacing: 3px;
-            margin-bottom: clamp(15px, 2.5vh, 25px);
+            margin-bottom: clamp(10px, 2vh, 20px);
             text-transform: uppercase;
             box-shadow: 0 0 30px rgba(58, 134, 255, 0.4);
         }
 
         .hero-title {
-            font-size: clamp(38px, 6.5vw, 68px);
+            font-size: clamp(34px, 5.5vw, 62px);
             font-weight: 900;
             text-align: center;
             background: linear-gradient(135deg, #ffffff 20%, #3a86ff 60%, #ffb703 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             line-height: 1.1;
             filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.7));
             text-transform: uppercase;
@@ -153,10 +155,10 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(14px, 2.2vh, 19px);
+            font-size: clamp(13px, 1.8vh, 17px);
             color: #94a3b8;
-            letter-spacing: 4px;
-            margin-bottom: clamp(25px, 4vh, 40px);
+            letter-spacing: 3px;
+            margin-bottom: clamp(20px, 3.5vh, 35px);
             font-weight: 600;
             text-transform: uppercase;
             text-align: center;
@@ -165,17 +167,17 @@
         .menu-buttons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 14px;
             width: 100%;
-            max-width: 680px;
+            max-width: 650px;
         }
 
         .menu-buttons-grid .btn {
             width: 100%;
             margin: 0;
-            font-size: clamp(13px, 1.6vh, 16px);
-            padding: clamp(14px, 2.2vh, 18px) 20px;
-            border-radius: 18px;
+            font-size: clamp(12px, 1.5vh, 15px);
+            padding: clamp(12px, 2vh, 16px) 20px;
+            border-radius: 16px;
         }
 
         .menu-buttons-grid .btn-full {
@@ -348,8 +350,8 @@
         }
 
         .options-container.active {
-            display: block;
-            opacity: 1;
+            display: block !important;
+            opacity: 1 !important;
         }
 
         #options-blue { left: 0; }
@@ -366,12 +368,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: clamp(80px, 9.5vw, 125px);
-            height: clamp(80px, 9.5vw, 125px);
+            width: clamp(72px, 8.5vw, 110px);
+            height: clamp(72px, 8.5vw, 110px);
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             opacity: 0;
-            padding: 10px;
-            top: -180px;
+            padding: 8px;
+            top: -200px;
         }
 
         .option-btn.animate-fall {
@@ -384,10 +386,10 @@
             100% { transform: translateY(calc(100vh + 300px)); }
         }
 
-        .option-btn:nth-child(1) { left: 5%; }
+        .option-btn:nth-child(1) { left: 4%; }
         .option-btn:nth-child(2) { left: 28%; }
-        .option-btn:nth-child(3) { left: 51%; }
-        .option-btn:nth-child(4) { left: 74%; }
+        .option-btn:nth-child(3) { left: 52%; }
+        .option-btn:nth-child(4) { left: 76%; }
 
         .option-btn[data-team="blue"] { border-color: var(--blue); }
         .option-btn[data-team="yellow"] { border-color: var(--yellow); }
@@ -401,7 +403,7 @@
             justify-content: center;
             width: 100%; 
             text-align: center;
-            font-size: clamp(12px, 1.6vh, 16px);
+            font-size: clamp(11px, 1.4vh, 15px);
             font-weight: 900;
             line-height: 1.15;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
@@ -816,8 +818,8 @@
             <h2 style="color: var(--yellow); margin-bottom: 20px;">How To Play</h2>
             <div style="text-align: left; font-size: 16px; margin: 20px 0; line-height: 1.6; color: #e2e8f0;">
                 <p>1. <b>Team Blue</b> stands on the LEFT. <b>Team Yellow</b> stands on the RIGHT.</p>
-                <p>2. Point your index finger to aim at the falling answer balloons.</p>
-                <p>3. <b>Hold to Select:</b> Keep your finger steady on the correct answer for 1.2 seconds to lock and burst it!</p>
+                <p>2. Point your index finger to aim at the falling answer options.</p>
+                <p>3. <b>Hold to Select:</b> Keep your finger steady on the correct answer for 1.2 seconds to lock and select it!</p>
                 <p>4. <b>Speed Bonus:</b> Answer correctly and quickly to earn extra points!</p>
                 <p>5. Wrong answer locks your team out of the round, giving the other team a chance to answer.</p>
             </div>
@@ -916,7 +918,7 @@
 
     <script>
         const defaultQuestions = [
-            { id: 1, question: "You visit your friend's school and see a beautiful garden full of colorful flowers. What should you say to express your admiration?", options: { A: "Ouch!", B: "Wow!", C: "Oops!", D: "Hmm..." }, correct: "B" },
+            { id: 1, question: "You visit your friend's school and see a beautiful garden full of colorful flowers. What should you say to express your admiration?", options: { A: "Ouch!", B: "Hmm...", C: "Wow!", D: "Oops!" }, correct: "C" },
             { id: 2, question: "Your friend shows you a lovely bag with a beautiful design. You feel delighted when you see it. Which interjection is the most appropriate?", options: { A: "Ooh!", B: "Ouch!", C: "Oops!", D: "Hmm..." }, correct: "A" },
             { id: 3, question: "You enter your school's new library for the first time. You are surprised by how wonderful it looks. What should you say?", options: { A: "Oops!", B: "Ouch!", C: "Oh!", D: "Hmm..." }, correct: "C" },
             { id: 4, question: "Your friend explains a difficult question to you. Suddenly, you understand the answer. Which interjection should you use?", options: { A: "Ouch!", B: "Oops!", C: "Hurray!", D: "Aha!" }, correct: "D" },
@@ -1104,7 +1106,6 @@
             roundActive: false,
             questions: [],
             currentQuestion: null,
-            
             blue: { score: 0, disqualified: false },
             yellow: { score: 0, disqualified: false }
         };
@@ -1159,7 +1160,8 @@
             statusEl.innerText = "Loading Hand Tracking models...";
             try {
                 appState.hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
-                appState.hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.6, minTrackingConfidence: 0.6 });
+                // Optimized for PID webcams placed higher
+                appState.hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.45, minTrackingConfidence: 0.45 });
                 
                 appState.hands.onResults((results) => {
                     const isSetupVisible = !document.getElementById('screen-setup').classList.contains('hidden');
@@ -1533,7 +1535,7 @@
                     btn.setAttribute('data-team', team);
                     btn.setAttribute('data-option', key);
                     
-                    const fallDuration = 26 + (index * 1.5);
+                    const fallDuration = 24 + (index * 2);
                     btn.style.animationDuration = `${fallDuration}s`;
 
                     btn.innerHTML = `
