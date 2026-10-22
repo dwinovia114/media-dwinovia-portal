@@ -115,9 +115,9 @@
             flex-direction: column;
             align-items: center;
             width: min(940px, 94vw);
-            min-height: min(720px, 90vh);
-            max-height: 94vh;
-            padding: clamp(25px, 4vh, 50px) clamp(25px, 4vw, 55px);
+            min-height: min(780px, 94vh);
+            max-height: 96vh;
+            padding: clamp(30px, 5vh, 60px) clamp(25px, 4vw, 55px);
             background: rgba(13, 27, 42, 0.88);
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 36px;
@@ -125,6 +125,25 @@
             box-shadow: 0 35px 100px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.25);
             justify-content: center;
         }
+
+        .fullscreen-toggle-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s;
+        }
+        .fullscreen-toggle-btn:hover { background: var(--blue); border-color: var(--blue); transform: scale(1.05); }
 
         .badge-tag {
             background: linear-gradient(135deg, rgba(58, 134, 255, 0.25), rgba(255, 183, 3, 0.25));
@@ -346,12 +365,10 @@
             overflow: hidden;
             z-index: 15;
             display: none;
-            opacity: 0;
         }
 
         .options-container.active {
             display: block !important;
-            opacity: 1 !important;
         }
 
         #options-blue { left: 0; }
@@ -368,12 +385,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: clamp(72px, 8.5vw, 110px);
-            height: clamp(72px, 8.5vw, 110px);
+            width: clamp(65px, 7.5vw, 95px);
+            height: clamp(65px, 7.5vw, 95px);
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             opacity: 0;
             padding: 8px;
-            top: -200px;
+            top: -180px;
         }
 
         .option-btn.animate-fall {
@@ -383,7 +400,7 @@
 
         @keyframes fallDownAnimation {
             0% { transform: translateY(0); }
-            100% { transform: translateY(calc(100vh + 300px)); }
+            100% { transform: translateY(calc(100vh + 350px)); }
         }
 
         .option-btn:nth-child(1) { left: 4%; }
@@ -403,7 +420,7 @@
             justify-content: center;
             width: 100%; 
             text-align: center;
-            font-size: clamp(11px, 1.4vh, 15px);
+            font-size: clamp(12px, 1.6vh, 16px);
             font-weight: 900;
             line-height: 1.15;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
@@ -733,6 +750,9 @@
 
     <!-- MAIN MENU SCREEN -->
     <div id="screen-home" class="screen">
+        <button class="fullscreen-toggle-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        </button>
         <div class="hero-bg-glow"></div>
         <div class="hero-content">
             <div class="badge-tag">Dual Team Challenge</div>
@@ -759,7 +779,6 @@
         </div>
     </div>
 
-    <!-- QUESTION EDITOR SCREEN -->
     <div id="screen-editor" class="screen hidden" style="background-color: var(--navy);">
         <div class="editor-container">
             <div class="editor-header">
@@ -819,7 +838,7 @@
             <div style="text-align: left; font-size: 16px; margin: 20px 0; line-height: 1.6; color: #e2e8f0;">
                 <p>1. <b>Team Blue</b> stands on the LEFT. <b>Team Yellow</b> stands on the RIGHT.</p>
                 <p>2. Point your index finger to aim at the falling answer options.</p>
-                <p>3. <b>Hold to Select:</b> Keep your finger steady on the correct answer for 1.2 seconds to lock and select it!</p>
+                <p>3. <b>Hold to Select:</b> Keep your finger steady on the correct answer for 1.2 seconds to lock and select it safely!</p>
                 <p>4. <b>Speed Bonus:</b> Answer correctly and quickly to earn extra points!</p>
                 <p>5. Wrong answer locks your team out of the round, giving the other team a chance to answer.</p>
             </div>
@@ -847,7 +866,6 @@
         </div>
     </div>
 
-    <!-- GAMEPLAY SCREEN -->
     <div id="screen-game" class="screen hidden">
         
         <!-- Countdown Overlay -->
@@ -884,6 +902,7 @@
         <div class="game-nav-controls">
             <button class="nav-btn" onclick="confirmBackToHome()">🏠 HOME</button>
             <button class="nav-btn btn-end" onclick="confirmEndGame()">⏹ END GAME</button>
+            <button class="nav-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶ FULLSCREEN</button>
         </div>
 
         <!-- Balloons Containers -->
@@ -918,7 +937,7 @@
 
     <script>
         const defaultQuestions = [
-            { id: 1, question: "You visit your friend's school and see a beautiful garden full of colorful flowers. What should you say to express your admiration?", options: { A: "Ouch!", B: "Hmm...", C: "Wow!", D: "Oops!" }, correct: "C" },
+            { id: 1, question: "You visit your friend's school and see a beautiful garden full of colorful flowers. What should you say to express your admiration?", options: { A: "Ouch!", B: "Wow!", C: "Oops!", D: "Hmm..." }, correct: "B" },
             { id: 2, question: "Your friend shows you a lovely bag with a beautiful design. You feel delighted when you see it. Which interjection is the most appropriate?", options: { A: "Ooh!", B: "Ouch!", C: "Oops!", D: "Hmm..." }, correct: "A" },
             { id: 3, question: "You enter your school's new library for the first time. You are surprised by how wonderful it looks. What should you say?", options: { A: "Oops!", B: "Ouch!", C: "Oh!", D: "Hmm..." }, correct: "C" },
             { id: 4, question: "Your friend explains a difficult question to you. Suddenly, you understand the answer. Which interjection should you use?", options: { A: "Ouch!", B: "Oops!", C: "Hurray!", D: "Aha!" }, correct: "D" },
@@ -958,6 +977,18 @@
             }
         }
         loadQuestions();
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
 
         let confirmCallback = null;
         function confirmAction(title, text, callback) {
@@ -1160,7 +1191,6 @@
             statusEl.innerText = "Loading Hand Tracking models...";
             try {
                 appState.hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
-                // Optimized for PID webcams placed higher
                 appState.hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.45, minTrackingConfidence: 0.45 });
                 
                 appState.hands.onResults((results) => {
