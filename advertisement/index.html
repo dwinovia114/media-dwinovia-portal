@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advertisement – Grade 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ===== Tokens ===== */
+:root{
+  --bg:#020617; --panel:rgba(255,255,255,.045); --line:rgba(255,255,255,.13);
+  --text:#f8fafc; --muted:#cbd5e1; --dim:#94a3b8;
+  --cyan:#22d3ee; --blue:#60a5fa; --indigo:#818cf8; --sky:#38bdf8; --orange:#fb923c; --red:#f87171; --yellow:#facc15;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Lato',sans-serif;color:var(--text);background:radial-gradient(circle at 50% 0%,#1e293b 0%,#020617 70%) var(--bg)}
+.bg-pattern{position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(to right,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:50px 50px}
+
+/* ===== Stage: fixed 1600x900 canvas, scaled to fit the screen above the nav bar ===== */
+#viewport{position:fixed;left:0;right:0;top:4px;bottom:66px;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1440px;height:810px;transform:translate(-50%,-50%)}
+
+.slide{position:absolute;inset:0;padding:36px 60px;display:flex;flex-direction:column;justify-content:center;
+  opacity:0;visibility:hidden;transform:scale(.97);transition:opacity .5s ease,transform .5s ease,visibility .5s}
+.slide.active{opacity:1;visibility:visible;transform:scale(1)}
+
+/* staggered entrance */
+.slide.active .s1{animation:up .6s ease both .15s}
+.slide.active .s2{animation:up .6s ease both .3s}
+.slide.active .s3{animation:up .6s ease both .45s}
+.slide.active .s4{animation:up .6s ease both .6s}
+.slide.active .s5{animation:up .6s ease both .75s}
+.slide.active .s6{animation:up .6s ease both .9s}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+
+/* ===== Typography & helpers ===== */
+.center{text-align:center}
+/* Increased h-title font-size from 64px to 80px */
+.h-title{font-size:80px;font-weight:900;line-height:1.1;letter-spacing:-.5px}
+.h-sub{font-size:30px;font-weight:300;color:var(--muted);line-height:1.4}
+.bar{width:90px;height:5px;border-radius:4px;background:var(--blue);margin:18px 0 26px}
+.center .bar{margin-left:auto;margin-right:auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 32px -12px rgba(0,0,0,.6)}
+.c-cyan{color:var(--cyan)} .c-blue{color:var(--blue)} .c-indigo{color:var(--indigo)} .c-sky{color:var(--sky)} .c-yellow{color:var(--yellow)} .c-red{color:var(--red)} .c-white{color:#fff}
+.split{display:flex;gap:64px;align-items:center}
+.stack{display:flex;flex-direction:column;gap:20px}
+.num{opacity:.9;margin-right:6px}
+.u{font-weight:700;color:#fff;border-bottom:3px solid var(--blue);padding-bottom:2px}
+
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chip{font-size:24px;padding:8px 18px;border-radius:10px;border:1px solid rgba(96,165,250,.35);background:rgba(96,165,250,.1);color:#dbeafe}
+.chip.ind{border-color:rgba(129,140,248,.4);background:rgba(129,140,248,.12);color:#e0e7ff}
+.chip.round{border-radius:999px}
+
+.box{padding:24px 30px;border-left:6px solid var(--blue)}
+.box h3{font-size:28px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.box ul{font-size:27px;color:var(--muted);line-height:1.5;padding-left:30px}
+
+/* ===== Slide 1 ===== */
+.cover-icon{display:inline-flex;width:120px;height:120px;border-radius:28px;align-items:center;justify-content:center;font-size:58px;color:var(--blue);
+  background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);margin:0 auto 34px}
+.cover-title{font-size:180px;font-weight:900;line-height:1;text-transform:uppercase;letter-spacing:-2px;
+  background:linear-gradient(135deg,#67e8f9,#3b82f6 55%,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 8px 24px rgba(59,130,246,.25))}
+.cover-sub{font-size:38px;font-weight:300;color:var(--muted);margin:28px 0 44px}
+.cover-badge{display:inline-block;font-size:28px;color:var(--muted);padding:16px 40px;border-left:6px solid var(--cyan)}
+
+/* ===== Slide 2: question list + 4 media mockups ===== */
+.q{display:flex;align-items:center;gap:18px;padding:18px 22px;font-size:29px;color:#e2e8f0;line-height:1.25}
+.qi{flex:none;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px}
+.think{margin-top:28px;font-size:32px;font-weight:700;font-style:italic;color:var(--cyan);border-left:4px solid var(--cyan);padding-left:18px}
+
+.adgrid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.adtile{display:flex;flex-direction:column;padding:16px;height:350px}
+.adscene{flex:1;display:flex;align-items:center;justify-content:center;border-radius:14px;overflow:hidden;position:relative}
+.adtile figcaption{font-size:24px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;padding:14px 4px 2px}
+.adtile figcaption i{color:var(--cyan)}
+
+/* billboard */
+.sc-sky{background:linear-gradient(#0c4a6e,#0f172a)}
+.billboard{display:flex;flex-direction:column;align-items:center}
+.bb-board{width:300px;height:150px;border:7px solid #334155;border-radius:8px;display:flex;align-items:center;gap:16px;padding:14px 18px;
+  background:linear-gradient(135deg,#f97316,#facc15);box-shadow:0 10px 20px rgba(0,0,0,.4)}
+.bb-board>i{font-size:66px;color:#fff;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.bb-title{font-size:32px;font-weight:900;color:#fff;line-height:1;text-shadow:0 2px 4px rgba(0,0,0,.25)}
+.bb-text{font-size:19px;font-weight:700;color:#7c2d12;margin-top:8px;background:#fff7ed;padding:3px 8px;border-radius:6px;display:inline-block}
+.bb-legs{width:200px;display:flex;justify-content:space-between}
+.bb-legs span{width:12px;height:58px;background:#475569}
+/* phone */
+.sc-pink{background:linear-gradient(#3b0764,#0f172a)}
+.phone{width:196px;height:262px;border:6px solid #334155;border-radius:26px;background:#0f172a;padding:10px;display:flex;flex-direction:column;gap:7px}
+.ph-head{display:flex;align-items:center;gap:8px;font-size:15px;color:#e2e8f0;line-height:1.1}
+.ph-head small{display:block;font-size:13px;color:var(--dim)}
+.ph-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+.ph-img{height:118px;border-radius:10px;background:linear-gradient(135deg,#ec4899,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:58px;color:#fff;position:relative}
+.ph-tag{position:absolute;top:8px;right:8px;background:var(--yellow);color:#422006;font-size:15px;font-weight:900;padding:2px 8px;border-radius:6px}
+.ph-cap{font-size:15px;color:#e2e8f0;line-height:1.25}
+.ph-icons{display:flex;gap:14px;font-size:17px;color:#f472b6}
+/* tv */
+.sc-blue{background:linear-gradient(#1e3a8a,#0f172a)}
+.tv{display:flex;flex-direction:column;align-items:center}
+.tv-screen{width:300px;height:172px;border:11px solid #1e293b;border-radius:14px;position:relative;display:flex;align-items:center;gap:14px;padding:0 18px;
+  background:linear-gradient(135deg,#1d4ed8,#38bdf8);box-shadow:0 10px 20px rgba(0,0,0,.45)}
+.tv-screen>i{font-size:70px;color:#fff}
+.tv-title{font-size:30px;font-weight:900;color:#fff;line-height:1}
+.tv-text{font-size:17px;color:#e0f2fe;margin-top:6px;font-style:italic}
+.tv-live{position:absolute;left:10px;bottom:7px;font-size:13px;color:#fff;background:rgba(0,0,0,.35);padding:1px 7px;border-radius:4px}
+.tv-neck{width:20px;height:16px;background:#334155}
+.tv-foot{width:110px;height:10px;border-radius:6px;background:#334155}
+/* newspaper */
+.sc-gray{background:linear-gradient(#334155,#0f172a)}
+.paper{width:300px;height:226px;background:#f8fafc;color:#0f172a;border-radius:4px;padding:12px 14px;transform:rotate(-2deg);box-shadow:0 10px 20px rgba(0,0,0,.45)}
+.np-head{font-family:Georgia,serif;font-size:25px;font-weight:900;text-align:center;border-bottom:4px double #0f172a;padding-bottom:4px;margin-bottom:10px}
+.np-body{display:grid;grid-template-columns:1fr 1.25fr;gap:12px}
+.np-lines i{display:block;height:8px;background:#cbd5e1;border-radius:2px;margin-bottom:11px}
+.np-lines i:nth-child(3n){width:70%}
+.np-ad{border:3px dashed #dc2626;background:#fef3c7;border-radius:4px;padding:8px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+.np-ad i{font-size:44px;color:#ea580c}
+.np-ad b{font-size:16px;font-weight:900;line-height:1.05}
+.np-ad span{font-size:15px;font-weight:900;color:#dc2626}
+
+/* ===== Slide 3 ===== */
+.def{max-width:1320px;margin:0 auto;text-align:left;padding:44px 64px;position:relative;border-top:5px solid #3b82f6}
+.def-quote{position:absolute;top:22px;left:22px;font-size:54px;color:rgba(59,130,246,.2)}
+.def-main{font-size:42px;font-weight:300;line-height:1.45;color:#e2e8f0;position:relative}
+.hr{height:1px;background:rgba(148,163,184,.25);margin:28px 0}
+.def-sub{font-size:37px;font-weight:300;line-height:1.5;color:var(--muted)}
+.flow{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:40px}
+.flow-step{display:flex;align-items:center;gap:14px;padding:16px 28px;font-size:31px;font-weight:700}
+.flow-step i{font-size:30px}
+.flow>.fa-arrow-right{font-size:28px;color:var(--dim)}
+
+/* ===== Slide 4 / 5 cards ===== */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:0 auto;width:100%}
+.pcard{display:flex;align-items:flex-start;gap:28px;padding:36px 40px}
+.picon{flex:none;width:90px;height:90px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:42px}
+.pcard h3{font-size:40px;font-weight:900;margin-bottom:10px}
+.pcard p{font-size:30px;color:var(--muted);line-height:1.4}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin:0 auto;width:100%}
+.kcard{display:flex;flex-direction:column;align-items:center;padding:46px 36px;border-top:4px solid}
+.kicon{width:128px;height:128px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:58px;margin-bottom:28px}
+.kcard h3{font-size:40px;font-weight:900;margin-bottom:12px}
+.kcard p{font-size:30px;color:var(--muted);line-height:1.4}
+
+/* tints */
+.t-blue{background:rgba(59,130,246,.14);color:var(--blue)}
+.t-cyan{background:rgba(6,182,212,.14);color:var(--cyan)}
+.t-indigo{background:rgba(99,102,241,.16);color:var(--indigo)}
+.t-sky{background:rgba(14,165,233,.14);color:var(--sky)}
+
+/* ===== Slides 6-8 ===== */
+.kind-title{font-size:52px;font-weight:900;margin-bottom:10px;line-height:1.1}
+.kind-desc{font-size:30px;font-weight:300;color:var(--muted);line-height:1.4}
+.mock-col{flex:0 0 520px;display:flex;flex-direction:column;align-items:center}
+.mock-cap{margin-top:14px;font-size:20px;color:var(--dim);font-style:italic}
+
+.juice{width:440px;background:#0f172a;border:1px solid #334155;border-radius:22px;overflow:hidden;box-shadow:0 24px 50px -12px rgba(0,0,0,.7)}
+.juice-vis{height:220px;background:linear-gradient(135deg,#f97316,#facc15);position:relative;display:flex;align-items:center;justify-content:center}
+.juice-vis .g{font-size:120px;color:#fff;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.juice-vis .l1,.juice-vis .l2{position:absolute;font-size:52px;color:#fef08a}
+.juice-vis .l1{left:60px;top:40px;transform:rotate(-20deg)} .juice-vis .l2{right:60px;bottom:36px;transform:rotate(25deg)}
+.juice-body{padding:26px 30px 30px;text-align:center}
+.juice-body h3{font-size:44px;font-weight:900;letter-spacing:3px;color:var(--orange)}
+.juice-body p{font-size:23px;color:var(--muted);font-style:italic;margin:6px 0 16px}
+.price{display:inline-block;font-size:23px;font-weight:700;color:#fdba74;border:1px solid rgba(249,115,22,.4);background:rgba(249,115,22,.12);padding:6px 18px;border-radius:8px;margin-bottom:18px}
+.btn{display:block;font-size:25px;font-weight:900;color:#fff;background:#ea580c;padding:14px;border-radius:12px}
+
+.audio{width:500px;padding:28px}
+.au-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.au-who{display:flex;align-items:center;gap:14px}
+.au-mic{width:54px;height:54px;border-radius:10px;background:#2563eb;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff}
+.au-who small{display:block;font-size:17px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.au-who b{font-size:22px}
+.script{background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:14px;padding:22px 24px;font-size:27px;line-height:1.5;color:#e2e8f0;margin-bottom:24px}
+.wave{display:flex;justify-content:center;align-items:center;gap:9px;height:64px}
+.wave span{width:8px;border-radius:6px;background:var(--sky);animation:wave 1s ease-in-out infinite}
+@keyframes wave{50%{transform:scaleY(.35)}}
+
+.video{width:520px;overflow:hidden}
+.vid{aspect-ratio:16/9;position:relative;background:linear-gradient(135deg,#1e293b,#312e81);display:flex;align-items:center;justify-content:center;gap:28px}
+.vid .who{font-size:78px;color:#c7d2fe} .vid .arrow{font-size:30px;color:#a5b4fc} .vid .milk{font-size:78px;color:#fff}
+.vid .play{position:absolute;inset:0;margin:auto;width:70px;height:70px;border-radius:50%;background:rgba(37,99,235,.85);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;padding-left:5px;box-shadow:0 0 0 8px rgba(37,99,235,.2)}
+.vid .ctrl{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;background:linear-gradient(transparent,rgba(2,6,23,.9))}
+.vid .track{height:5px;background:#475569;border-radius:4px;overflow:hidden;margin-bottom:6px}
+.vid .track i{display:block;width:45%;height:100%;background:var(--blue)}
+.vid .time{display:flex;justify-content:space-between;font-size:15px;color:var(--muted)}
+.vid-info{padding:20px 24px;background:rgba(30,41,59,.5)}
+.vid-info h4{font-size:20px;font-weight:900;color:#a5b4fc;letter-spacing:1px;margin-bottom:6px}
+.vid-info p{font-size:24px;line-height:1.4;color:var(--muted)}
+.vid-info .nar{font-style:italic;color:#e2e8f0;border-left:4px solid var(--blue);padding-left:12px}
+
+/* ===== Slide 9: structure (Updated for 8 elements) ===== */
+.struct{display:grid;grid-template-columns:1fr 400px 1fr;gap:18px;align-items:center}
+.el{padding:10px 16px;display:flex;gap:12px;align-items:flex-start}
+.el + .el{margin-top:12px}
+.tag{flex:none;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+.tg1{background:#2563eb}.tg2{background:#0891b2}.tg3{background:#4f46e5}.tg4{background:#0284c7}.tg5{background:#db2777}.tg6{background:#059669}.tg7{background:#f59e0b}.tg8{background:#8b5cf6}
+.el h3{font-size:21px;font-weight:900;line-height:1.15;margin:3px 0 4px}
+.el p{font-size:17.5px;color:var(--muted);line-height:1.35}
+.el p i{display:block;color:var(--dim);margin-top:2px}
+
+.poster{background:#fff7ed;color:#1e293b;border-radius:18px;padding:18px 24px 16px;position:relative;box-shadow:0 24px 50px -10px rgba(0,0,0,.7);text-align:center}
+.poster .p-el{position:relative}
+.poster .p-el > .tag{position:absolute;left:-44px;top:50%;margin-top:-17px;width:34px;height:34px;font-size:17px}
+.p-head{font-size:22px;font-weight:900;line-height:1.1;text-transform:uppercase;color:#9a3412}
+.p-prod{font-size:32px;font-weight:900;color:#ea580c;margin:6px 0;letter-spacing:1px}
+.p-vis{height:160px;margin-top:6px;border-radius:14px;background:radial-gradient(circle at 50% 60%,#fde047,#f97316 70%);display:flex;align-items:center;justify-content:center;position:relative;overflow:visible}
+.p-vis .glass{font-size:100px;color:#fff;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25));z-index:2}
+.p-vis .lemon1{position:absolute;font-size:50px;color:#fef08a;left:20px;bottom:10px;transform:rotate(-15deg);z-index:1}
+.p-vis .lemon2{position:absolute;font-size:40px;color:#fef08a;right:25px;top:20px;transform:rotate(20deg);z-index:1}
+.p-body{font-size:17px;color:#475569;line-height:1.35;margin-top:10px}
+.p-price{font-size:19px;color:#b91c1c;margin-top:10px}
+.p-price b{font-size:22px}
+.p-promo{display:inline-block;background:#dc2626;color:#fff;padding:2px 8px;border-radius:6px;font-size:14px;font-weight:900;margin-top:4px}
+.p-slogan{font-size:20px;font-weight:900;font-style:italic;color:#c2410c;margin-top:10px}
+.p-cta{display:block;background:#ea580c;color:#fff;font-size:22px;font-weight:900;padding:8px;border-radius:10px;margin-top:10px}
+.p-contact{font-size:15px;color:#64748b;border-top:1px solid #cbd5e1;margin-top:10px;padding-top:8px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.p-contact i{color:#ea580c}
+
+/* ===== Slide 10 ===== */
+.lf-icon{display:inline-flex;width:104px;height:104px;border-radius:50%;align-items:center;justify-content:center;font-size:48px;color:var(--cyan);background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);margin-bottom:24px}
+.lf-text{font-size:35px;font-weight:300;line-height:1.5;color:var(--muted);max-width:1320px;margin:0 auto 32px}
+.lf-sub{font-size:36px;font-weight:900;color:var(--cyan);margin-bottom:22px}
+.lf-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.lf-chips span{font-size:30px;font-weight:700;padding:14px 26px}
+
+/* ===== Slide 11 ===== */
+.words{display:grid;gap:12px}
+.word{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-left:5px solid var(--blue)}
+.word b{font-size:33px}
+.word span{font-size:25px;color:var(--muted);font-style:italic}
+.label{font-size:22px;font-weight:900;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.exlist{list-style:none;padding:24px 30px;font-size:29px;color:#e2e8f0;display:grid;gap:16px}
+.exlist i{margin-right:12px}
+.note{padding:20px 26px;font-size:26px;line-height:1.45;color:var(--muted)}
+
+/* ===== Slide 12 ===== */
+.ptn{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center;font-family:Consolas,monospace;font-size:26px}
+table{width:100%;border-collapse:collapse;font-size:28px}
+th{background:rgba(30,41,59,.85);text-align:left;font-size:21px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 24px}
+td{padding:14px 24px;border-top:1px solid rgba(71,85,105,.5)}
+td:first-child{font-weight:700;color:#fff}
+td:last-child{color:var(--muted)}
+
+/* ===== Slide 13 ===== */
+.ss-row{display:grid;grid-template-columns:1fr 50px 1fr;align-items:center;padding:16px 28px;border-left:6px solid}
+.ss-row .long{font-size:26px;color:var(--muted);font-style:italic;line-height:1.35}
+.ss-row .arr{font-size:26px;color:#64748b;text-align:center}
+.ss-row .short{font-size:38px;font-weight:900}
+
+/* ===== Slide 14 ===== */
+.adj{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-bottom:20px}
+.adj div{border-bottom:1px solid rgba(71,85,105,.5);padding-bottom:8px}
+.adj b{font-size:30px;color:#7dd3fc;display:block}
+.adj span{font-size:23px;color:var(--muted);font-style:italic}
+.mini{font-size:21px;font-weight:900;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.ex2{font-size:27px;color:#e2e8f0;line-height:1.55;padding-left:30px}
+
+/* ===== Slide 15 ===== */
+.end-icon{display:inline-flex;width:130px;height:130px;border-radius:50%;align-items:center;justify-content:center;font-size:60px;color:var(--cyan);background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);box-shadow:0 0 60px rgba(59,130,246,.25);margin-bottom:34px}
+.end-title{font-size:56px;font-weight:900;letter-spacing:1px;margin-bottom:34px}
+.end-box{max-width:1240px;margin:0 auto;padding:44px 60px;border-top:5px solid var(--cyan);font-size:40px;font-weight:300;line-height:1.6;color:var(--muted)}
+.thanks{margin-top:44px;font-size:26px;font-weight:900;letter-spacing:.5em;color:var(--dim)}
+
+/* ===== Navigation (sits in its own strip under the slide, never over it) ===== */
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:var(--sky);box-shadow:0 0 10px var(--sky);transition:width .3s;z-index:60}
+#nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;padding:5px 14px;border-radius:999px;
+  background:rgba(15,23,42,.9);border:1px solid rgba(56,189,248,.25);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+#nav button{width:38px;height:38px;border-radius:50%;border:1px solid transparent;background:transparent;color:#e2e8f0;font-size:15px;cursor:pointer;transition:.2s}
+#nav button:hover:not(:disabled){background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.4);color:var(--sky)}
+#nav button:disabled{opacity:.3;cursor:not-allowed}
+#counter{font-size:15px;font-weight:700;letter-spacing:2px;color:var(--muted);min-width:64px;text-align:center}
+#nav .sep{width:1px;height:20px;background:rgba(148,163,184,.3)}
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div id="progress"></div>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- 1. COVER -->
+<section class="slide active center">
+  <div class="s1"><div class="cover-icon float"><i class="fa-solid fa-layer-group"></i></div></div>
+  <h1 class="cover-title s2">Advertisement</h1>
+  <p class="cover-sub s3">Let's Explore the World of Advertising!</p>
+  <div class="s4"><div class="cover-badge panel">English Learning Material – Grade 9</div></div>
+</section>
+
+<!-- 2. WHAT CAN YOU SEE? -->
+<section class="slide">
+  <div class="split">
+    <div style="flex:0 0 560px">
+      <h2 class="h-title s1">What Can You See?</h2>
+      <div class="bar s1"></div>
+      <p class="h-sub s1" style="margin-bottom:26px">Look at these advertisements!</p>
+      <div class="stack">
+        <div class="q panel s2"><span class="qi t-blue"><i class="fa-solid fa-box-open"></i></span>What products are being advertised?</div>
+        <div class="q panel s3"><span class="qi t-cyan"><i class="fa-solid fa-map-location-dot"></i></span>Where can you find advertisements?</div>
+        <div class="q panel s4"><span class="qi t-indigo"><i class="fa-solid fa-lightbulb"></i></span>Why do people create advertisements?</div>
+      </div>
+      <p class="think s5">Think and share your ideas!</p>
+    </div>
+
+    <div class="adgrid s3">
+      <figure class="adtile panel">
+        <div class="adscene sc-sky">
+          <div class="billboard">
+            <div class="bb-board"><i class="fa-solid fa-glass-water"></i><div><div class="bb-title">FRESH<br>JUICE!</div><div class="bb-text">Only Rp10,000</div></div></div>
+            <div class="bb-legs"><span></span><span></span></div>
+          </div>
+        </div>
+        <figcaption><i class="fa-solid fa-signs-post"></i> Billboard – Fresh Juice</figcaption>
+      </figure>
+
+      <figure class="adtile panel">
+        <div class="adscene sc-pink">
+          <div class="phone">
+            <div class="ph-head"><span class="ph-av"><i class="fa-solid fa-shoe-prints"></i></span><div><b>kickstore</b><small>Sponsored</small></div></div>
+            <div class="ph-img"><i class="fa-solid fa-shoe-prints"></i><span class="ph-tag">30% OFF</span></div>
+            <div class="ph-cap"><b>New Sneakers!</b> Walk comfortably.</div>
+            <div class="ph-icons"><i class="fa-solid fa-heart"></i><i class="fa-regular fa-comment"></i><i class="fa-regular fa-paper-plane"></i></div>
+          </div>
+        </div>
+        <figcaption><i class="fa-solid fa-mobile-screen"></i> Social Media – Sneakers</figcaption>
+      </figure>
+
+      <figure class="adtile panel">
+        <div class="adscene sc-blue">
+          <div class="tv">
+            <div class="tv-screen"><i class="fa-solid fa-bottle-water"></i><div><div class="tv-title">FRESH<br>MILK</div><div class="tv-text">Drink it, live better!</div></div><span class="tv-live"><i class="fa-solid fa-play"></i> 0:15</span></div>
+            <div class="tv-neck"></div><div class="tv-foot"></div>
+          </div>
+        </div>
+        <figcaption><i class="fa-solid fa-tv"></i> Television – Fresh Milk</figcaption>
+      </figure>
+
+      <figure class="adtile panel">
+        <div class="adscene sc-gray">
+          <div class="paper">
+            <div class="np-head">DAILY NEWS</div>
+            <div class="np-body">
+              <div class="np-lines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="np-ad"><i class="fa-solid fa-burger"></i><b>DELICIOUS<br>BURGER</b><span>Only Rp20,000!</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><i class="fa-solid fa-newspaper"></i> Newspaper – Burger</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 3. DEFINITION -->
+<section class="slide center">
+  <h2 class="h-title s1">What is an Advertisement?</h2>
+  <div class="bar s1" style="background:var(--cyan)"></div>
+  <div class="def panel s2">
+    <i class="fa-solid fa-quote-left def-quote"></i>
+    <p class="def-main">An advertisement is a <b class="c-cyan">text, picture, audio, or video</b> that contains information about a product, service, event, or idea.</p>
+    <div class="hr"></div>
+    <p class="def-sub">It is designed to <span class="u">attract people's attention</span> and <span class="u">persuade them</span> to take action.</p>
+  </div>
+  <div class="flow s4">
+    <div class="flow-step panel"><i class="fa-solid fa-eye c-cyan"></i> Attract</div>
+    <i class="fa-solid fa-arrow-right"></i>
+    <div class="flow-step panel"><i class="fa-solid fa-comments c-blue"></i> Persuade</div>
+    <i class="fa-solid fa-arrow-right"></i>
+    <div class="flow-step panel"><i class="fa-solid fa-cart-shopping c-indigo"></i> Take Action</div>
+  </div>
+</section>
+
+<!-- 4. PURPOSE -->
+<section class="slide">
+  <div class="center s1" style="margin-bottom:44px">
+    <h2 class="h-title">Purpose of Advertisement</h2>
+    <p class="h-sub" style="margin-top:12px">Why do people create advertisements?</p>
+  </div>
+  <div class="grid2">
+    <div class="pcard panel s2"><div class="picon t-blue"><i class="fa-solid fa-circle-info"></i></div><div><h3>1. To Inform</h3><p>Give information about a product, service, or event.</p></div></div>
+    <div class="pcard panel s3"><div class="picon t-cyan"><i class="fa-solid fa-handshake-angle"></i></div><div><h3>2. To Persuade</h3><p>Convince people to buy or use something.</p></div></div>
+    <div class="pcard panel s4"><div class="picon t-indigo"><i class="fa-solid fa-rocket"></i></div><div><h3>3. To Promote</h3><p>Introduce and increase public interest in a product, service, or event.</p></div></div>
+    <div class="pcard panel s5"><div class="picon t-sky"><i class="fa-solid fa-clock-rotate-left"></i></div><div><h3>4. To Remind</h3><p>Keep a brand or product in people's minds.</p></div></div>
+  </div>
+</section>
+
+<!-- 5. KINDS -->
+<section class="slide center">
+  <h2 class="h-title s1">Kinds of Advertisement</h2>
+  <div class="bar s1"></div>
+  <p class="h-sub s2" style="margin-bottom:48px">There are three common forms of advertisement.<br>Each uses different media to deliver its message.</p>
+  <div class="grid3">
+    <div class="kcard panel s3" style="border-top-color:var(--cyan)"><div class="kicon t-cyan"><i class="fa-regular fa-image"></i></div><h3>1. Text &amp; Picture</h3><p>Combines written words and visual images.</p></div>
+    <div class="kcard panel s4" style="border-top-color:var(--blue)"><div class="kicon t-blue"><i class="fa-solid fa-headphones-simple"></i></div><h3>2. Audio</h3><p>Delivered through sound or spoken words.</p></div>
+    <div class="kcard panel s5" style="border-top-color:var(--indigo)"><div class="kicon t-indigo"><i class="fa-solid fa-film"></i></div><h3>3. Video</h3><p>Combines moving images, sound, and spoken words.</p></div>
+  </div>
+</section>
+
+<!-- 6. TEXT & PICTURE -->
+<section class="slide">
+  <div class="split">
+    <div class="stack" style="flex:1;gap:24px">
+      <div class="s1"><h2 class="kind-title c-cyan" style="font-size:64px">1. Text and Picture Advertisement</h2><p class="kind-desc">Combines written words and images to attract people's attention.</p></div>
+      <div class="box panel s2" style="border-left-color:var(--cyan)">
+        <h3><i class="fa-solid fa-list-check c-cyan"></i> Characteristics</h3>
+        <ul><li>Attractive pictures or illustrations</li><li>Short and interesting sentences</li><li>Persuasive words</li><li>Slogans and important information</li></ul>
+      </div>
+      <div class="box panel s3">
+        <h3><i class="fa-solid fa-tags c-blue"></i> Examples</h3>
+        <div class="chips"><span class="chip">Posters</span><span class="chip">Brochures</span><span class="chip">Newspaper ads</span><span class="chip">Magazine ads</span><span class="chip">Social media posts</span></div>
+      </div>
+    </div>
+    <div class="mock-col s4">
+      <div class="juice">
+        <div class="juice-vis"><i class="fa-solid fa-lemon l1"></i><i class="fa-solid fa-glass-water g"></i><i class="fa-solid fa-lemon l2"></i></div>
+        <div class="juice-body">
+          <h3>FRESH JUICE!</h3>
+          <p>Fresh, Healthy, and Delicious!</p>
+          <span class="price">Only Rp10,000 per glass!</span>
+          <span class="btn">BUY NOW!</span>
+        </div>
+      </div>
+      <p class="mock-cap">Sample Advertisement</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. AUDIO -->
+<section class="slide">
+  <div class="split">
+    <div class="stack" style="flex:1;gap:24px">
+      <div class="s1"><h2 class="kind-title c-blue" style="font-size:64px">2. Audio Advertisement</h2><p class="kind-desc">Delivered through sound or spoken words, without visual images.</p></div>
+      <div class="box panel s2">
+        <h3><i class="fa-solid fa-list-check c-blue"></i> Characteristics</h3>
+        <ul><li>Spoken words or narration</li><li>Music and sound effects</li><li>Interesting voice and tone</li><li>Clear and memorable messages</li></ul>
+      </div>
+      <div class="box panel s3" style="border-left-color:var(--indigo)">
+        <h3><i class="fa-solid fa-tags c-indigo"></i> Examples</h3>
+        <div class="chips"><span class="chip ind">Radio commercials</span><span class="chip ind">Podcast ads</span><span class="chip ind">Music streaming ads</span></div>
+      </div>
+    </div>
+    <div class="mock-col s4">
+      <div class="audio panel">
+        <div class="au-head">
+          <div class="au-who"><div class="au-mic"><i class="fa-solid fa-microphone"></i></div><div><small>Sample Script</small><b>Radio Commercial</b></div></div>
+          <i class="fa-solid fa-tower-broadcast c-blue" style="font-size:28px"></i>
+        </div>
+        <div class="script">"Are you hungry? Visit <b class="c-cyan">Delicious Burger</b> today! Enjoy our special beef burger for only <b class="c-blue">Rp20,000</b>. Fresh ingredients, amazing taste! Come and try it now!"</div>
+        <div class="wave">
+          <span style="height:22px"></span><span style="height:40px;animation-delay:.2s;background:var(--cyan)"></span><span style="height:56px;animation-delay:.4s"></span><span style="height:30px;animation-delay:.1s;background:var(--cyan)"></span><span style="height:64px;animation-delay:.3s"></span><span style="height:36px;animation-delay:.5s;background:var(--cyan)"></span><span style="height:50px;animation-delay:.15s"></span><span style="height:24px;animation-delay:.35s;background:var(--cyan)"></span><span style="height:44px;animation-delay:.25s"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. VIDEO -->
+<section class="slide">
+  <div class="split">
+    <div class="stack" style="flex:1;gap:24px">
+      <div class="s1"><h2 class="kind-title c-indigo" style="font-size:64px">3. Video Advertisement</h2><p class="kind-desc">Combines moving images, sound, music, and spoken words to promote a product, service, or event.</p></div>
+      <div class="box panel s2" style="border-left-color:var(--indigo)">
+        <h3><i class="fa-solid fa-list-check c-indigo"></i> Characteristics</h3>
+        <ul><li>Moving images</li><li>Dialogue or narration</li><li>Music and sound effects</li><li>Short stories to attract viewers</li></ul>
+      </div>
+      <div class="box panel s3">
+        <h3><i class="fa-solid fa-tags c-blue"></i> Examples</h3>
+        <div class="chips"><span class="chip">TV commercials</span><span class="chip">YouTube ads</span><span class="chip">TikTok ads</span><span class="chip">Instagram Reels ads</span></div>
+      </div>
+    </div>
+    <div class="mock-col s4">
+      <div class="video panel">
+        <div class="vid">
+          <i class="fa-solid fa-book-open-reader who"></i><i class="fa-solid fa-arrow-right arrow"></i><i class="fa-solid fa-bottle-water milk"></i>
+          <div class="play"><i class="fa-solid fa-play"></i></div>
+          <div class="ctrl"><div class="track"><i></i></div><div class="time"><span>0:15</span><span>0:30</span></div></div>
+        </div>
+        <div class="vid-info">
+          <h4>SAMPLE VIDEO CONCEPT</h4>
+          <p style="margin-bottom:14px">A tired student drinks a bottle of fresh milk and feels refreshed.</p>
+          <h4>NARRATION</h4>
+          <p class="nar">"Stay strong and healthy with <b>Fresh Milk</b>! Drink Fresh Milk, live better!"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. STRUCTURE -->
+<section class="slide">
+  <div class="center s1" style="margin-bottom:20px">
+    <h2 class="h-title" style="font-size:72px">Structure of Advertisement</h2>
+    <p class="h-sub" style="font-size:26px;margin-top:4px">What makes a good advertisement? 8 important elements</p>
+  </div>
+  <div class="struct">
+    <div class="s2">
+      <div class="el panel"><span class="tag tg1">1</span><div><h3>HEADLINE</h3><p>Main title to attract attention.<i>"FRESH DRINK FOR A FRESH DAY!"</i></p></div></div>
+      <div class="el panel"><span class="tag tg2">2</span><div><h3>PRODUCT NAME</h3><p>Name of the product or brand.<i>"SUNNY ORANGE JUICE"</i></p></div></div>
+      <div class="el panel"><span class="tag tg3">3</span><div><h3>VISUAL / ILLUSTRATION</h3><p>Attractive pictures or graphics.<i>A picture of fresh orange juice.</i></p></div></div>
+      <div class="el panel"><span class="tag tg4">4</span><div><h3>PRODUCT INFORMATION</h3><p>Info on features and benefits.<i>"Made from 100% fresh oranges."</i></p></div></div>
+    </div>
+
+    <div class="s3" style="padding:0 10px">
+      <div class="poster">
+        <div class="p-el"><span class="tag tg1">1</span><div class="p-head">FRESH DRINK FOR A FRESH DAY!</div></div>
+        <div class="p-el"><span class="tag tg2">2</span><div class="p-prod">SUNNY ORANGE JUICE</div></div>
+        <div class="p-el"><span class="tag tg3">3</span>
+          <div class="p-vis">
+            <i class="fa-solid fa-lemon lemon1"></i>
+            <i class="fa-solid fa-glass-water glass"></i>
+            <i class="fa-solid fa-lemon lemon2"></i>
+          </div>
+        </div>
+        <div class="p-el"><span class="tag tg4">4</span><div class="p-body">Made from 100% fresh oranges. Enjoy the natural taste and get your daily vitamin C!</div></div>
+        <div class="p-el"><span class="tag tg5">5</span><div class="p-price"><s>Rp20,000</s> <b>ONLY Rp15,000!</b><br><span class="p-promo">BUY 2, GET 1 FREE!</span></div></div>
+        <div class="p-el"><span class="tag tg6">6</span><div class="p-slogan">"Freshness in Every Sip!"</div></div>
+        <div class="p-el"><span class="tag tg7">7</span><span class="p-cta">ORDER NOW!</span></div>
+        <div class="p-el"><span class="tag tg8">8</span>
+          <div class="p-contact">
+            <span><i class="fa-brands fa-instagram"></i> @sunnyorange</span>
+            <span><i class="fa-brands fa-whatsapp"></i> 0812-3456-7890</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s4">
+      <div class="el panel"><span class="tag tg5">5</span><div><h3>PRICE / SPECIAL OFFER</h3><p>Price, discounts, or bonuses.<i>"ONLY Rp15,000! BUY 2, GET 1 FREE"</i></p></div></div>
+      <div class="el panel"><span class="tag tg6">6</span><div><h3>SLOGAN / TAGLINE</h3><p>A short, memorable phrase.<i>"Freshness in Every Sip!"</i></p></div></div>
+      <div class="el panel"><span class="tag tg7">7</span><div><h3>CALL TO ACTION</h3><p>Encourages the audience to act.<i>"ORDER NOW!"</i></p></div></div>
+      <div class="el panel"><span class="tag tg8">8</span><div><h3>CONTACT INFO</h3><p>Details on how to reach out.<i>Social media and WhatsApp.</i></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. LANGUAGE FEATURES -->
+<section class="slide center">
+  <div class="s1"><div class="lf-icon float"><i class="fa-solid fa-language"></i></div></div>
+  <h2 class="h-title s2">What are Language Features?</h2>
+  <div class="bar s2" style="background:var(--cyan)"></div>
+  <p class="lf-text s3">Language features are the specific <span class="u" style="border-color:var(--cyan)">words, expressions, and sentence patterns</span> commonly used in advertisements. They help advertisers attract attention, communicate messages, and persuade people to take action.</p>
+  <h3 class="lf-sub s4">There are five common language features:</h3>
+  <div class="lf-chips s5">
+    <span class="panel" style="border-color:rgba(96,165,250,.5)">1. Persuasive Words</span>
+    <span class="panel" style="border-color:rgba(34,211,238,.5)">2. Imperative Sentences</span>
+    <span class="panel" style="border-color:rgba(129,140,248,.5)">3. Simple &amp; Short Sentences</span>
+    <span class="panel" style="border-color:rgba(56,189,248,.5)">4. Positive Adjectives</span>
+    <span class="panel" style="border-color:rgba(96,165,250,.5)">5. Questions</span>
+  </div>
+</section>
+
+<!-- 11. PERSUASIVE WORDS -->
+<section class="slide">
+  <div class="s1" style="margin-bottom:30px">
+    <h2 class="h-title" style="font-size:72px"><span class="c-blue">1.</span> Persuasive Words</h2>
+    <p class="h-sub" style="font-size:29px;margin-top:8px">Words used to influence people's thoughts, feelings, or decisions. They make a product sound interesting.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+    <div class="s2">
+      <p class="label"><i class="fa-solid fa-spell-check"></i>&nbsp; Common Words</p>
+      <div class="words">
+        <div class="word panel"><b>Best</b><span>The most excellent</span></div>
+        <div class="word panel" style="border-left-color:var(--cyan)"><b>Amazing</b><span>Very surprising or impressive</span></div>
+        <div class="word panel" style="border-left-color:var(--indigo)"><b>Delicious</b><span>Having a very good taste</span></div>
+        <div class="word panel" style="border-left-color:var(--sky)"><b>Special</b><span>Different and better than usual</span></div>
+        <div class="word panel"><b>Affordable</b><span>Not too expensive</span></div>
+        <div class="word panel" style="border-left-color:var(--yellow)"><b class="c-yellow">Free</b><span>Without payment</span></div>
+      </div>
+    </div>
+    <div class="stack s3" style="gap:24px">
+      <div>
+        <p class="label"><i class="fa-solid fa-bullhorn"></i>&nbsp; Examples in Advertisements</p>
+        <ul class="exlist panel">
+          <li><i class="fa-solid fa-check c-blue"></i>Get the <b class="c-blue">best</b> quality products!</li>
+          <li><i class="fa-solid fa-check c-cyan"></i>Enjoy our <b class="c-cyan">amazing</b> chocolate cake!</li>
+          <li><i class="fa-solid fa-check c-indigo"></i><b class="c-indigo">Special</b> discount for students!</li>
+          <li><i class="fa-solid fa-check c-yellow"></i>Get a <b class="c-yellow">free</b> gift with every purchase!</li>
+          <li><i class="fa-solid fa-check c-sky"></i>Don't miss this <b class="c-sky">exclusive</b> offer!</li>
+        </ul>
+      </div>
+      <div class="note panel" style="background:rgba(30,58,138,.25);border-color:rgba(59,130,246,.4)"><b class="c-blue">REMEMBER:</b> Persuasive words make people feel interested in a product and encourage them to buy or try it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. IMPERATIVE SENTENCES -->
+<section class="slide">
+  <div class="s1" style="margin-bottom:30px">
+    <h2 class="h-title" style="font-size:72px"><span class="c-cyan">2.</span> Imperative Sentences</h2>
+    <p class="h-sub" style="font-size:29px;margin-top:8px">Sentences used to give commands, instructions, invitations, or suggestions to encourage action.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:440px 1fr;gap:36px;align-items:start">
+    <div class="box panel s2" style="border-left:none;border-top:5px solid var(--cyan);padding:28px">
+      <h3 class="c-cyan"><i class="fa-solid fa-list-check"></i> Characteristics</h3>
+      <ul style="font-size:26px;margin-bottom:24px"><li>Usually begin with a verb (base form).</li><li>The subject "you" is hidden.</li><li>Often end with an exclamation mark (!) or a full stop (.).</li></ul>
+      <h3 class="c-cyan"><i class="fa-solid fa-code"></i> Pattern</h3>
+      <div class="ptn"><span style="color:#4ade80">Verb</span> + <span style="color:#fb923c">Object / Complement</span></div>
+    </div>
+    <div class="s3">
+      <div class="panel" style="overflow:hidden">
+        <table>
+          <thead><tr><th>Imperative Sentence</th><th>Function</th></tr></thead>
+          <tbody>
+            <tr><td>Buy our new product!</td><td>Encouraging a purchase</td></tr>
+            <tr><td>Try our delicious burger!</td><td>Encouraging people to try something</td></tr>
+            <tr><td>Visit our store today!</td><td>Inviting customers</td></tr>
+            <tr><td>Enjoy the fresh taste!</td><td>Promoting a product</td></tr>
+            <tr><td style="color:var(--red)">Don't miss this opportunity!</td><td>Giving a warning or reminder</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note panel s4" style="margin-top:20px;border-left:6px solid #ef4444;background:rgba(127,29,29,.15)"><b class="c-red">NEGATIVE FORM:</b> use <span style="font-family:Consolas,monospace;background:#0f172a;padding:2px 10px;border-radius:6px;color:#fca5a5">Don't + base verb</span> — e.g. <i>Don't wait!</i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13. SIMPLE & SHORT SENTENCES -->
+<section class="slide">
+  <div class="center s1" style="margin-bottom:24px">
+    <h2 class="h-title" style="font-size:72px"><span class="c-indigo">3.</span> Simple and Short Sentences</h2>
+    <p class="h-sub" style="font-size:29px;margin-top:8px">Easier to read, understand, and remember. They deliver the main message quickly.</p>
+  </div>
+  <div class="chips s2" style="justify-content:center;margin-bottom:28px">
+    <span class="chip ind round">Simple vocabulary</span><span class="chip ind round">One main idea</span><span class="chip ind round">Easy to understand</span><span class="chip ind round">No unnecessary details</span><span class="chip ind round">Quick message</span>
+  </div>
+  <div class="stack s3" style="gap:14px">
+    <div class="ss-row panel" style="border-left-color:var(--indigo)"><span class="long">"Our product is made from fresh ingredients and has a very delicious taste."</span><i class="fa-solid fa-arrow-right arr"></i><span class="short" style="color:#a5b4fc">Fresh ingredients. Delicious taste!</span></div>
+    <div class="ss-row panel" style="border-left-color:var(--cyan)"><span class="long">"You can enjoy a comfortable experience with our new shoes."</span><i class="fa-solid fa-arrow-right arr"></i><span class="short" style="color:#67e8f9">Walk comfortably!</span></div>
+    <div class="ss-row panel" style="border-left-color:var(--sky)"><span class="long">"Our drinks are available in many different flavors."</span><i class="fa-solid fa-arrow-right arr"></i><span class="short" style="color:#7dd3fc">More flavors. More fun!</span></div>
+    <div class="ss-row panel" style="border-left-color:var(--blue)"><span class="long">"This product can help you save more money."</span><i class="fa-solid fa-arrow-right arr"></i><span class="short" style="color:var(--blue)">Save more!</span></div>
+  </div>
+  <p class="center s4" style="margin-top:24px;font-size:23px;color:var(--dim);font-style:italic">"A good advertisement does not always need long sentences. Sometimes, a few powerful words are enough!"</p>
+</section>
+
+<!-- 14. POSITIVE ADJECTIVES & QUESTIONS -->
+<section class="slide">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+    <div>
+      <div class="s1" style="margin-bottom:20px">
+        <h2 class="h-title" style="font-size:64px"><span class="c-sky">4.</span> Positive Adjectives</h2>
+        <p class="h-sub" style="font-size:27px;margin-top:8px">Describing words that show good qualities to make products sound attractive.</p>
+      </div>
+      <div class="panel s2" style="padding:26px 30px;border-top:5px solid var(--sky)">
+        <div class="adj">
+          <div><b>Fresh</b><span>New, clean</span></div>
+          <div><b>Delicious</b><span>Very good taste</span></div>
+          <div><b>Beautiful</b><span>Attractive</span></div>
+          <div><b>Comfortable</b><span>Makes you feel relaxed</span></div>
+          <div><b>Excellent</b><span>Extremely good</span></div>
+          <div><b>Convenient</b><span>Easy and useful</span></div>
+        </div>
+        <p class="mini">Examples</p>
+        <ul class="ex2">
+          <li>Enjoy our <b class="c-sky">delicious</b> chocolate cake!</li>
+          <li>Experience our <b class="c-sky">comfortable</b> shoes!</li>
+          <li>Try our <b class="c-sky">fresh</b> orange juice!</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="s3" style="margin-bottom:20px">
+        <h2 class="h-title" style="font-size:64px"><span class="c-blue">5.</span> Questions</h2>
+        <p class="h-sub" style="font-size:27px;margin-top:8px">Attract people's attention, make them think, and create curiosity.</p>
+      </div>
+      <div class="panel s4" style="padding:26px 30px;border-top:5px solid var(--blue)">
+        <p class="mini">Common Expressions</p>
+        <div class="chips" style="margin-bottom:22px"><span class="chip round">Are you looking for…?</span><span class="chip round">Do you want to…?</span><span class="chip round">Need a…?</span><span class="chip round">Tired of…?</span></div>
+        <p class="mini">Examples</p>
+        <ol class="ex2" style="margin-bottom:20px">
+          <li><b class="c-blue">Are you looking for</b> a comfortable school bag?</li>
+          <li><b class="c-blue">Do you want to</b> improve your English?</li>
+          <li><b class="c-blue">Tired of</b> boring shoes?</li>
+        </ol>
+        <div style="padding:14px 18px;background:rgba(59,130,246,.12);border-left:4px solid var(--blue);border-radius:8px;font-size:22px;color:var(--muted);line-height:1.4"><b class="c-blue">REMEMBER:</b> Questions make the audience feel that the ad is speaking directly to them.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15. CLOSING -->
+<section class="slide center">
+  <div class="s1"><div class="end-icon float"><i class="fa-solid fa-paper-plane"></i></div></div>
+  <h2 class="end-title s2">GREAT ADVERTISEMENTS START WITH <span class="c-cyan">GREAT IDEAS!</span></h2>
+  <div class="end-box panel s3">
+    A good advertisement does not only give <b class="c-white">information</b>.<br>
+    It also <b class="c-cyan">attracts attention</b> and <b class="c-blue">persuades people</b> to take action!
+  </div>
+  <p class="thanks s4">THANK YOU</p>
+</section>
+
+</div>
+</div>
+
+<nav id="nav">
+  <button id="prev" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
+  <span id="counter">1 / 15</span>
+  <button id="next" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button>
+  <span class="sep"></span>
+  <button id="fs" aria-label="Fullscreen" title="Fullscreen (F)"><i class="fa-solid fa-expand"></i></button>
+</nav>
+
+<script>
+const stage = document.getElementById('stage');
+const viewport = document.getElementById('viewport');
+const slides = [...document.querySelectorAll('.slide')];
+const prev = document.getElementById('prev'), next = document.getElementById('next');
+const counter = document.getElementById('counter'), progress = document.getElementById('progress');
+let cur = 0;
+
+// Scale the 1600x900 canvas to fit the area above the nav bar
+// On screens wider than 16:9 the canvas grows wider, so there is no empty space left and right
+function fit(){
+  const vw = viewport.clientWidth, vh = viewport.clientHeight, H = 810;
+  const W = vw / vh > 1440 / H ? Math.min(vw * H / vh, 1900) : 1440;
+  stage.style.width = W + 'px';
+  const s = Math.min(vw / W, vh / H);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+function show(i){
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+  counter.textContent = `${cur + 1} / ${slides.length}`;
+  progress.style.width = (cur / (slides.length - 1) * 100) + '%';
+  prev.disabled = cur === 0;
+  next.disabled = cur === slides.length - 1;
+}
+function toggleFs(){
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+prev.onclick = () => show(cur - 1);
+next.onclick = () => show(cur + 1);
+document.getElementById('fs').onclick = toggleFs;
+document.addEventListener('keydown', e => {
+  if (['ArrowRight','PageDown',' ','Enter'].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  else if (['ArrowLeft','PageUp','Backspace'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  else if (e.key === 'Home') show(0);
+  else if (e.key === 'End') show(slides.length - 1);
+  else if (e.key === 'f' || e.key === 'F') toggleFs();
+});
+let tx = null;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+document.addEventListener('touchend', e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  tx = null;
+});
+window.addEventListener('resize', fit);
+fit(); show(0);
+</script>
+</body>
+</html>
