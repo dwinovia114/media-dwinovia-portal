@@ -726,10 +726,25 @@ function fit(){
 function show(i){
   cur = Math.max(0, Math.min(slides.length - 1, i));
   slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+  
+  // Stop audio when leaving the slide
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
   counter.textContent = `${cur + 1} / ${slides.length}`;
   progress.style.width = (cur / (slides.length - 1) * 100) + '%';
   prev.disabled = cur === 0;
   next.disabled = cur === slides.length - 1;
+
+  // Play audio for Slide 7 (index 6)
+  if (cur === 6 && 'speechSynthesis' in window) {
+    // We spell out "twenty thousand Rupiah" so the computer reads it correctly
+    const script = "Are you hungry? Visit Delicious Burger today! Enjoy our special beef burger for only twenty thousand Rupiah. Fresh ingredients, amazing taste! Come and try it now!";
+    const utterance = new SpeechSynthesisUtterance(script);
+    utterance.lang = 'en-US';
+    utterance.rate = 1.1; // Slightly faster for an energetic ad feel
+    utterance.pitch = 1.2;
+    window.speechSynthesis.speak(utterance);
+  }
 }
 function toggleFs(){
   if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
