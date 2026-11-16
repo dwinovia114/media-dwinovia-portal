@@ -1,0 +1,2058 @@
+Fmu<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prepositions of Place - Bahasa Inggris Kelas 4 SD</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka untuk judul ceria & Nunito untuk keterbacaan optimal anak SD -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Fredoka', 'sans-serif'],
+            sans: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            skykid: {
+              50: '#F0F9FF',
+              100: '#E0F2FE',
+              500: '#0EA5E9',
+              600: '#0284C7',
+              700: '#0369A1',
+            },
+            sun: {
+              100: '#FEF3C7',
+              400: '#FBBF24',
+              500: '#F59E0B',
+              600: '#D97706',
+            },
+            mint: {
+              100: '#D1FAE5',
+              500: '#10B981',
+              600: '#059669',
+            },
+            coral: {
+              100: '#FFE4E6',
+              500: '#F43F5E',
+              600: '#E11D48',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Pengaturan dasar & animasi lembut untuk anak SD */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(180deg, #E0F2FE 0%, #F8FAFC 35%, #FEF9C3 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-display {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Gaya 3D Flipcard untuk Kosakata */
+    .flip-perspective {
+      perspective: 1200px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front,
+    .flip-back {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1.5rem;
+    }
+
+    .flip-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Animasi mengambang ringan untuk dekorasi */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-float {
+      animation: floatSlow 3.5s ease-in-out infinite;
+    }
+
+    /* Animasi gelombang suara saat TTS aktif */
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.6); }
+      70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+    }
+    .speaking-active {
+      animation: pulseRing 1.1s infinite;
+    }
+
+    /* Efek tombol taktil 3D ala game edukasi */
+    .btn-3d {
+      transition: all 0.15s ease;
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      border-bottom-width: 1px;
+    }
+
+    /* Animasi masuk tab */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-animate {
+      animation: fadeSlideUp 0.35s ease-out forwards;
+    }
+
+    /* Mode layar penuh cadangan jika dibatasi iframe */
+    body.theater-fullscreen #main-container {
+      max-width: 100% !important;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-amber-200 selection:text-slate-900">
+
+  <!-- Toast Notifikasi Non-Blocking (Pengganti alert) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none max-w-xs w-full px-4 sm:px-0"></div>
+
+  <!-- =========================================================
+       BAGIAN 1: TOP HEADER BAR & NAVIGASI TAB DI DALAM HEADER
+       ========================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-sky-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        
+        <!-- Brand / Identitas Mata Pelajaran & Tombol Efek Suara -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 text-white flex items-center justify-center text-xl sm:text-2xl shadow-md shrink-0">
+              🎒
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-display font-bold text-base sm:text-lg text-slate-800 leading-tight">
+                  English Grade 4
+                </span>
+                <span class="hidden sm:inline-block bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full text-[11px] font-extrabold">
+                  Kelas 4 SD
+                </span>
+              </div>
+              <p class="text-xs font-bold text-sky-600">Prepositions of Place</p>
+            </div>
+          </div>
+
+          <!-- Tombol Efek Suara & Full Screen (Tampil di Mobile pada baris atas) -->
+          <div class="lg:hidden flex items-center gap-1.5">
+            <button id="toggle-sfx-btn-mobile" onclick="toggleSoundEffects()" class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-full text-xs font-bold border border-slate-300 transition">
+              <span class="sfx-icon">🔊</span>
+              <span class="sfx-label hidden sm:inline">Suara: Aktif</span>
+            </button>
+            <button onclick="toggleFullScreen()" class="inline-flex items-center gap-1 bg-sky-50 hover:bg-sky-100 text-sky-700 px-2.5 py-1.5 rounded-full text-xs font-bold border border-sky-200 transition" title="Layar Penuh">
+              <span class="fullscreen-icon">⛶</span>
+              <span class="fullscreen-label">Full Screen</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigasi Tab di Dalam Header -->
+        <nav aria-label="Navigasi Materi" class="flex-1 lg:max-w-2xl">
+          <div class="grid grid-cols-3 gap-2 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200">
+            <button id="tab-btn-vocab" onclick="switchTab('vocab')" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base bg-sky-500 text-white shadow-sm transition-all">
+              <span>🃏</span>
+              <span class="truncate">1. Kosakata</span>
+            </button>
+
+            <button id="tab-btn-material" onclick="switchTab('material')" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base text-slate-600 hover:text-slate-900 hover:bg-white/70 transition-all">
+              <span>📘</span>
+              <span class="truncate">2. Materi Lanjutan</span>
+            </button>
+
+            <button id="tab-btn-game" onclick="switchTab('game')" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base text-slate-600 hover:text-slate-900 hover:bg-white/70 transition-all">
+              <span>🎮</span>
+              <span class="truncate">3. Game (PID)</span>
+            </button>
+          </div>
+        </nav>
+
+        <!-- Tombol Efek Suara & Menu Full Screen (Tampil di Desktop) -->
+        <div class="hidden lg:flex items-center gap-2 shrink-0">
+          <button id="toggle-sfx-btn" onclick="toggleSoundEffects()" class="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-full text-xs font-bold border border-slate-300 transition">
+            <span class="sfx-icon">🔊</span>
+            <span class="sfx-label">Efek Suara: Aktif</span>
+          </button>
+          <button onclick="toggleFullScreen()" class="inline-flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 px-3.5 py-2 rounded-full text-xs font-extrabold border border-sky-200 transition" title="Tampilkan Layar Penuh">
+            <span class="fullscreen-icon">⛶</span>
+            <span class="fullscreen-label">Full Screen</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       KONTEN UTAMA BERDASARKAN TAB (MASING-MASING DENGAN HERO SECTION)
+       ========================================================= -->
+  <main id="main-container" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16 transition-all duration-300">
+
+    <!-- =========================================================
+         TAB 1: KOSAKATA FLIPCARD (HERO SECTION + 3 KARTU KE SAMPING)
+         ========================================================= -->
+    <section id="section-vocab" class="tab-animate space-y-6">
+      <!-- HERO SECTION JUDUL MATERI 1: PREPOSITIONS OF PLACE -->
+      <div class="bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 rounded-3xl p-6 sm:p-8 lg:p-10 text-white shadow-xl border-4 border-white/40 relative overflow-hidden">
+        <!-- Dekorasi Latar Hero -->
+        <div class="hidden sm:block absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full pointer-events-none"></div>
+        <div class="hidden sm:block absolute -bottom-16 left-1/3 w-40 h-40 bg-amber-300/15 rounded-full pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-center md:text-left space-y-3 max-w-2xl">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+              <span>🃏 Materi 1 • Kosakata Utama (15 Kartu)</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+              Prepositions of Place
+            </h1>
+            <p class="text-base sm:text-lg font-bold text-amber-200">
+              Kata Depan Tempat dalam Bahasa Inggris
+            </p>
+            <p class="text-sm sm:text-base text-sky-100 leading-relaxed">
+              Klik pada kartu untuk membalik dan melihat contoh kalimat. Tekan tombol <span class="bg-white/20 px-2 py-0.5 rounded-lg font-bold text-white">🔊 Dengar</span> untuk melatih pengucapan setiap kosakata!
+            </p>
+
+            <!-- Kontrol Flip Semua Kartu di dalam Hero -->
+            <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-2.5">
+              <button onclick="flipAllCards(false)" class="btn-3d px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-sky-700 hover:bg-sky-50 border-b-4 border-sky-200 shadow">
+                🔄 Tutup Semua Kartu
+              </button>
+              <button onclick="flipAllCards(true)" class="btn-3d px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-amber-400 text-slate-900 hover:bg-amber-300 border-b-4 border-amber-600 shadow">
+                👀 Buka Semua Contoh
+              </button>
+            </div>
+          </div>
+
+          <!-- Ilustrasi Hero Kosakata -->
+          <div class="shrink-0">
+            <div class="w-32 h-32 sm:w-36 sm:h-36 bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/40 shadow-lg flex items-center justify-center animate-float">
+              <svg viewBox="0 0 120 120" class="w-28 h-28">
+                <rect x="24" y="64" width="72" height="40" rx="8" fill="#FBBF24" stroke="#78350F" stroke-width="3"/>
+                <path d="M24 76 L96 76" stroke="#78350F" stroke-width="3"/>
+                <circle cx="60" cy="40" r="19" fill="#F43F5E" stroke="#FFFFFF" stroke-width="3"/>
+                <circle cx="53" cy="34" r="4.5" fill="#FDA4AF"/>
+                <text x="60" y="96" text-anchor="middle" fill="#78350F" font-family="Fredoka, sans-serif" font-weight="700" font-size="14">ON / IN</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid 3 Kartu Ke Samping (lg:grid-cols-3) -->
+      <div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Kartu akan dirender secara dinamis melalui JavaScript -->
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 2: MATERI LANJUTAN (HERO SECTION + ASKING & TELLING)
+         ========================================================= -->
+    <section id="section-material" class="hidden tab-animate space-y-8">
+      <!-- HERO SECTION JUDUL MATERI 2: ASKING AND TELLING THE POSITION OF THINGS -->
+      <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-6 sm:p-8 lg:p-10 text-white shadow-xl border-4 border-white/40 relative overflow-hidden">
+        <div class="hidden sm:block absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full pointer-events-none"></div>
+        <div class="hidden sm:block absolute -bottom-14 left-1/4 w-44 h-44 bg-yellow-200/15 rounded-full pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-center md:text-left space-y-3 max-w-2xl">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+              <span>📘 Materi 2 • Tata Bahasa &amp; Percakapan</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+              Asking and Telling the Position of Things
+            </h1>
+            <p class="text-base sm:text-lg font-bold text-amber-100">
+              Menanyakan dan Menyatakan Posisi atau Letak Benda
+            </p>
+            <p class="text-sm sm:text-base text-white/95 leading-relaxed">
+              Pelajari cara bertanya menggunakan <strong>Where is / Where are</strong>, pola kalimat jawaban lengkap, kata ganti singkat (<strong>It is / They are</strong>), dan dialog percakapan sehari-hari!
+            </p>
+
+            <!-- Navigasi Cepat Sub-Materi -->
+            <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-2">
+              <a href="#mat-part-a" class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/20 hover:bg-white/30 border border-white/30 transition">A. Asking</a>
+              <a href="#mat-part-b" class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/20 hover:bg-white/30 border border-white/30 transition">B. Telling</a>
+              <a href="#mat-part-c" class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/20 hover:bg-white/30 border border-white/30 transition">C. Short Answers</a>
+              <a href="#mat-part-d" class="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/20 hover:bg-white/30 border border-white/30 transition">D. Dialogue</a>
+            </div>
+          </div>
+
+          <!-- Ilustrasi Hero Materi Lanjutan -->
+          <div class="shrink-0">
+            <div class="w-32 h-32 sm:w-36 sm:h-36 bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/40 shadow-lg flex items-center justify-center animate-float">
+              <svg viewBox="0 0 120 120" class="w-28 h-28">
+                <rect x="16" y="22" width="56" height="34" rx="10" fill="#FFFFFF"/>
+                <polygon points="28,56 38,56 26,66" fill="#FFFFFF"/>
+                <text x="44" y="43" text-anchor="middle" fill="#EA580C" font-family="Fredoka, sans-serif" font-weight="700" font-size="13">Where?</text>
+                <rect x="46" y="66" width="58" height="34" rx="10" fill="#FEF08A"/>
+                <polygon points="84,100 94,100 96,110" fill="#FEF08A"/>
+                <text x="75" y="87" text-anchor="middle" fill="#854D0E" font-family="Fredoka, sans-serif" font-weight="700" font-size="13">It is on!</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAGIAN A: ASKING ABOUT THE POSITION -->
+      <div id="mat-part-a" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-100 space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white font-display font-bold text-2xl flex items-center justify-center shrink-0 shadow">
+            A
+          </div>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-bold text-sky-800">Asking about the Position (Menanyakan Letak Benda)</h3>
+            <p class="text-slate-600 text-sm sm:text-base mt-1">
+              Untuk menanyakan letak benda, kita menggunakan kata tanya <span class="bg-amber-100 text-amber-800 font-extrabold px-2 py-0.5 rounded-lg">Where</span>, yang berarti <strong>di mana</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Sub-bagian 1: One Thing -->
+          <div class="bg-sky-50/70 rounded-2xl p-5 border-2 border-sky-200 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="bg-sky-600 text-white text-xs font-extrabold px-3 py-1 rounded-full">1. Asking about One Thing</span>
+              <span class="text-xs font-bold text-sky-700">Satu Benda</span>
+            </div>
+            <div class="bg-white rounded-xl p-3.5 border border-sky-200 text-center">
+              <p class="font-display font-bold text-base sm:text-lg text-sky-800">
+                Where <span class="text-rose-600">is</span> the + nama benda?
+              </p>
+              <p class="text-xs text-slate-500 mt-1">Digunakan untuk menanyakan letak <strong>satu benda</strong>.</p>
+            </div>
+            <!-- Daftar Contoh Satu Benda -->
+            <div class="space-y-2 pt-1" id="material-one-thing"></div>
+          </div>
+
+          <!-- Sub-bagian 2: Two or More Things -->
+          <div class="bg-amber-50/70 rounded-2xl p-5 border-2 border-amber-200 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="bg-amber-500 text-white text-xs font-extrabold px-3 py-1 rounded-full">2. Asking about Two or More Things</span>
+              <span class="text-xs font-bold text-amber-800">Dua Benda / Lebih</span>
+            </div>
+            <div class="bg-white rounded-xl p-3.5 border border-amber-200 text-center">
+              <p class="font-display font-bold text-base sm:text-lg text-amber-800">
+                Where <span class="text-rose-600">are</span> the + nama benda?
+              </p>
+              <p class="text-xs text-slate-500 mt-1">Digunakan untuk menanyakan letak <strong>dua benda atau lebih</strong>.</p>
+            </div>
+            <!-- Daftar Contoh Banyak Benda -->
+            <div class="space-y-2 pt-1" id="material-many-things"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAGIAN B: TELLING THE POSITION -->
+      <div id="mat-part-b" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-emerald-100 space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white font-display font-bold text-2xl flex items-center justify-center shrink-0 shadow">
+            B
+          </div>
+          <div class="w-full">
+            <h3 class="text-xl sm:text-2xl font-bold text-emerald-800">Telling the Position (Menyatakan Letak Benda)</h3>
+            <p class="text-slate-600 text-sm sm:text-base mt-1">
+              Untuk menjawab pertanyaan tentang posisi benda, gunakan pola kalimat lengkap berikut:
+            </p>
+            <div class="mt-3 bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4 text-center">
+              <p class="font-display font-bold text-base sm:text-xl text-emerald-800">
+                The + nama benda + <span class="text-rose-600">is / are</span> + <span class="text-sky-600">preposition of place</span> + lokasi.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Kartu Contoh Tanya Jawab Lengkap -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="material-telling-examples"></div>
+      </div>
+
+      <!-- BAGIAN C: SHORT ANSWERS (IT IS & THEY ARE) -->
+      <div id="mat-part-c" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-purple-100 space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500 text-white font-display font-bold text-2xl flex items-center justify-center shrink-0 shadow">
+            C
+          </div>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-bold text-purple-800">Short Answers: <span class="text-rose-500">It Is</span> and <span class="text-sky-600">They Are</span></h3>
+            <p class="text-slate-600 text-sm sm:text-base mt-1">
+              Kita juga dapat menggunakan <strong>kata ganti</strong> agar tidak perlu mengulang nama benda yang sama!
+            </p>
+          </div>
+        </div>
+
+        <!-- Kotak Ingat! -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-rose-500 text-white font-display font-bold text-lg flex items-center justify-center shrink-0">
+              It is
+            </div>
+            <div>
+              <p class="font-bold text-rose-800 text-sm sm:text-base">Ingat! It is ...</p>
+              <p class="text-xs sm:text-sm text-rose-700">Digunakan untuk menggantikan <strong>satu benda</strong> (contoh: <em>the lamp, the picture</em>).</p>
+            </div>
+          </div>
+
+          <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-sky-500 text-white font-display font-bold text-lg flex items-center justify-center shrink-0">
+              They are
+            </div>
+            <div>
+              <p class="font-bold text-sky-800 text-sm sm:text-base">Ingat! They are ...</p>
+              <p class="text-xs sm:text-sm text-sky-700">Digunakan untuk menggantikan <strong>dua benda atau lebih</strong> (contoh: <em>the books, the sandals</em>).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabel Interaktif Short Answers -->
+        <div class="overflow-x-auto rounded-2xl border-2 border-purple-100">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-purple-100/70 text-purple-900 text-xs sm:text-sm font-extrabold uppercase">
+                <th class="p-3.5">Question (Pertanyaan)</th>
+                <th class="p-3.5">Short Answer (Jawaban Singkat)</th>
+                <th class="p-3.5">Arti</th>
+                <th class="p-3.5 text-center">Audio</th>
+              </tr>
+            </thead>
+            <tbody id="material-short-answers" class="divide-y divide-purple-100 text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BAGIAN D: EXAMPLE OF DIALOGUE (PERCAKAPAN RAFI & DIKA) -->
+      <div id="mat-part-d" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-amber-200 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white font-display font-bold text-2xl flex items-center justify-center shrink-0 shadow">
+              D
+            </div>
+            <div>
+              <h3 class="text-xl sm:text-2xl font-bold text-amber-800">Example of Dialogue (Contoh Percakapan)</h3>
+              <p class="text-slate-600 text-sm">Simak percakapan antara <strong>Rafi</strong> dan <strong>Dika</strong> di bawah ini!</p>
+            </div>
+          </div>
+
+          <button onclick="playFullDialogue()" class="btn-3d inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2.5 rounded-2xl border-b-4 border-amber-700 text-sm shadow">
+            <span>🔊</span>
+            <span>Putar Semua Percakapan</span>
+          </button>
+        </div>
+
+        <!-- Gelembung Chat Komik Rafi & Dika -->
+        <div class="bg-gradient-to-b from-sky-50 to-amber-50/50 rounded-2xl p-5 sm:p-6 border-2 border-amber-100 space-y-4">
+          <!-- Line 1: Rafi -->
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 rounded-full bg-sky-500 text-white font-display font-bold flex items-center justify-center shrink-0 border-2 border-white shadow">
+              👦
+            </div>
+            <div class="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-sky-200 max-w-lg flex-1">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="text-xs font-extrabold text-sky-600 uppercase">Rafi</span>
+                <button onclick="speakText('Where is the lamp?', this)" class="text-xs bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold px-2.5 py-1 rounded-lg transition">🔊 Dengar</button>
+              </div>
+              <p class="font-bold text-slate-800 text-base">Where is the lamp?</p>
+              <p class="text-xs text-slate-500 mt-1 italic">Artinya: Di mana lampunya?</p>
+            </div>
+          </div>
+
+          <!-- Line 2: Dika -->
+          <div class="flex items-start justify-end gap-3">
+            <div class="bg-emerald-500 text-white rounded-2xl rounded-tr-none p-4 shadow-sm max-w-lg flex-1">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="text-xs font-extrabold text-emerald-100 uppercase">Dika</span>
+                <button onclick="speakText('It is on the desk.', this)" class="text-xs bg-white/20 hover:bg-white/30 text-white font-bold px-2.5 py-1 rounded-lg transition">🔊 Dengar</button>
+              </div>
+              <p class="font-bold text-base">It is on the desk.</p>
+              <p class="text-xs text-emerald-100 mt-1 italic">Artinya: Lampu berada di atas meja belajar.</p>
+            </div>
+            <div class="w-11 h-11 rounded-full bg-amber-400 text-slate-900 font-display font-bold flex items-center justify-center shrink-0 border-2 border-white shadow">
+              🧑
+            </div>
+          </div>
+
+          <!-- Line 3: Rafi -->
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 rounded-full bg-sky-500 text-white font-display font-bold flex items-center justify-center shrink-0 border-2 border-white shadow">
+              👦
+            </div>
+            <div class="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-sky-200 max-w-lg flex-1">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="text-xs font-extrabold text-sky-600 uppercase">Rafi</span>
+                <button onclick="speakText('Where are the books?', this)" class="text-xs bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold px-2.5 py-1 rounded-lg transition">🔊 Dengar</button>
+              </div>
+              <p class="font-bold text-slate-800 text-base">Where are the books?</p>
+              <p class="text-xs text-slate-500 mt-1 italic">Artinya: Di mana buku-bukunya?</p>
+            </div>
+          </div>
+
+          <!-- Line 4: Dika -->
+          <div class="flex items-start justify-end gap-3">
+            <div class="bg-emerald-500 text-white rounded-2xl rounded-tr-none p-4 shadow-sm max-w-lg flex-1">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="text-xs font-extrabold text-emerald-100 uppercase">Dika</span>
+                <button onclick="speakText('They are on the shelf.', this)" class="text-xs bg-white/20 hover:bg-white/30 text-white font-bold px-2.5 py-1 rounded-lg transition">🔊 Dengar</button>
+              </div>
+              <p class="font-bold text-base">They are on the shelf.</p>
+              <p class="text-xs text-emerald-100 mt-1 italic">Artinya: Buku-buku berada di rak.</p>
+            </div>
+            <div class="w-11 h-11 rounded-full bg-amber-400 text-slate-900 font-display font-bold flex items-center justify-center shrink-0 border-2 border-white shadow">
+              🧑
+            </div>
+          </div>
+        </div>
+
+        <!-- Tombol Lanjut ke Game -->
+        <div class="text-center pt-2">
+          <button onclick="switchTab('game')" class="btn-3d inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-lg px-7 py-3.5 rounded-2xl border-b-4 border-emerald-700 shadow-lg">
+            <span>🎮 Siap Bermain &amp; Latihan 30 Soal!</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 3: GAME PAPAN INTERAKTIF DIGITAL (PID) - 30 SOAL
+         ========================================================= -->
+    <section id="section-game" class="hidden tab-animate space-y-6">
+      <!-- HERO SECTION AWAL GAME (TAMPIL SEBELUM PLAY GAME, HILANG SETELAH PLAY GAME) -->
+      <div id="game-hero-section" class="bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 rounded-3xl p-8 sm:p-12 lg:p-14 text-white shadow-xl border-4 border-white/40 relative overflow-hidden">
+        <div class="hidden sm:block absolute -top-12 -right-12 w-56 h-56 bg-white/10 rounded-full pointer-events-none"></div>
+        <div class="hidden sm:block absolute -bottom-16 left-1/3 w-48 h-48 bg-emerald-200/15 rounded-full pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="text-center md:text-left space-y-4 max-w-2xl">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+              <span>🖥️ Mode Papan Interaktif Digital (PID) • 30 Soal</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+              Game Menyusun Kalimat
+            </h1>
+            <p class="text-base sm:text-xl font-bold text-amber-200">
+              15 Soal Kalimat Pertanyaan &amp; 15 Soal Kalimat Jawaban
+            </p>
+            <p class="text-sm sm:text-base text-white/95 leading-relaxed">
+              Sentuh pilihan kata pada layar <strong>Papan Interaktif Digital (PID)</strong> untuk menyusun kalimat bahasa Inggris yang tepat!
+            </p>
+
+            <!-- Tombol Play Game & Full Screen -->
+            <div class="pt-3 flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <button type="button" onclick="startPidGame()" class="btn-3d inline-flex items-center gap-3 bg-amber-400 hover:bg-amber-300 text-slate-900 font-display font-bold text-xl sm:text-2xl px-8 py-4 rounded-2xl border-b-4 border-amber-600 shadow-xl">
+                <span>▶️</span>
+                <span>Play Game</span>
+              </button>
+              <button type="button" onclick="toggleFullScreen()" class="btn-3d inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white font-display font-semibold text-base sm:text-lg px-5 py-4 rounded-2xl border border-white/40 shadow">
+                <span class="fullscreen-icon">⛶</span>
+                <span class="fullscreen-label">Full Screen</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Ilustrasi Hero Papan Interaktif Digital -->
+          <div class="shrink-0">
+            <div class="w-36 h-36 sm:w-44 sm:h-44 bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/40 shadow-lg flex items-center justify-center animate-float">
+              <svg viewBox="0 0 120 120" class="w-32 h-32">
+                <rect x="18" y="24" width="84" height="58" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="4"/>
+                <rect x="26" y="32" width="68" height="42" rx="4" fill="#CCFBF1"/>
+                <text x="60" y="58" text-anchor="middle" fill="#0F766E" font-family="Fredoka, sans-serif" font-weight="700" font-size="18">PID 30</text>
+                <rect x="48" y="82" width="24" height="10" fill="#FBBF24"/>
+                <rect x="36" y="92" width="48" height="7" rx="3.5" fill="#FFFFFF"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARENA PERMAINAN FULL (TERSEMBUNYI SAAT HERO TAMPIL, MUNCUL PENUH SETELAH PLAY GAME) -->
+      <div id="game-play-screen" class="hidden space-y-5">
+        <!-- Header Status PID, Navigasi Bagian & Skor -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-md border-2 border-emerald-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white font-display font-bold text-2xl flex items-center justify-center shadow shrink-0">
+              🖥️
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-display font-bold text-slate-800 text-base sm:text-lg">Papan Interaktif Digital</span>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-300">Siap Sentuh</span>
+              </div>
+              <p id="hud-category" class="text-xs sm:text-sm font-bold text-sky-600 mt-0.5">Bagian 1: Menyusun Kalimat Pertanyaan (Soal 1–15)</p>
+            </div>
+          </div>
+
+          <!-- Tombol Lompat Cepat Bagian Soal (Memudahkan Guru di PID) -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="jumpToSection(0)" id="jump-asking-btn" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-sky-500 text-white shadow-sm transition">
+              ❓ 1–15: Pertanyaan
+            </button>
+            <button type="button" onclick="jumpToSection(15)" id="jump-answering-btn" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-100 text-slate-700 hover:bg-amber-100 transition">
+              💬 16–30: Jawaban
+          <!-- Progress, Skor, Full Screen & Reset -->
+          <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2.5 sm:gap-3 border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100">
+            <div class="text-center bg-slate-50 px-3.5 py-1.5 rounded-2xl border border-slate-200">
+              <p class="text-[11px] uppercase font-extrabold text-slate-400">Soal</p>
+              <p class="font-display font-bold text-lg sm:text-xl text-slate-800"><span id="hud-q-num">1</span><span class="text-slate-400 text-sm">/30</span></p>
+            </div>
+            <div class="text-center bg-amber-50 px-3.5 py-1.5 rounded-2xl border border-amber-200">
+              <p class="text-[11px] uppercase font-extrabold text-amber-600">Skor</p>
+              <p id="hud-score" class="font-display font-bold text-lg sm:text-xl text-amber-600">0</p>
+            </div>
+            <button type="button" onclick="toggleFullScreen()" class="btn-3d bg-sky-50 hover:bg-sky-100 text-sky-700 font-extrabold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-sky-300 transition" title="Mode Layar Penuh">
+              <span class="fullscreen-icon">⛶</span> <span class="fullscreen-label">Full Screen</span>
+            </button>
+            <button type="button" onclick="restartPidGame()" class="btn-3d bg-slate-100 hover:bg-rose-100 text-slate-700 hover:text-rose-700 font-extrabold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 transition" title="Mulai ulang dari soal nomor 1">
+              ↺ Ulangi
+            </button>
+          </div>
+        </div>
+
+        <!-- Progress Bar Visual -->
+        <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden p-0.5 shadow-inner">
+          <div id="game-progress-bar" class="bg-gradient-to-r from-sky-500 via-emerald-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 3.33%"></div>
+        </div>
+
+        <!-- Kartu Soal Utama (Dioptimalkan untuk Layar Sentuh Besar PID) -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-sky-100 space-y-6">
+          <!-- Badge Tipe Soal & Tombol Bantuan -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <span id="q-type-badge" class="inline-flex items-center gap-1.5 bg-sky-100 text-sky-800 px-4 py-2 rounded-full text-xs sm:text-sm font-extrabold">
+              ❓ Bagian 1 (Soal 1–15): Menyusun Kalimat Pertanyaan
+            </span>
+            <button id="q-hint-btn" type="button" onclick="useHint()" class="btn-3d inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-2 rounded-full text-xs sm:text-sm font-extrabold border border-amber-300 transition">
+              💡 Bantuan Kata Pertama
+            </button>
+          </div>
+
+          <!-- Petunjuk / Konteks Soal -->
+          <div id="q-prompt-box" class="bg-gradient-to-r from-sky-50 to-indigo-50 rounded-2xl p-5 sm:p-6 border-2 border-sky-200 space-y-2">
+            <p id="q-instruction" class="text-xs sm:text-sm font-extrabold text-sky-700 uppercase tracking-wide">
+              Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:
+            </p>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <p id="q-context-en" class="font-display font-bold text-2xl sm:text-3xl text-slate-800">
+                  Jawaban: The clock is on the desk.
+                </p>
+                <p id="q-context-id" class="text-sm sm:text-base font-semibold text-slate-600 mt-1.5">
+                  Arti pertanyaan: Di mana jamnya?
+                </p>
+              </div>
+              <button type="button" onclick="speakCurrentPrompt()" class="btn-3d self-start sm:self-center shrink-0 inline-flex items-center gap-2 bg-white hover:bg-sky-100 text-sky-700 border-2 border-sky-300 px-4 py-2.5 rounded-2xl text-sm font-extrabold shadow-sm transition">
+                <span>🔊</span>
+                <span>Dengar Petunjuk</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Area Jawaban Siswa (Slot Susunan Kata Besar untuk PID) -->
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="text-xs sm:text-sm font-extrabold text-slate-600 uppercase">Susunan Kalimatmu (Sentuh kata untuk menghapus):</label>
+              <button type="button" onclick="clearCurrentAnswer()" class="text-xs sm:text-sm font-extrabold text-rose-600 hover:underline px-2 py-1">
+                ↺ Kosongkan Susunan
+              </button>
+            </div>
+            <div id="answer-dropzone" class="min-h-[88px] sm:min-h-[96px] p-4 sm:p-5 rounded-2xl bg-slate-50 border-2 border-dashed border-sky-300 flex flex-wrap items-center gap-3 transition">
+              <span class="text-sm sm:text-base text-slate-400 italic select-none">Sentuh pilihan kata di bawah untuk menyusun kalimat...</span>
+            </div>
+          </div>
+
+          <!-- Bank Kata (Pilihan Kata Acak Besar untuk PID) -->
+          <div class="space-y-2.5">
+            <label class="text-xs sm:text-sm font-extrabold text-slate-600 uppercase">Pilihan Kata (Sentuh untuk menyusun):</label>
+            <div id="word-bank" class="min-h-[84px] p-4 sm:p-5 rounded-2xl bg-amber-50/70 border-2 border-amber-200 flex flex-wrap items-center gap-3">
+              <!-- Tombol kata dirender di sini -->
+            </div>
+          </div>
+
+          <!-- Feedback Pemeriksaan Jawaban -->
+          <div id="q-feedback-box" class="hidden rounded-2xl p-5 border-2 transition"></div>
+
+          <!-- Tombol Aksi Bawah Besar -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <button id="check-answer-btn" type="button" onclick="checkSentenceAnswer()" class="w-full sm:w-auto flex-1 btn-3d bg-sky-500 hover:bg-sky-600 text-white font-display font-bold text-lg sm:text-xl py-4 px-6 rounded-2xl border-b-4 border-sky-700 shadow-md">
+              ✅ Periksa Jawaban
+            </button>
+            <button id="next-question-btn" type="button" onclick="nextQuestion()" class="hidden w-full sm:w-auto flex-1 btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-lg sm:text-xl py-4 px-6 rounded-2xl border-b-4 border-emerald-700 shadow-md">
+              Soal Berikutnya ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYAR HASIL AKHIR AKTIVITAS PID -->
+      <div id="game-result-screen" class="hidden max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-amber-300 text-center space-y-6">
+        <div class="space-y-2">
+          <div id="result-trophy" class="text-6xl sm:text-7xl animate-bounce">🏆</div>
+          <h2 class="text-2xl sm:text-4xl font-bold text-slate-800">Aktivitas PID Selesai!</h2>
+          <p id="result-message" class="text-slate-600 font-semibold text-base sm:text-lg">Kerja bagus dalam menyusun 30 kalimat Prepositions of Place!</p>
+        </div>
+
+        <!-- Ringkasan Skor Kelas -->
+        <div class="bg-gradient-to-br from-sky-50 via-white to-amber-50 rounded-2xl p-6 border-2 border-sky-200 space-y-4 shadow-inner">
+          <p class="text-xs sm:text-sm font-extrabold text-sky-700 uppercase tracking-wider">Hasil Aktivitas Papan Interaktif Digital (PID)</p>
+
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="bg-white p-4 rounded-xl border border-slate-200">
+              <p class="text-xs font-bold text-slate-400">Nilai Akhir</p>
+              <p id="res-final-score" class="font-display font-bold text-3xl sm:text-4xl text-emerald-600">100</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200">
+              <p class="text-xs font-bold text-slate-400">Benar</p>
+              <p class="font-display font-bold text-3xl sm:text-4xl text-sky-600"><span id="res-correct">30</span>/30</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200">
+              <p class="text-xs font-bold text-slate-400">Predikat</p>
+              <p id="res-grade" class="font-display font-bold text-lg sm:text-xl text-amber-500 mt-1.5">⭐⭐⭐</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center pt-2">
+          <button type="button" onclick="restartPidGame()" class="btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-lg sm:text-xl px-8 py-4 rounded-2xl border-b-4 border-emerald-700 shadow-lg">
+            🔄 Main Lagi dari Soal 1
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- =========================================================
+       FOOTER RINGKAS
+       ========================================================= -->
+  <footer class="bg-white/80 border-t border-sky-100 py-5 px-4 text-center text-xs sm:text-sm text-slate-500">
+    <p class="font-bold text-slate-600">Media Pembelajaran Interaktif Bahasa Inggris • Kelas 4 SD</p>
+    <p class="mt-0.5">Materi: Prepositions of Place — Asking and Telling the Position of Things</p>
+  </footer>
+
+  <!-- =========================================================
+       JAVASCRIPT: DATA MATERI, TTS, FLIPCARD, DAN GAME 30 SOAL
+       ========================================================= -->
+  <script>
+    /* ========================================================================
+       1. DATA 15 KOSAKATA PREPOSITIONS OF PLACE (SESUAI MATERI KELAS 4 SD)
+       ======================================================================== */
+    const VOCAB_DATA = [
+      {
+        no: 1,
+        word: "On",
+        meaning: "Di atas (menempel)",
+        sentenceEn: "The clock is on the desk.",
+        sentenceId: "Jam berada di atas meja belajar.",
+        color: "sky",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="25" y="45" width="70" height="8" rx="3" fill="#D97706"/>
+          <rect x="32" y="53" width="6" height="16" fill="#92400E"/>
+          <rect x="82" y="53" width="6" height="16" fill="#92400E"/>
+          <circle cx="60" cy="31" r="13" fill="#0EA5E9" stroke="#0369A1" stroke-width="2.5"/>
+          <path d="M60 24 V31 L65 34" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </svg>`
+      },
+      {
+        no: 2,
+        word: "Above",
+        meaning: "Di atas (tidak menempel)",
+        sentenceEn: "The picture is above the bed.",
+        sentenceId: "Gambar berada di atas tempat tidur.",
+        color: "amber",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="44" y="8" width="32" height="22" rx="3" fill="#FEF3C7" stroke="#D97706" stroke-width="2.5"/>
+          <circle cx="54" cy="16" r="3" fill="#F59E0B"/>
+          <path d="M48 26 L57 19 L64 24 L69 20 L73 26 Z" fill="#10B981"/>
+          <rect x="24" y="46" width="72" height="18" rx="4" fill="#38BDF8"/>
+          <rect x="24" y="38" width="10" height="28" rx="2" fill="#0284C7"/>
+          <rect x="36" y="41" width="16" height="7" rx="3" fill="#FFF"/>
+        </svg>`
+      },
+      {
+        no: 3,
+        word: "In",
+        meaning: "Di dalam",
+        sentenceEn: "The blanket is in the drawer.",
+        sentenceId: "Selimut berada di dalam laci.",
+        color: "emerald",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="30" y="24" width="60" height="42" rx="5" fill="#F59E0B" stroke="#B45309" stroke-width="2.5"/>
+          <rect x="38" y="32" width="44" height="24" rx="3" fill="#78350F"/>
+          <rect x="44" y="38" width="32" height="15" rx="4" fill="#34D399"/>
+          <path d="M44 45 H76" stroke="#059669" stroke-width="2"/>
+        </svg>`
+      },
+      {
+        no: 4,
+        word: "Under",
+        meaning: "Di bawah",
+        sentenceEn: "The sandals are under the bed.",
+        sentenceId: "Sandal berada di bawah tempat tidur.",
+        color: "rose",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="22" y="26" width="76" height="14" rx="4" fill="#60A5FA"/>
+          <rect x="22" y="18" width="8" height="46" rx="2" fill="#2563EB"/>
+          <rect x="90" y="24" width="8" height="40" rx="2" fill="#2563EB"/>
+          <ellipse cx="50" cy="58" rx="9" ry="4.5" fill="#F43F5E"/>
+          <ellipse cx="70" cy="58" rx="9" ry="4.5" fill="#F43F5E"/>
+        </svg>`
+      },
+      {
+        no: 5,
+        word: "Between",
+        meaning: "Di antara (dua benda)",
+        sentenceEn: "The bolster is between the two pillows.",
+        sentenceId: "Bantal guling berada di antara dua bantal.",
+        color: "purple",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="16" y="24" width="28" height="28" rx="7" fill="#C4B5FD" stroke="#7C3AED" stroke-width="2.5"/>
+          <rect x="76" y="24" width="28" height="28" rx="7" fill="#C4B5FD" stroke="#7C3AED" stroke-width="2.5"/>
+          <rect x="51" y="18" width="18" height="40" rx="9" fill="#F59E0B" stroke="#B45309" stroke-width="2.5"/>
+        </svg>`
+      },
+      {
+        no: 6,
+        word: "Beside",
+        meaning: "Di samping",
+        sentenceEn: "The lamp is beside the bed.",
+        sentenceId: "Lampu berada di samping tempat tidur.",
+        color: "sky",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="18" y="36" width="54" height="22" rx="4" fill="#38BDF8"/>
+          <rect x="18" y="26" width="8" height="36" rx="2" fill="#0284C7"/>
+          <polygon points="84,36 102,36 98,20 88,20" fill="#FBBF24" stroke="#D97706" stroke-width="2"/>
+          <rect x="91" y="36" width="4" height="18" fill="#78350F"/>
+          <ellipse cx="93" cy="56" rx="9" ry="3" fill="#78350F"/>
+        </svg>`
+      },
+      {
+        no: 7,
+        word: "Next to",
+        meaning: "Di sebelah",
+        sentenceEn: "The chair is next to the desk.",
+        sentenceId: "Kursi berada di sebelah meja belajar.",
+        color: "amber",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="22" y="34" width="46" height="7" rx="2" fill="#D97706"/>
+          <rect x="26" y="41" width="5" height="22" fill="#92400E"/>
+          <rect x="59" y="41" width="5" height="22" fill="#92400E"/>
+          <rect x="78" y="24" width="5" height="39" rx="2" fill="#0EA5E9"/>
+          <rect x="78" y="43" width="20" height="5" rx="2" fill="#0EA5E9"/>
+          <rect x="93" y="48" width="5" height="15" fill="#0284C7"/>
+        </svg>`
+      },
+      {
+        no: 8,
+        word: "Behind",
+        meaning: "Di belakang",
+        sentenceEn: "The sandals are behind the door.",
+        sentenceId: "Sandal berada di belakang pintu.",
+        color: "emerald",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <ellipse cx="78" cy="56" rx="8" ry="4" fill="#F43F5E"/>
+          <ellipse cx="86" cy="52" rx="8" ry="4" fill="#F43F5E"/>
+          <rect x="34" y="12" width="38" height="54" rx="3" fill="#10B981" stroke="#047857" stroke-width="2.5"/>
+          <circle cx="65" cy="40" r="3" fill="#FEF08A"/>
+        </svg>`
+      },
+      {
+        no: 9,
+        word: "In front of",
+        meaning: "Di depan",
+        sentenceEn: "The carpet is in front of the bed.",
+        sentenceId: "Karpet berada di depan tempat tidur.",
+        color: "rose",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="26" y="16" width="68" height="24" rx="4" fill="#93C5FD" stroke="#2563EB" stroke-width="2"/>
+          <rect x="30" y="20" width="24" height="10" rx="3" fill="#FFF"/>
+          <rect x="66" y="20" width="24" height="10" rx="3" fill="#FFF"/>
+          <polygon points="32,46 88,46 96,64 24,64" fill="#FB7185" stroke="#E11D48" stroke-width="2"/>
+        </svg>`
+      },
+      {
+        no: 10,
+        word: "Near",
+        meaning: "Dekat",
+        sentenceEn: "The desk is near the window.",
+        sentenceId: "Meja belajar berada dekat jendela.",
+        color: "purple",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="20" y="14" width="34" height="30" rx="3" fill="#BAE6FD" stroke="#0284C7" stroke-width="2.5"/>
+          <path d="M37 14 V44 M20 29 H54" stroke="#0284C7" stroke-width="2"/>
+          <rect x="58" y="42" width="42" height="6" rx="2" fill="#F59E0B"/>
+          <rect x="62" y="48" width="5" height="16" fill="#B45309"/>
+          <rect x="91" y="48" width="5" height="16" fill="#B45309"/>
+        </svg>`
+      },
+      {
+        no: 11,
+        word: "Inside",
+        meaning: "Di dalam (ruang tertutup)",
+        sentenceEn: "The blanket is inside the wardrobe.",
+        sentenceId: "Selimut berada di dalam lemari pakaian.",
+        color: "sky",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="34" y="12" width="52" height="52" rx="4" fill="#FDE68A" stroke="#B45309" stroke-width="2.5"/>
+          <line x1="34" y1="38" x2="86" y2="38" stroke="#B45309" stroke-width="2"/>
+          <rect x="44" y="44" width="32" height="14" rx="4" fill="#0EA5E9"/>
+        </svg>`
+      },
+      {
+        no: 12,
+        word: "Outside",
+        meaning: "Di luar",
+        sentenceEn: "The sandals are outside the bedroom.",
+        sentenceId: "Sandal berada di luar kamar tidur.",
+        color: "amber",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="20" y="14" width="44" height="50" rx="4" fill="#E0F2FE" stroke="#0284C7" stroke-width="2.5"/>
+          <text x="42" y="42" text-anchor="middle" fill="#0369A1" font-family="Fredoka, sans-serif" font-size="10" font-weight="700">ROOM</text>
+          <ellipse cx="82" cy="54" rx="8" ry="4" fill="#F59E0B"/>
+          <ellipse cx="98" cy="54" rx="8" ry="4" fill="#F59E0B"/>
+        </svg>`
+      },
+      {
+        no: 13,
+        word: "Below",
+        meaning: "Di bawah (lebih rendah)",
+        sentenceEn: "The drawer is below the desk.",
+        sentenceId: "Laci berada di bawah meja belajar.",
+        color: "emerald",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="26" y="22" width="68" height="7" rx="2" fill="#D97706"/>
+          <rect x="30" y="29" width="5" height="34" fill="#92400E"/>
+          <rect x="85" y="29" width="5" height="34" fill="#92400E"/>
+          <rect x="44" y="34" width="32" height="18" rx="3" fill="#34D399" stroke="#059669" stroke-width="2"/>
+          <circle cx="60" cy="43" r="2.5" fill="#064E3B"/>
+        </svg>`
+      },
+      {
+        no: 14,
+        word: "Opposite",
+        meaning: "Berhadapan dengan",
+        sentenceEn: "The bed is opposite the wardrobe.",
+        sentenceId: "Tempat tidur berhadapan dengan lemari pakaian.",
+        color: "rose",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="16" y="34" width="34" height="22" rx="4" fill="#38BDF8"/>
+          <rect x="16" y="24" width="6" height="34" fill="#0284C7"/>
+          <path d="M54 44 H68 M57 40 L53 44 L57 48 M65 40 L69 44 L65 48" stroke="#F43F5E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="74" y="16" width="30" height="44" rx="3" fill="#FBBF24" stroke="#B45309" stroke-width="2"/>
+          <line x1="89" y1="16" x2="89" y2="60" stroke="#B45309" stroke-width="2"/>
+        </svg>`
+      },
+      {
+        no: 15,
+        word: "Among",
+        meaning: "Di antara (banyak benda)",
+        sentenceEn: "The chair is among the bed, desk, and wardrobe.",
+        sentenceId: "Kursi berada di antara tempat tidur, meja belajar, dan lemari pakaian.",
+        color: "purple",
+        svg: `<svg viewBox="0 0 120 75" class="w-full h-16 mx-auto">
+          <rect x="14" y="14" width="24" height="18" rx="3" fill="#93C5FD"/>
+          <rect x="82" y="14" width="24" height="18" rx="3" fill="#FCD34D"/>
+          <rect x="14" y="46" width="24" height="18" rx="3" fill="#6EE7B7"/>
+          <rect x="82" y="46" width="24" height="18" rx="3" fill="#FDA4AF"/>
+          <circle cx="60" cy="39" r="12" fill="#8B5CF6" stroke="#5B21B6" stroke-width="2.5"/>
+          <text x="60" y="43" text-anchor="middle" fill="#FFF" font-family="Fredoka, sans-serif" font-size="9" font-weight="700">CHAIR</text>
+        </svg>`
+      }
+    ];
+
+    /* ========================================================================
+       2. DATA MATERI LANJUTAN (ASKING & TELLING THE POSITION OF THINGS)
+       ======================================================================== */
+    const MATERIAL_ONE_THING = [
+      { q: "Where is the bed?", id: "Di mana tempat tidurnya?" },
+      { q: "Where is the lamp?", id: "Di mana lampunya?" },
+      { q: "Where is the blanket?", id: "Di mana selimutnya?" },
+      { q: "Where is the wardrobe?", id: "Di mana lemari pakaiannya?" },
+      { q: "Where is the picture?", id: "Di mana gambarnya?" }
+    ];
+
+    const MATERIAL_MANY_THINGS = [
+      { q: "Where are the books?", id: "Di mana buku-bukunya?" },
+      { q: "Where are the pillows?", id: "Di mana bantal-bantalnya?" },
+      { q: "Where are the sandals?", id: "Di mana sandal-sandalnya?" },
+      { q: "Where are the curtains?", id: "Di mana gordennya?" }
+    ];
+
+    const MATERIAL_TELLING = [
+      {
+        q: "Where is the lamp?",
+        a: "The lamp is on the desk.",
+        qId: "Di mana lampunya?",
+        aId: "Lampu berada di atas meja belajar."
+      },
+      {
+        q: "Where are the sandals?",
+        a: "The sandals are under the bed.",
+        qId: "Di mana sandal-sandalnya?",
+        aId: "Sandal-sandal berada di bawah tempat tidur."
+      },
+      {
+        q: "Where is the picture?",
+        a: "The picture is above the bed.",
+        qId: "Di mana gambarnya?",
+        aId: "Gambar berada di atas tempat tidur."
+      },
+      {
+        q: "Where are the books?",
+        a: "The books are on the shelf.",
+        qId: "Di mana buku-bukunya?",
+        aId: "Buku-buku berada di rak."
+      }
+    ];
+
+    const MATERIAL_SHORT_ANSWERS = [
+      { q: "Where is the lamp?", a: "It is on the desk.", id: "Lampu berada di atas meja." },
+      { q: "Where is the picture?", a: "It is above the bed.", id: "Gambar berada di atas tempat tidur." },
+      { q: "Where are the books?", a: "They are on the shelf.", id: "Buku-buku berada di rak." },
+      { q: "Where are the sandals?", a: "They are under the bed.", id: "Sandal-sandal berada di bawah tempat tidur." }
+    ];
+
+    /* ========================================================================
+       3. DATA 30 SOAL GAME PAPAN INTERAKTIF DIGITAL (PID)
+          - Soal 1 - 15  : 15 Soal Menyusun Kalimat Pertanyaan
+          - Soal 16 - 30 : 15 Soal Menyusun Kalimat Jawaban
+       ======================================================================== */
+    const GAME_QUESTIONS = [
+      // --- BAGIAN 1: 15 SOAL MENYUSUN KALIMAT PERTANYAAN (1 - 15) ---
+      {
+        id: 1,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The clock is on the desk.",
+        promptId: "Arti pertanyaan: Di mana jamnya?",
+        ttsPrompt: "The clock is on the desk.",
+        tokens: ["Where", "is", "the", "clock", "?"]
+      },
+      {
+        id: 2,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The sandals are under the bed.",
+        promptId: "Arti pertanyaan: Di mana sandal-sandalnya?",
+        ttsPrompt: "The sandals are under the bed.",
+        tokens: ["Where", "are", "the", "sandals", "?"]
+      },
+      {
+        id: 3,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The picture is above the bed.",
+        promptId: "Arti pertanyaan: Di mana gambarnya?",
+        ttsPrompt: "The picture is above the bed.",
+        tokens: ["Where", "is", "the", "picture", "?"]
+      },
+      {
+        id: 4,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The books are on the shelf.",
+        promptId: "Arti pertanyaan: Di mana buku-bukunya?",
+        ttsPrompt: "The books are on the shelf.",
+        tokens: ["Where", "are", "the", "books", "?"]
+      },
+      {
+        id: 5,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The blanket is in the drawer.",
+        promptId: "Arti pertanyaan: Di mana selimutnya?",
+        ttsPrompt: "The blanket is in the drawer.",
+        tokens: ["Where", "is", "the", "blanket", "?"]
+      },
+      {
+        id: 6,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The pillows are on the bed.",
+        promptId: "Arti pertanyaan: Di mana bantal-bantalnya?",
+        ttsPrompt: "The pillows are on the bed.",
+        tokens: ["Where", "are", "the", "pillows", "?"]
+      },
+      {
+        id: 7,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The lamp is beside the bed.",
+        promptId: "Arti pertanyaan: Di mana lampunya?",
+        ttsPrompt: "The lamp is beside the bed.",
+        tokens: ["Where", "is", "the", "lamp", "?"]
+      },
+      {
+        id: 8,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The curtains are near the window.",
+        promptId: "Arti pertanyaan: Di mana gorden-gordennya?",
+        ttsPrompt: "The curtains are near the window.",
+        tokens: ["Where", "are", "the", "curtains", "?"]
+      },
+      {
+        id: 9,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The wardrobe is opposite the bed.",
+        promptId: "Arti pertanyaan: Di mana lemari pakaiannya?",
+        ttsPrompt: "The wardrobe is opposite the bed.",
+        tokens: ["Where", "is", "the", "wardrobe", "?"]
+      },
+      {
+        id: 10,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The chair is next to the desk.",
+        promptId: "Arti pertanyaan: Di mana kursinya?",
+        ttsPrompt: "The chair is next to the desk.",
+        tokens: ["Where", "is", "the", "chair", "?"]
+      },
+      {
+        id: 11,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The bolster is between the two pillows.",
+        promptId: "Arti pertanyaan: Di mana bantal gulingnya?",
+        ttsPrompt: "The bolster is between the two pillows.",
+        tokens: ["Where", "is", "the", "bolster", "?"]
+      },
+      {
+        id: 12,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The carpet is in front of the bed.",
+        promptId: "Arti pertanyaan: Di mana karpetnya?",
+        ttsPrompt: "The carpet is in front of the bed.",
+        tokens: ["Where", "is", "the", "carpet", "?"]
+      },
+      {
+        id: 13,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The desk is near the window.",
+        promptId: "Arti pertanyaan: Di mana meja belajarnya?",
+        ttsPrompt: "The desk is near the window.",
+        tokens: ["Where", "is", "the", "desk", "?"]
+      },
+      {
+        id: 14,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The drawer is below the desk.",
+        promptId: "Arti pertanyaan: Di mana lacinya?",
+        ttsPrompt: "The drawer is below the desk.",
+        tokens: ["Where", "is", "the", "drawer", "?"]
+      },
+      {
+        id: 15,
+        category: "Asking",
+        instruction: "Susunlah kalimat PERTANYAAN berdasarkan jawaban ini:",
+        promptEn: "Jawaban: The bed is opposite the wardrobe.",
+        promptId: "Arti pertanyaan: Di mana tempat tidurnya?",
+        ttsPrompt: "The bed is opposite the wardrobe.",
+        tokens: ["Where", "is", "the", "bed", "?"]
+      },
+
+      // --- BAGIAN 2: 15 SOAL MENYUSUN KALIMAT JAWABAN (16 - 30) ---
+      {
+        id: 16,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the clock?",
+        promptId: "Arti jawaban: Jam berada di atas meja belajar.",
+        ttsPrompt: "Where is the clock?",
+        tokens: ["The", "clock", "is", "on", "the", "desk", "."]
+      },
+      {
+        id: 17,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the picture?",
+        promptId: "Arti jawaban: Gambar berada di atas tempat tidur.",
+        ttsPrompt: "Where is the picture?",
+        tokens: ["The", "picture", "is", "above", "the", "bed", "."]
+      },
+      {
+        id: 18,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the blanket?",
+        promptId: "Arti jawaban: Selimut berada di dalam laci.",
+        ttsPrompt: "Where is the blanket?",
+        tokens: ["The", "blanket", "is", "in", "the", "drawer", "."]
+      },
+      {
+        id: 19,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where are the sandals?",
+        promptId: "Arti jawaban: Sandal berada di bawah tempat tidur.",
+        ttsPrompt: "Where are the sandals?",
+        tokens: ["The", "sandals", "are", "under", "the", "bed", "."]
+      },
+      {
+        id: 20,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the bolster?",
+        promptId: "Arti jawaban: Bantal guling berada di antara dua bantal.",
+        ttsPrompt: "Where is the bolster?",
+        tokens: ["The", "bolster", "is", "between", "the", "two", "pillows", "."]
+      },
+      {
+        id: 21,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the lamp?",
+        promptId: "Arti jawaban: Lampu berada di samping tempat tidur.",
+        ttsPrompt: "Where is the lamp?",
+        tokens: ["The", "lamp", "is", "beside", "the", "bed", "."]
+      },
+      {
+        id: 22,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the chair?",
+        promptId: "Arti jawaban: Kursi berada di sebelah meja belajar.",
+        ttsPrompt: "Where is the chair?",
+        tokens: ["The", "chair", "is", "next to", "the", "desk", "."]
+      },
+      {
+        id: 23,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where are the sandals?",
+        promptId: "Arti jawaban: Sandal berada di belakang pintu.",
+        ttsPrompt: "Where are the sandals?",
+        tokens: ["The", "sandals", "are", "behind", "the", "door", "."]
+      },
+      {
+        id: 24,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the carpet?",
+        promptId: "Arti jawaban: Karpet berada di depan tempat tidur.",
+        ttsPrompt: "Where is the carpet?",
+        tokens: ["The", "carpet", "is", "in front of", "the", "bed", "."]
+      },
+      {
+        id: 25,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the desk?",
+        promptId: "Arti jawaban: Meja belajar berada dekat jendela.",
+        ttsPrompt: "Where is the desk?",
+        tokens: ["The", "desk", "is", "near", "the", "window", "."]
+      },
+      {
+        id: 26,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN SINGKAT (It is) berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the lamp?",
+        promptId: "Arti jawaban: Lampu (itu) berada di atas meja.",
+        ttsPrompt: "Where is the lamp?",
+        tokens: ["It", "is", "on", "the", "desk", "."]
+      },
+      {
+        id: 27,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN SINGKAT (It is) berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the picture?",
+        promptId: "Arti jawaban: Gambar (itu) berada di atas tempat tidur.",
+        ttsPrompt: "Where is the picture?",
+        tokens: ["It", "is", "above", "the", "bed", "."]
+      },
+      {
+        id: 28,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN SINGKAT (They are) berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where are the books?",
+        promptId: "Arti jawaban: Buku-buku (itu) berada di rak.",
+        ttsPrompt: "Where are the books?",
+        tokens: ["They", "are", "on", "the", "shelf", "."]
+      },
+      {
+        id: 29,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN SINGKAT (They are) berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where are the sandals?",
+        promptId: "Arti jawaban: Sandal-sandal (itu) berada di bawah tempat tidur.",
+        ttsPrompt: "Where are the sandals?",
+        tokens: ["They", "are", "under", "the", "bed", "."]
+      },
+      {
+        id: 30,
+        category: "Answering",
+        instruction: "Susunlah kalimat JAWABAN berdasarkan pertanyaan ini:",
+        promptEn: "Pertanyaan: Where is the bed?",
+        promptId: "Arti jawaban: Tempat tidur berhadapan dengan lemari pakaian.",
+        ttsPrompt: "Where is the bed?",
+        tokens: ["The", "bed", "is", "opposite", "the", "wardrobe", "."]
+      }
+    ];
+
+    /* ========================================================================
+       4. STATE APLIKASI & AUDIO ENGINE (TTS + WEB AUDIO SFX)
+       ======================================================================== */
+    let sfxEnabled = true;
+    let audioCtx = null;
+
+    let gameState = {
+      gameStarted: false,
+      currentIndex: 0,
+      score: 0,
+      correctCount: 0,
+      answeredCurrent: false,
+      bankTokens: [],     // [{ id, text, used }]
+      selectedTokens: []  // [{ id, text }]
+    };
+
+    // Fitur Full Screen (Layar Penuh) untuk Papan Interaktif Digital (PID)
+    function updateFullScreenButtons() {
+      const isFull = Boolean(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.body.classList.contains('theater-fullscreen')
+      );
+      document.querySelectorAll('.fullscreen-icon').forEach(el => {
+        el.textContent = isFull ? '🗗' : '⛶';
+      });
+      document.querySelectorAll('.fullscreen-label').forEach(el => {
+        el.textContent = isFull ? 'Keluar Full Screen' : 'Full Screen';
+      });
+    }
+
+    function toggleFullScreen() {
+      playSfx('click');
+      const docEl = document.documentElement;
+      const isNativeFull = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+
+      if (!isNativeFull && !document.body.classList.contains('theater-fullscreen')) {
+        if (docEl.requestFullscreen) {
+          docEl.requestFullscreen().catch(() => {
+            document.body.classList.add('theater-fullscreen');
+            updateFullScreenButtons();
+            showToast('Mode tampilan penuh diaktifkan!', 'info');
+          });
+        } else if (docEl.webkitRequestFullscreen) {
+          docEl.webkitRequestFullscreen();
+        } else {
+          document.body.classList.add('theater-fullscreen');
+          updateFullScreenButtons();
+        }
+      } else {
+        if (document.exitFullscreen && document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen && document.webkitFullscreenElement) {
+          document.webkitExitFullscreen();
+        }
+        document.body.classList.remove('theater-fullscreen');
+        updateFullScreenButtons();
+      }
+    }
+
+    document.addEventListener('fullscreenchange', updateFullScreenButtons);
+    document.addEventListener('webkitfullscreenchange', updateFullScreenButtons);
+
+    // Efek suara sintetis ringan tanpa URL eksternal
+    function playSfx(type) {
+      if (!sfxEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(680, now + 0.08);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);       // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+          osc.start(now);
+          osc.stop(now + 0.42);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(240, now);
+          osc.frequency.linearRampToValueAtTime(180, now + 0.25);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        } else if (type === 'win') {
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+          notes.forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'triangle';
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            o.frequency.setValueAtTime(freq, now + idx * 0.12);
+            g.gain.setValueAtTime(0.18, now + idx * 0.12);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.35);
+            o.start(now + idx * 0.12);
+            o.stop(now + idx * 0.12 + 0.35);
+          });
+        }
+      } catch (e) {
+        // Abaikan jika browser memblokir audio otomatis
+      }
+    }
+
+    function toggleSoundEffects() {
+      sfxEnabled = !sfxEnabled;
+      document.querySelectorAll('.sfx-icon').forEach(el => {
+        el.textContent = sfxEnabled ? '🔊' : '🔇';
+      });
+      document.querySelectorAll('.sfx-label').forEach(el => {
+        el.textContent = sfxEnabled ? 'Efek Suara: Aktif' : 'Efek Suara: Mati';
+      });
+      showToast(sfxEnabled ? 'Efek suara diaktifkan!' : 'Efek suara dimatikan.', 'info');
+    }
+
+    // Text-to-Speech (TTS) Bahasa Inggris yang jelas untuk anak kelas 4 SD
+    function speakText(text, btnEl = null) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Maaf, browser ini belum mendukung fitur suara (TTS).', 'warning');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.86; // Sedikit lebih pelan agar pelafalan jelas bagi siswa kelas 4 SD
+      utterance.pitch = 1.05;
+
+      // Pilih suara bahasa Inggris jika tersedia
+      const voices = window.speechSynthesis.getVoices();
+      const enVoice = voices.find(v => v.lang.includes('en-US')) || voices.find(v => v.lang.includes('en'));
+      if (enVoice) utterance.voice = enVoice;
+
+      if (btnEl) {
+        btnEl.classList.add('speaking-active');
+        utterance.onend = () => btnEl.classList.remove('speaking-active');
+        utterance.onerror = () => btnEl.classList.remove('speaking-active');
+      }
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Putar dialog Rafi & Dika secara berurutan
+    function playFullDialogue() {
+      if (!('speechSynthesis' in window)) {
+        showToast('Browser tidak mendukung fitur suara.', 'warning');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const lines = [
+        "Where is the lamp?",
+        "It is on the desk.",
+        "Where are the books?",
+        "They are on the shelf."
+      ];
+      let index = 0;
+      function speakNext() {
+        if (index >= lines.length) return;
+        const u = new SpeechSynthesisUtterance(lines[index]);
+        u.lang = 'en-US';
+        u.rate = 0.86;
+        u.onend = () => {
+          index++;
+          setTimeout(speakNext, 350);
+        };
+        window.speechSynthesis.speak(u);
+      }
+      speakNext();
+      showToast('Memutar percakapan Rafi & Dika...', 'info');
+    }
+
+    // Notifikasi Toast
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const styles = {
+        info: 'bg-slate-800 text-white border-slate-700',
+        success: 'bg-emerald-600 text-white border-emerald-500',
+        warning: 'bg-amber-500 text-white border-amber-400'
+      };
+      el.className = `${styles[type] || styles.info} px-4 py-3 rounded-2xl shadow-lg border text-xs sm:text-sm font-bold transition-all duration-300 transform translate-y-2 opacity-0`;
+      el.textContent = msg;
+      container.appendChild(el);
+      requestAnimationFrame(() => {
+        el.classList.remove('translate-y-2', 'opacity-0');
+      });
+      setTimeout(() => {
+        el.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => el.remove(), 300);
+      }, 2600);
+    }
+
+    /* ========================================================================
+       5. NAVIGASI TAB
+       ======================================================================== */
+    function switchTab(tabName) {
+      playSfx('click');
+      const mainContainer = document.getElementById('main-container');
+      if (tabName === 'game' && gameState.gameStarted) {
+        mainContainer.classList.remove('max-w-6xl');
+        mainContainer.classList.add('max-w-7xl');
+      } else {
+        mainContainer.classList.remove('max-w-7xl');
+        mainContainer.classList.add('max-w-6xl');
+      }
+
+      const sections = ['vocab', 'material', 'game'];
+      sections.forEach(sec => {
+        const el = document.getElementById(`section-${sec}`);
+        const btn = document.getElementById(`tab-btn-${sec}`);
+        if (sec === tabName) {
+          el.classList.remove('hidden');
+          el.classList.remove('tab-animate');
+          void el.offsetWidth; // trigger reflow
+          el.classList.add('tab-animate');
+
+          // Gaya tombol tab aktif di dalam header
+          if (sec === 'vocab') {
+            btn.className = 'tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base bg-sky-500 text-white shadow-sm transition-all';
+          } else if (sec === 'material') {
+            btn.className = 'tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base bg-amber-500 text-white shadow-sm transition-all';
+          } else {
+            btn.className = 'tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base bg-emerald-500 text-white shadow-sm transition-all';
+          }
+        } else {
+          el.classList.add('hidden');
+          btn.className = 'tab-btn flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-4 rounded-xl font-display font-semibold text-xs sm:text-sm md:text-base text-slate-600 hover:text-slate-900 hover:bg-white/70 transition-all';
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ========================================================================
+       6. RENDER TAB 1: FLIPCARD KOSAKATA (3 KARTU KE SAMPING)
+       ======================================================================== */
+    function renderVocabCards() {
+      const grid = document.getElementById('vocab-grid');
+      const colorMap = {
+        sky: { border: 'border-sky-300', badge: 'bg-sky-100 text-sky-700', backBg: 'from-sky-500 to-blue-600' },
+        amber: { border: 'border-amber-300', badge: 'bg-amber-100 text-amber-800', backBg: 'from-amber-500 to-orange-500' },
+        emerald: { border: 'border-emerald-300', badge: 'bg-emerald-100 text-emerald-800', backBg: 'from-emerald-500 to-teal-600' },
+        rose: { border: 'border-rose-300', badge: 'bg-rose-100 text-rose-800', backBg: 'from-rose-500 to-pink-600' },
+        purple: { border: 'border-purple-300', badge: 'bg-purple-100 text-purple-800', backBg: 'from-purple-500 to-indigo-600' }
+      };
+
+      grid.innerHTML = VOCAB_DATA.map(item => {
+        const theme = colorMap[item.color] || colorMap.sky;
+        const safeWord = item.word.replace(/'/g, "\\'");
+        const safeSentence = item.sentenceEn.replace(/'/g, "\\'");
+
+        return `
+          <div class="flip-perspective h-80 sm:h-84 cursor-pointer select-none group" onclick="toggleSingleFlip(this)">
+            <div class="flip-card w-full h-full">
+              <div class="flip-inner shadow-lg rounded-3xl">
+                
+                <!-- BAGIAN DEPAN KARTU: Bahasa Inggris + Arti + Ilustrasi + TTS -->
+                <div class="flip-front bg-white border-4 ${theme.border} p-5 flex flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span class="w-8 h-8 rounded-full ${theme.badge} font-display font-bold text-sm flex items-center justify-center">
+                      ${item.no}
+                    </span>
+                    <button type="button"
+                      onclick="event.stopPropagation(); speakText('${safeWord}', this)"
+                      class="inline-flex items-center gap-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 px-3 py-1.5 rounded-full text-xs font-extrabold transition"
+                      title="Dengarkan pengucapan kosakata">
+                      <span>🔊</span>
+                      <span>Dengar</span>
+                    </button>
+                  </div>
+
+                  <!-- Ilustrasi SVG -->
+                  <div class="my-1 bg-slate-50/80 rounded-2xl py-2.5 px-3 border border-slate-100 group-hover:scale-105 transition-transform">
+                    ${item.svg}
+                  </div>
+
+                  <!-- Kata Bahasa Inggris & Artinya -->
+                  <div class="text-center space-y-1">
+                    <h3 class="font-display font-bold text-2xl sm:text-3xl text-slate-800 tracking-wide">
+                      ${item.word}
+                    </h3>
+                    <p class="text-sm sm:text-base font-bold text-sky-700 bg-sky-50 inline-block px-3 py-0.5 rounded-full">
+                      ${item.meaning}
+                    </p>
+                  </div>
+
+                  <p class="text-center text-[11px] font-bold text-slate-400">
+                    👆 Klik kartu untuk contoh kalimat
+                  </p>
+                </div>
+
+                <!-- BAGIAN BELAKANG KARTU: Contoh Kalimat Inggris & Indonesia + TTS -->
+                <div class="flip-back bg-gradient-to-br ${theme.backBg} text-white p-6 flex flex-col justify-between border-4 border-white shadow-xl">
+                  <div class="flex items-center justify-between">
+                    <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-extrabold uppercase">
+                      Contoh Kalimat #${item.no}
+                    </span>
+                    <button type="button"
+                      onclick="event.stopPropagation(); speakText('${safeSentence}', this)"
+                      class="inline-flex items-center gap-1.5 bg-white text-slate-800 hover:bg-amber-100 px-3 py-1.5 rounded-full text-xs font-extrabold shadow transition"
+                      title="Dengarkan contoh kalimat">
+                      <span>🔊</span>
+                      <span>Baca Kalimat</span>
+                    </button>
+                  </div>
+
+                  <div class="my-auto space-y-3 text-center">
+                    <div class="bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/25">
+                      <p class="text-xs uppercase font-extrabold text-white/80 mb-1">🇬🇧 Bahasa Inggris</p>
+                      <p class="font-display font-bold text-lg sm:text-xl leading-snug">
+                        "${item.sentenceEn}"
+                      </p>
+                    </div>
+
+                    <div class="bg-black/15 rounded-2xl p-3.5">
+                      <p class="text-xs uppercase font-extrabold text-white/80 mb-1">🇮🇩 Bahasa Indonesia</p>
+                      <p class="text-sm sm:text-base font-bold text-white/95">
+                        "${item.sentenceId}"
+                      </p>
+                    </div>
+                  </div>
+
+                  <p class="text-center text-[11px] font-bold text-white/80">
+                    🔄 Klik lagi untuk kembali ke depan
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleSingleFlip(wrapperEl) {
+      playSfx('click');
+      const card = wrapperEl.querySelector('.flip-card');
+      card.classList.toggle('flipped');
+    }
+
+    function flipAllCards(openBack) {
+      playSfx('click');
+      document.querySelectorAll('.flip-card').forEach(card => {
+        if (openBack) {
+          card.classList.add('flipped');
+        } else {
+          card.classList.remove('flipped');
+        }
+      });
+    }
+
+    /* ========================================================================
+       7. RENDER TAB 2: MATERI LANJUTAN
+       ======================================================================== */
+    function renderMaterialContent() {
+      // A.1 One Thing
+      document.getElementById('material-one-thing').innerHTML = MATERIAL_ONE_THING.map(item => `
+        <div class="bg-white p-3 rounded-xl border border-sky-200 flex items-center justify-between gap-2 shadow-sm">
+          <div>
+            <p class="font-bold text-slate-800 text-sm sm:text-base">${item.q}</p>
+            <p class="text-xs text-slate-500">${item.id}</p>
+          </div>
+          <button onclick="speakText('${item.q}', this)" class="shrink-0 bg-sky-100 hover:bg-sky-200 text-sky-700 p-2 rounded-xl text-xs font-extrabold transition" title="Dengar">
+            🔊
+          </button>
+        </div>
+      `).join('');
+
+      // A.2 Two or More Things
+      document.getElementById('material-many-things').innerHTML = MATERIAL_MANY_THINGS.map(item => `
+        <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between gap-2 shadow-sm">
+          <div>
+            <p class="font-bold text-slate-800 text-sm sm:text-base">${item.q}</p>
+            <p class="text-xs text-slate-500">${item.id}</p>
+          </div>
+          <button onclick="speakText('${item.q}', this)" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-800 p-2 rounded-xl text-xs font-extrabold transition" title="Dengar">
+            🔊
+          </button>
+        </div>
+      `).join('');
+
+      // B. Telling the Position
+      document.getElementById('material-telling-examples').innerHTML = MATERIAL_TELLING.map((item, idx) => `
+        <div class="bg-emerald-50/60 border-2 border-emerald-200 rounded-2xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="bg-emerald-600 text-white text-xs font-extrabold px-2.5 py-0.5 rounded-full">Contoh #${idx + 1}</span>
+            <button onclick="speakText('${item.q} ${item.a}', this)" class="bg-white hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-2.5 py-1 rounded-lg text-xs font-extrabold transition">
+              🔊 Dengar Q&amp;A
+            </button>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-emerald-100 space-y-1">
+            <p class="text-sm font-bold text-sky-700">A: ${item.q}</p>
+            <p class="text-sm font-extrabold text-emerald-700">B: ${item.a}</p>
+          </div>
+          <div class="text-xs text-slate-600 pl-1">
+            <p><strong>Artinya:</strong> A: ${item.qId} | B: ${item.aId}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // C. Short Answers
+      document.getElementById('material-short-answers').innerHTML = MATERIAL_SHORT_ANSWERS.map(item => `
+        <tr class="hover:bg-purple-50/50 transition">
+          <td class="p-3.5 font-bold text-slate-700">${item.q}</td>
+          <td class="p-3.5 font-extrabold text-purple-700">${item.a}</td>
+          <td class="p-3.5 text-slate-600">${item.id}</td>
+          <td class="p-3.5 text-center">
+            <button onclick="speakText('${item.a}', this)" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1.5 rounded-xl text-xs font-extrabold transition">
+              🔊 Dengar
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    /* ========================================================================
+       8. LOGIKA GAME PAPAN INTERAKTIF DIGITAL (PID) - 30 SOAL
+       ======================================================================== */
+    function startPidGame() {
+      playSfx('click');
+      gameState.gameStarted = true;
+      gameState.currentIndex = 0;
+      gameState.score = 0;
+      gameState.correctCount = 0;
+
+      // Sembunyikan Hero Section dan tampilkan arena game penuh
+      document.getElementById('game-hero-section').classList.add('hidden');
+      document.getElementById('game-result-screen').classList.add('hidden');
+      document.getElementById('game-play-screen').classList.remove('hidden');
+
+      const mainContainer = document.getElementById('main-container');
+      mainContainer.classList.remove('max-w-6xl');
+      mainContainer.classList.add('max-w-7xl');
+
+      loadQuestion(0);
+    }
+
+    function restartPidGame() {
+      playSfx('click');
+      gameState.gameStarted = true;
+      gameState.currentIndex = 0;
+      gameState.score = 0;
+      gameState.correctCount = 0;
+      document.getElementById('game-hero-section').classList.add('hidden');
+      document.getElementById('game-result-screen').classList.add('hidden');
+      document.getElementById('game-play-screen').classList.remove('hidden');
+      loadQuestion(0);
+      showToast('Permainan dimulai dari Soal 1!', 'info');
+    }
+
+    function jumpToSection(targetIndex) {
+      playSfx('click');
+      document.getElementById('game-result-screen').classList.add('hidden');
+      document.getElementById('game-play-screen').classList.remove('hidden');
+      gameState.currentIndex = targetIndex;
+      loadQuestion(targetIndex);
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      // Pastikan susunan acak tidak sama persis dengan jawaban benar
+      if (copy.join(' ') === arr.join(' ') && copy.length > 1) {
+        [copy[0], copy[copy.length - 1]] = [copy[copy.length - 1], copy[0]];
+      }
+      return copy;
+    }
+
+    function loadQuestion(idx) {
+      const q = GAME_QUESTIONS[idx];
+      gameState.answeredCurrent = false;
+      gameState.selectedTokens = [];
+
+      const shuffled = shuffleArray(q.tokens);
+      gameState.bankTokens = shuffled.map((txt, i) => ({
+        id: `tok-${idx}-${i}`,
+        text: txt,
+        used: false
+      }));
+
+      // Update HUD
+      document.getElementById('hud-q-num').textContent = idx + 1;
+      document.getElementById('hud-score').textContent = gameState.score;
+      const pct = ((idx + 1) / GAME_QUESTIONS.length) * 100;
+      document.getElementById('game-progress-bar').style.width = `${pct}%`;
+
+      // Update Badge Kategori & Tombol Lompat Cepat
+      const badgeEl = document.getElementById('q-type-badge');
+      const hudCatEl = document.getElementById('hud-category');
+      const jumpAskBtn = document.getElementById('jump-asking-btn');
+      const jumpAnsBtn = document.getElementById('jump-answering-btn');
+
+      if (q.category === 'Asking') {
+        badgeEl.className = 'inline-flex items-center gap-1.5 bg-sky-100 text-sky-800 px-4 py-2 rounded-full text-xs sm:text-sm font-extrabold';
+        badgeEl.textContent = '❓ Bagian 1 (Soal 1–15): Menyusun Kalimat Pertanyaan';
+        hudCatEl.textContent = 'Bagian 1: Menyusun Kalimat Pertanyaan (Soal 1–15)';
+        jumpAskBtn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-sky-500 text-white shadow-sm transition';
+        jumpAnsBtn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-100 text-slate-700 hover:bg-amber-100 transition';
+      } else {
+        badgeEl.className = 'inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-xs sm:text-sm font-extrabold';
+        badgeEl.textContent = '💬 Bagian 2 (Soal 16–30): Menyusun Kalimat Jawaban';
+        hudCatEl.textContent = 'Bagian 2: Menyusun Kalimat Jawaban (Soal 16–30)';
+        jumpAskBtn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-100 text-slate-700 hover:bg-sky-100 transition';
+        jumpAnsBtn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-amber-500 text-white shadow-sm transition';
+      }
+
+      // Update Prompt
+      document.getElementById('q-instruction').textContent = q.instruction;
+      document.getElementById('q-context-en').textContent = q.promptEn;
+      document.getElementById('q-context-id').textContent = q.promptId;
+
+      // Reset Feedback & Tombol
+      const fbBox = document.getElementById('q-feedback-box');
+      fbBox.classList.add('hidden');
+      fbBox.innerHTML = '';
+
+      document.getElementById('check-answer-btn').classList.remove('hidden');
+      document.getElementById('next-question-btn').classList.add('hidden');
+
+      renderSentenceBuilder();
+    }
+
+    function speakCurrentPrompt() {
+      const q = GAME_QUESTIONS[gameState.currentIndex];
+      speakText(q.ttsPrompt);
+    }
+
+    function renderSentenceBuilder() {
+      const dropzone = document.getElementById('answer-dropzone');
+      const bankEl = document.getElementById('word-bank');
+
+      // Render kata yang sudah dipilih siswa (Ukuran besar ramah PID touchscreen)
+      if (gameState.selectedTokens.length === 0) {
+        dropzone.innerHTML = `<span class="text-sm sm:text-base text-slate-400 italic select-none">Sentuh pilihan kata di bawah untuk menyusun kalimat...</span>`;
+      } else {
+        dropzone.innerHTML = gameState.selectedTokens.map(tok => `
+          <button type="button"
+            onclick="removeSelectedToken('${tok.id}')"
+            class="btn-3d bg-sky-500 hover:bg-sky-600 text-white font-display font-bold text-lg sm:text-xl md:text-2xl px-5 py-3 rounded-2xl border-b-4 border-sky-700 shadow-sm">
+            ${tok.text}
+          </button>
+        `).join('');
+      }
+
+      // Render bank kata (Ukuran besar ramah PID touchscreen)
+      bankEl.innerHTML = gameState.bankTokens.map(tok => {
+        if (tok.used) {
+          return `<span class="px-5 py-3 rounded-2xl bg-slate-200/70 text-slate-300 font-display font-bold text-lg sm:text-xl md:text-2xl border-2 border-dashed border-slate-300 select-none">${tok.text}</span>`;
+        }
+        return `
+          <button type="button"
+            onclick="selectBankToken('${tok.id}')"
+            class="btn-3d bg-white hover:bg-amber-100 text-slate-800 font-display font-bold text-lg sm:text-xl md:text-2xl px-5 py-3 rounded-2xl border-2 border-amber-300 border-b-4 border-b-amber-400 shadow-sm">
+            ${tok.text}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectBankToken(tokenId) {
+      if (gameState.answeredCurrent) return;
+      const tok = gameState.bankTokens.find(t => t.id === tokenId);
+      if (!tok || tok.used) return;
+      playSfx('click');
+      tok.used = true;
+      gameState.selectedTokens.push({ id: tok.id, text: tok.text });
+      renderSentenceBuilder();
+    }
+
+    function removeSelectedToken(tokenId) {
+      if (gameState.answeredCurrent) return;
+      playSfx('click');
+      gameState.selectedTokens = gameState.selectedTokens.filter(t => t.id !== tokenId);
+      const bankTok = gameState.bankTokens.find(t => t.id === tokenId);
+      if (bankTok) bankTok.used = false;
+      renderSentenceBuilder();
+    }
+
+    function clearCurrentAnswer() {
+      if (gameState.answeredCurrent) return;
+      playSfx('click');
+      gameState.selectedTokens = [];
+      gameState.bankTokens.forEach(t => t.used = false);
+      renderSentenceBuilder();
+    }
+
+    function useHint() {
+      if (gameState.answeredCurrent) return;
+      const q = GAME_QUESTIONS[gameState.currentIndex];
+      const firstCorrectWord = q.tokens[0];
+      clearCurrentAnswer();
+      const targetTok = gameState.bankTokens.find(t => t.text === firstCorrectWord && !t.used);
+      if (targetTok) {
+        selectBankToken(targetTok.id);
+        showToast(`Bantuan: Kata pertama adalah "${firstCorrectWord}"`, 'info');
+      }
+    }
+
+    function checkSentenceAnswer() {
+      if (gameState.answeredCurrent) return;
+      const q = GAME_QUESTIONS[gameState.currentIndex];
+
+      if (gameState.selectedTokens.length < q.tokens.length) {
+        showToast('Ayo susun semua kata yang tersedia terlebih dahulu!', 'warning');
+        return;
+      }
+
+      const userSentence = gameState.selectedTokens.map(t => t.text).join(' ');
+      const correctSentence = q.tokens.join(' ');
+      const isCorrect = userSentence === correctSentence;
+
+      // Format kalimat rapi tanpa spasi sebelum tanda baca (. atau ?)
+      const formattedCorrect = correctSentence.replace(/\s+([?.])/g, '$1');
+
+      gameState.answeredCurrent = true;
+      const fbBox = document.getElementById('q-feedback-box');
+      fbBox.classList.remove('hidden');
+
+      if (isCorrect) {
+        playSfx('correct');
+        gameState.correctCount += 1;
+        gameState.score = Math.round((gameState.correctCount / GAME_QUESTIONS.length) * 100);
+        document.getElementById('hud-score').textContent = gameState.score;
+
+        fbBox.className = 'rounded-2xl p-4 border-2 bg-emerald-50 border-emerald-300 text-emerald-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+        fbBox.innerHTML = `
+          <div>
+            <p class="font-display font-bold text-lg text-emerald-700">🎉 Hebat! Jawabanmu Benar!</p>
+            <p class="text-sm font-bold mt-0.5">Kalimat: <span class="underline">${formattedCorrect}</span></p>
+          </div>
+          <button onclick="speakText('${formattedCorrect.replace(/'/g, "\\'")}', this)" class="self-start sm:self-center bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-extrabold shadow">
+            🔊 Dengar Kalimat
+          </button>
+        `;
+        speakText(formattedCorrect);
+      } else {
+        playSfx('wrong');
+        fbBox.className = 'rounded-2xl p-4 border-2 bg-rose-50 border-rose-300 text-rose-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+        fbBox.innerHTML = `
+          <div>
+            <p class="font-display font-bold text-lg text-rose-700">💡 Belum Tepat, Tetap Semangat!</p>
+            <p class="text-sm font-bold mt-0.5">Susunan yang benar: <span class="text-emerald-700 underline">${formattedCorrect}</span></p>
+          </div>
+          <button onclick="speakText('${formattedCorrect.replace(/'/g, "\\'")}', this)" class="self-start sm:self-center bg-rose-600 hover:bg-rose-700 text-white px-3.5 py-2 rounded-xl text-xs font-extrabold shadow">
+            🔊 Dengar yang Benar
+          </button>
+        `;
+      }
+
+      document.getElementById('check-answer-btn').classList.add('hidden');
+      const nextBtn = document.getElementById('next-question-btn');
+      nextBtn.classList.remove('hidden');
+      nextBtn.textContent = (gameState.currentIndex === GAME_QUESTIONS.length - 1)
+        ? '🏆 Lihat Hasil Akhir ➔'
+        : 'Soal Berikutnya ➔';
+    }
+
+    function nextQuestion() {
+      playSfx('click');
+      if (gameState.currentIndex < GAME_QUESTIONS.length - 1) {
+        gameState.currentIndex++;
+        loadQuestion(gameState.currentIndex);
+      } else {
+        showFinalResult();
+      }
+    }
+
+    function showFinalResult() {
+      playSfx('win');
+      document.getElementById('game-play-screen').classList.add('hidden');
+      document.getElementById('game-result-screen').classList.remove('hidden');
+
+      const finalScore = Math.round((gameState.correctCount / GAME_QUESTIONS.length) * 100);
+      document.getElementById('res-final-score').textContent = finalScore;
+      document.getElementById('res-correct').textContent = gameState.correctCount;
+
+      let grade = '⭐ Terus Berlatih';
+      let msg = 'Bagus! Kalian sudah mencoba menyelesaikan semua 30 soal di Papan Interaktif Digital.';
+      if (finalScore >= 90) {
+        grade = '⭐⭐⭐ Luar Biasa!';
+        msg = 'Sempurna! Kelas 4 SD sudah sangat mahir menggunakan Prepositions of Place!';
+      } else if (finalScore >= 75) {
+        grade = '⭐⭐ Hebat!';
+        msg = 'Kerja bagus! Pemahaman tentang menanyakan dan menjawab letak benda sudah sangat baik.';
+      }
+      document.getElementById('res-grade').textContent = grade;
+      document.getElementById('result-message').textContent = msg;
+    }
+
+    /* ========================================================================
+       9. INISIALISASI HALAMAN
+       ======================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderVocabCards();
+      renderMaterialContent();
+      loadQuestion(0); // Langsung muat Soal 1 untuk Papan Interaktif Digital (PID)
+
+      // Muat daftar suara TTS lebih awal jika didukung browser
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      }
+    });
+  </script>
+</body>
+</html>
