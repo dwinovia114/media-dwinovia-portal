@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SENTENCE SCRAMBLE – Advertisement Challenge</title>
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & RESET (Game Show Theme: Navy, Royal Blue, Yellow, White)
+           ========================================================================== */
+        :root {
+            --navy-dark: #071330;
+            --navy: #0B193C;
+            --royal-blue: #1D4ED8;
+            --royal-light: #3B82F6;
+            --sky-glow: #60A5FA;
+            --yellow: #FACC15;
+            --yellow-hover: #FDE047;
+            --yellow-dark: #CA8A04;
+            --white: #FFFFFF;
+            --off-white: #F8FAFC;
+            --slate: #64748B;
+            --slate-light: #CBD5E1;
+            --green: #10B981;
+            --green-dark: #059669;
+            --red: #EF4444;
+            --red-dark: #DC2626;
+            --orange: #F97316;
+            --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.35);
+            --shadow-tile: 0 6px 0 #1E3A8A, 0 8px 15px rgba(0, 0, 0, 0.25);
+            --shadow-tile-yellow: 0 6px 0 #A16207, 0 8px 15px rgba(0, 0, 0, 0.25);
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background: radial-gradient(circle at top center, #1E40AF 0%, var(--navy) 55%, var(--navy-dark) 100%);
+            color: var(--white);
+        }
+
+        /* Background Decorative Stars & Grid */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.12) 2px, transparent 2px),
+                radial-gradient(rgba(250, 204, 21, 0.1) 1.5px, transparent 1.5px);
+            background-size: 60px 60px, 90px 90px;
+            background-position: 0 0, 30px 30px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ==========================================================================
+           2. LAYOUT & SCREEN CONTAINERS
+           ========================================================================== */
+        #app {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: clamp(12px, 2vw, 24px);
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+            animation: fadeSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(14px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ==========================================================================
+           3. REUSABLE BUTTONS & UI CONTROLS (PID Touch Friendly - Min 52px height)
+           ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            min-height: 56px;
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-yellow {
+            background: linear-gradient(180deg, var(--yellow-hover) 0%, var(--yellow) 100%);
+            color: var(--navy-dark);
+            box-shadow: 0 6px 0 var(--yellow-dark), 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-yellow:active:not(:disabled) {
+            box-shadow: 0 2px 0 var(--yellow-dark);
+        }
+
+        .btn-royal {
+            background: linear-gradient(180deg, var(--royal-light) 0%, var(--royal-blue) 100%);
+            color: var(--white);
+            box-shadow: 0 6px 0 #1E3A8A, 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-royal:active:not(:disabled) {
+            box-shadow: 0 2px 0 #1E3A8A;
+        }
+
+        .btn-green {
+            background: linear-gradient(180deg, #34D399 0%, var(--green) 100%);
+            color: var(--navy-dark);
+            box-shadow: 0 6px 0 var(--green-dark), 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-green:active:not(:disabled) {
+            box-shadow: 0 2px 0 var(--green-dark);
+        }
+
+        .btn-red {
+            background: linear-gradient(180deg, #F87171 0%, var(--red) 100%);
+            color: var(--white);
+            box-shadow: 0 6px 0 var(--red-dark), 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-red:active:not(:disabled) {
+            box-shadow: 0 2px 0 var(--red-dark);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-sm {
+            min-height: 44px;
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            border-radius: var(--radius-md);
+        }
+
+        /* Top Utility Bar (Fullscreen & Settings) */
+        .top-utility-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .badge-grade {
+            background: rgba(250, 204, 21, 0.18);
+            border: 2px solid var(--yellow);
+            color: var(--yellow);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            letter-spacing: 0.5px;
+        }
+
+        .utility-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ==========================================================================
+           4. HOME SCREEN
+           ========================================================================== */
+        .home-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: clamp(18px, 3vh, 32px);
+            padding: 16px;
+        }
+
+        .hero-tiles {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .hero-letter {
+            width: clamp(54px, 7vw, 76px);
+            height: clamp(54px, 7vw, 76px);
+            background: var(--white);
+            color: var(--navy);
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            font-weight: 900;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 7px 0 var(--yellow-dark), 0 12px 24px rgba(0,0,0,0.4);
+            border: 3px solid var(--yellow);
+            animation: floatTile 3s ease-in-out infinite;
+        }
+
+        .hero-letter:nth-child(odd) {
+            background: var(--yellow);
+            color: var(--navy-dark);
+            border-color: var(--white);
+            animation-delay: 0.4s;
+        }
+
+        @keyframes floatTile {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        .game-title {
+            font-size: clamp(2.6rem, 6vw, 4.8rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #FFFFFF 20%, #FDE047 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 6px 0 rgba(7, 19, 48, 0.9));
+        }
+
+        .game-subtitle {
+            display: inline-block;
+            background: var(--royal-blue);
+            border: 3px solid var(--yellow);
+            color: var(--white);
+            padding: 10px 28px;
+            border-radius: 999px;
+            font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+            font-weight: 800;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .game-tagline {
+            font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+            color: #E2E8F0;
+            font-weight: 600;
+            max-width: 700px;
+        }
+
+        .home-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .home-buttons .btn {
+            min-width: 230px;
+            font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+            padding: 18px 34px;
+        }
+
+        /* ==========================================================================
+           5. HOW TO PLAY & PLAYER SETUP CARDS
+           ========================================================================== */
+        .panel-card {
+            background: rgba(15, 34, 82, 0.92);
+            border: 3px solid rgba(96, 165, 250, 0.45);
+            border-radius: var(--radius-xl);
+            padding: clamp(20px, 3vw, 36px);
+            box-shadow: var(--shadow-lg);
+            max-width: 960px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            gap: 12px;
+        }
+
+        .panel-header h2 {
+            font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+            color: var(--yellow);
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .step-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .step-num {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            background: var(--yellow);
+            color: var(--navy-dark);
+            font-weight: 900;
+            font-size: 1.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 var(--yellow-dark);
+        }
+
+        .step-text {
+            font-size: clamp(1rem, 1.3vw, 1.15rem);
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* Player Setup Styles */
+        .setup-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(7, 19, 48, 0.6);
+            padding: 18px 24px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+        }
+
+        .count-selector {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .count-display {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--yellow);
+            min-width: 48px;
+            text-align: center;
+        }
+
+        .players-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 14px;
+            max-height: 360px;
+            overflow-y: auto;
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+
+        .player-input-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .turn-badge {
+            background: var(--royal-blue);
+            color: var(--yellow);
+            font-weight: 900;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .player-input-card input {
+            width: 100%;
+            background: var(--white);
+            color: var(--navy-dark);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .player-input-card input:focus {
+            border-color: var(--yellow);
+        }
+
+        .order-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mini-order-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            width: 28px;
+            height: 22px;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 0.75rem;
+        }
+        .mini-order-btn:hover { background: var(--yellow); color: var(--navy-dark); }
+
+        /* ==========================================================================
+           6. MAIN GAME SCREEN
+           ========================================================================== */
+        .game-hud {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            background: rgba(7, 19, 48, 0.85);
+            border: 2px solid rgba(96, 165, 250, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 14px 20px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .hud-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hud-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sky-glow);
+            font-weight: 800;
+        }
+
+        .hud-value {
+            font-size: clamp(1.15rem, 2vw, 1.65rem);
+            font-weight: 900;
+            color: var(--white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hud-value.highlight-yellow { color: var(--yellow); }
+        .hud-value.timer-warning { color: var(--red); animation: pulseWarn 0.7s infinite; }
+
+        @keyframes pulseWarn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Progress Bar */
+        .progress-wrapper {
+            width: 100%;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 3.33%;
+            background: linear-gradient(90deg, var(--yellow), #F59E0B);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* Real-time Player Score Strip */
+        .scoreboard-strip {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+        }
+
+        .score-chip {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            font-weight: 700;
+            transition: all 0.25s ease;
+        }
+
+        .score-chip.active-turn {
+            background: var(--royal-blue);
+            border-color: var(--yellow);
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.45);
+            transform: scale(1.03);
+        }
+
+        .score-chip-pts {
+            background: var(--yellow);
+            color: var(--navy-dark);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 900;
+        }
+
+        /* Game Board Card */
+        .board-card {
+            background: rgba(15, 34, 82, 0.92);
+            border: 3px solid rgba(96, 165, 250, 0.45);
+            border-radius: var(--radius-xl);
+            padding: clamp(18px, 2.5vw, 30px);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .zone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .zone-title {
+            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--yellow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .zone-hint {
+            font-size: 0.9rem;
+            color: #CBD5E1;
+            font-weight: 600;
+        }
+
+        /* Drop & Word Zones */
+        .word-zone {
+            min-height: 118px;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        #answer-zone {
+            background: rgba(7, 19, 48, 0.75);
+            border: 3px dashed var(--yellow);
+            position: relative;
+        }
+
+        #answer-zone.drag-over {
+            background: rgba(250, 204, 21, 0.16);
+            border-style: solid;
+            box-shadow: inset 0 0 20px rgba(250, 204, 21, 0.25);
+        }
+
+        #answer-zone:empty::after {
+            content: "DRAG OR TAP WORDS HERE TO BUILD THE SENTENCE";
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 800;
+            font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        #scramble-zone {
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.18);
+        }
+
+        #scramble-zone.drag-over {
+            background: rgba(96, 165, 250, 0.18);
+            border-color: var(--sky-glow);
+        }
+
+        /* Word Tiles (Large, Crisp, Touch & Drag Friendly) */
+        .word-tile {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+            color: var(--navy-dark);
+            font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+            font-weight: 900;
+            padding: 14px 24px;
+            border-radius: 14px;
+            box-shadow: var(--shadow-tile);
+            border: 3px solid var(--sky-glow);
+            cursor: grab;
+            touch-action: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 72px;
+            min-height: 60px;
+        }
+
+        #answer-zone .word-tile {
+            background: linear-gradient(180deg, #FEF08A 0%, var(--yellow) 100%);
+            border-color: var(--white);
+            box-shadow: var(--shadow-tile-yellow);
+        }
+
+        .word-tile:hover {
+            transform: translateY(-3px);
+        }
+
+        .word-tile.pop-in {
+            animation: tilePop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes tilePop {
+            0% { transform: scale(0.75); }
+            70% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .word-tile.dragging-source {
+            opacity: 0.35;
+            transform: scale(0.95);
+        }
+
+        /* Floating Drag Clone for Smooth Mouse + Touchscreen Drag & Drop */
+        .drag-ghost {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(1.08) rotate(2deg);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.45);
+            opacity: 0.96;
+        }
+
+        /* Feedback Banner inside Game Board */
+        .feedback-banner {
+            display: none;
+            padding: 16px 24px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            animation: fadeSlideIn 0.25s ease;
+        }
+
+        .feedback-banner.show { display: block; }
+
+        .feedback-banner.success {
+            background: rgba(16, 185, 129, 0.22);
+            border: 3px solid var(--green);
+            color: #A7F3D0;
+        }
+
+        .feedback-banner.error {
+            background: rgba(239, 68, 68, 0.22);
+            border: 3px solid var(--red);
+            color: #FECACA;
+        }
+
+        .feedback-banner.timeout {
+            background: rgba(249, 115, 22, 0.22);
+            border: 3px solid var(--orange);
+            color: #FED7AA;
+        }
+
+        .feedback-title {
+            font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: var(--white);
+        }
+
+        .feedback-sentence {
+            font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+            font-weight: 800;
+            color: var(--yellow);
+        }
+
+        /* Action Controls Row */
+        .game-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            padding-top: 8px;
+        }
+
+        .game-actions .btn {
+            min-width: 190px;
+        }
+
+        /* ==========================================================================
+           7. TURN TRANSITION OVERLAY & MODALS
+           ========================================================================== */
+        .overlay-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 19, 48, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .overlay-modal.active {
+            display: flex;
+            animation: fadeSlideIn 0.3s ease;
+        }
+
+        .modal-box {
+            background: linear-gradient(180deg, #1E3A8A 0%, var(--navy) 100%);
+            border: 4px solid var(--yellow);
+            border-radius: var(--radius-xl);
+            padding: clamp(24px, 4vw, 44px);
+            max-width: 720px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+        }
+
+        .modal-box.wide-modal {
+            max-width: 960px;
+            text-align: left;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-scroll-body {
+            overflow-y: auto;
+            padding-right: 8px;
+            margin: 16px 0;
+            flex: 1;
+        }
+
+        .next-player-label {
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            font-weight: 900;
+            color: var(--yellow);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .next-player-name {
+            font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+            font-weight: 900;
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 16px 28px;
+            border-radius: var(--radius-lg);
+            margin: 16px 0 24px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+
+        /* ==========================================================================
+           8. FINAL RESULT & LEADERBOARD SCREEN
+           ========================================================================== */
+        .podium-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .podium-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .podium-card.rank-1 {
+            background: linear-gradient(180deg, rgba(250, 204, 21, 0.28) 0%, rgba(15, 34, 82, 0.9) 100%);
+            border-color: var(--yellow);
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.35);
+        }
+
+        .podium-card.rank-2 {
+            border-color: #E2E8F0;
+        }
+
+        .podium-card.rank-3 {
+            border-color: #F59E0B;
+        }
+
+        .award-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            background: var(--yellow);
+            color: var(--navy-dark);
+        }
+
+        .leaderboard-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            background: rgba(7, 19, 48, 0.65);
+            border-radius: var(--radius-lg);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 700;
+        }
+
+        th {
+            background: rgba(29, 78, 216, 0.45);
+            color: var(--yellow);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           9. SETTINGS / TEACHER MENU & ANSWER KEY
+           ========================================================================== */
+        .settings-section {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .settings-section h3 {
+            color: var(--yellow);
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+        }
+
+        .timer-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer-pill {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .timer-pill.selected {
+            background: var(--yellow);
+            color: var(--navy-dark);
+            border-color: var(--white);
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 700;
+        }
+
+        .toggle-row:last-child { border-bottom: none; }
+
+        .answer-key-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ak-q { color: #94A3B8; font-size: 0.95rem; font-weight: 600; }
+        .ak-a { color: var(--yellow); font-size: 1.1rem; font-weight: 800; }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2000;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 820px) {
+            .game-hud {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .game-actions .btn {
+                flex: 1 1 45%;
+                min-width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div id="app">
+    <!-- TOP UTILITY BAR -->
+    <header class="top-utility-bar">
+        <div class="badge-grade">GRADE IX • ADVERTISEMENT – LANGUAGE FEATURES</div>
+        <div class="utility-actions">
+            <button class="btn btn-outline btn-sm" id="btn-fullscreen" title="Toggle Fullscreen">⛶ FULLSCREEN</button>
+            <button class="btn btn-royal btn-sm" id="btn-open-settings" title="Teacher Settings">⚙ SETTINGS</button>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         SCREEN 1: HOME SCREEN
+         ===================================================================== -->
+    <section id="screen-home" class="screen active">
+        <div class="home-container">
+            <div class="hero-tiles" aria-hidden="true">
+                <div class="hero-letter">A</div>
+                <div class="hero-letter">D</div>
+                <div class="hero-letter">S</div>
+                <div class="hero-letter">★</div>
+                <div class="hero-letter">I</div>
+                <div class="hero-letter">X</div>
+            </div>
+
+            <h1 class="game-title">SENTENCE SCRAMBLE</h1>
+            <div class="game-subtitle">Advertisement Challenge – Level 2</div>
+            <p class="game-tagline">"Unscramble the Words. Build the Sentence. Be the Champion!"</p>
+
+            <div class="home-buttons">
+                <button class="btn btn-yellow" id="btn-start-direct">▶ START GAME</button>
+                <button class="btn btn-royal" id="btn-go-howto">? HOW TO PLAY</button>
+                <button class="btn btn-outline" id="btn-home-settings">⚙ SETTINGS</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         SCREEN 2: HOW TO PLAY
+         ===================================================================== -->
+    <section id="screen-howto" class="screen">
+        <div class="panel-card">
+            <div class="panel-header">
+                <h2>📖 HOW TO PLAY</h2>
+                <button class="btn btn-outline btn-sm" data-nav="screen-home">← BACK TO HOME</button>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Look at the scrambled words.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Arrange the words into a correct sentence.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">Drag and drop the words into the answer area (or tap them).</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-text">Press <strong>CHECK ANSWER</strong> when you finish.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div class="step-text">Get points for every correct answer (100 / 75 / 50 pts).</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">6</div>
+                    <div class="step-text">Complete all 30 questions and become the champion!</div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn btn-yellow" data-nav="screen-home">← BACK TO HOME</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         SCREEN 3: MAIN GAME SCREEN
+         ===================================================================== -->
+    <section id="screen-game" class="screen">
+        <!-- Top HUD -->
+        <div class="game-hud" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="hud-box">
+                <span class="hud-label">PROGRESS</span>
+                <span class="hud-value" id="hud-question">QUESTION 01 / 30</span>
+            </div>
+            <div class="hud-box">
+                <span class="hud-label">TOTAL SCORE</span>
+                <span class="hud-value highlight-yellow" id="hud-score">0 PTS</span>
+            </div>
+            <div class="hud-box">
+                <span class="hud-label">TIME LEFT</span>
+                <span class="hud-value highlight-yellow" id="hud-timer">00:45</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-wrapper">
+            <div class="progress-fill" id="game-progress-bar"></div>
+        </div>
+
+        <!-- Main Interactive Board -->
+        <div class="board-card">
+            <!-- Answer Area -->
+            <div>
+                <div class="zone-header">
+                    <div class="zone-title">✨ YOUR SENTENCE (ANSWER AREA)</div>
+                    <div class="zone-hint" id="attempt-indicator">Attempt 1 • Max 100 pts</div>
+                </div>
+                <div class="word-zone" id="answer-zone"></div>
+            </div>
+
+            <!-- Feedback Banner -->
+            <div class="feedback-banner" id="feedback-banner">
+                <div class="feedback-title" id="feedback-title"></div>
+                <div class="feedback-sentence" id="feedback-sentence"></div>
+            </div>
+
+            <!-- Scrambled Words Area -->
+            <div>
+                <div class="zone-header">
+                    <div class="zone-title">🧩 SCRAMBLED WORDS</div>
+                    <div class="zone-hint">Drag words up or tap to move</div>
+                </div>
+                <div class="word-zone" id="scramble-zone"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="game-actions" id="game-action-buttons">
+                <button class="btn btn-green" id="btn-check">✔ CHECK ANSWER</button>
+                <button class="btn btn-royal" id="btn-reset-words">↺ RESET</button>
+                <button class="btn btn-red" id="btn-skip">⏭ SKIP QUESTION</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         SCREEN 4: FINAL RESULT SCREEN
+         ===================================================================== -->
+    <section id="screen-result" class="screen">
+        <div class="panel-card" style="max-width: 900px;">
+            <div class="panel-header" style="justify-content: center; text-align: center;">
+                <h2>🏆 GAME COMPLETED! 🏆</h2>
+            </div>
+
+            <!-- Single Challenge Summary Card -->
+            <div class="podium-grid" id="result-podium" style="grid-template-columns: 1fr;"></div>
+
+            <!-- Detailed Stats Table -->
+            <div class="leaderboard-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Total Score</th>
+                            <th>Correct</th>
+                            <th>Wrong</th>
+                            <th>Skipped</th>
+                            <th>Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                <button class="btn btn-yellow" id="btn-play-again">🔄 PLAY AGAIN</button>
+                <button class="btn btn-royal" id="btn-result-answerkey">🔑 VIEW ANSWER KEY</button>
+                <button class="btn btn-outline" data-nav="screen-home">🏠 BACK TO HOME</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- =========================================================================
+     SETTINGS / TEACHER MENU MODAL
+     ========================================================================= -->
+<div class="overlay-modal" id="modal-settings">
+    <div class="modal-box wide-modal">
+        <div class="panel-header">
+            <h2>⚙ TEACHER SETTINGS MENU</h2>
+            <button class="btn btn-outline btn-sm" id="btn-close-settings">✕ CLOSE</button>
+        </div>
+
+        <div class="modal-scroll-body">
+            <!-- Timer Setting -->
+            <div class="settings-section">
+                <h3>⏱ Timer Duration (Per Question)</h3>
+                <div class="timer-options" id="settings-timer-options">
+                    <button class="timer-pill" data-time="30">30 Seconds</button>
+                    <button class="timer-pill" data-time="45">45 Seconds</button>
+                    <button class="timer-pill" data-time="60">60 Seconds</button>
+                    <button class="timer-pill" data-time="0">No Timer</button>
+                </div>
+            </div>
+
+            <!-- Audio Controls -->
+            <div class="settings-section">
+                <h3>🔊 Audio & Sound Effects</h3>
+                <div class="toggle-row">
+                    <span>Sound Effects (Clicks, Correct, Wrong, Timer)</span>
+                    <button class="btn btn-sm btn-green" id="toggle-sfx">ON</button>
+                </div>
+                <div class="toggle-row">
+                    <span>Background Game Show Music</span>
+                    <button class="btn btn-sm btn-outline" id="toggle-bgm">OFF</button>
+                </div>
+            </div>
+
+            <!-- Teacher Tools & Reset -->
+            <div class="settings-section">
+                <h3>🛠 Teacher Controls & Answer Key</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                    <button class="btn btn-royal btn-sm" id="btn-settings-answerkey">🔑 VIEW ALL 30 ANSWER KEYS</button>
+                    <button class="btn btn-red btn-sm" id="btn-reset-scores">🗑 RESET SCORE</button>
+                    <button class="btn btn-red btn-sm" id="btn-restart-game">🔄 RESTART GAME</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================
+     ANSWER KEY MODAL
+     ========================================================================= -->
+<div class="overlay-modal" id="modal-answerkey">
+    <div class="modal-box wide-modal">
+        <div class="panel-header">
+            <h2>🔑 ALL 30 QUESTIONS & ANSWER KEYS</h2>
+            <button class="btn btn-outline btn-sm" id="btn-close-answerkey">✕ CLOSE</button>
+        </div>
+        <div class="modal-scroll-body" id="answerkey-list"></div>
+    </div>
+</div>
+
+<!-- =========================================================================
+     CUSTOM CONFIRMATION DIALOG (Replaces browser confirm())
+     ========================================================================= -->
+<div class="overlay-modal" id="modal-confirm" style="z-index: 1500;">
+    <div class="modal-box" style="max-width: 500px;">
+        <h3 style="color: var(--yellow); font-size: 1.6rem; margin-bottom: 12px;" id="confirm-title">CONFIRM ACTION</h3>
+        <p style="font-size: 1.15rem; margin-bottom: 24px; line-height: 1.5;" id="confirm-message">Are you sure?</p>
+        <div style="display: flex; gap: 14px; justify-content: center;">
+            <button class="btn btn-outline" id="btn-confirm-no">CANCEL</button>
+            <button class="btn btn-red" id="btn-confirm-yes">YES, PROCEED</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ============================================================================
+   1. QUESTION DATABASE (30 Exact Grade IX Advertisement Questions)
+   ============================================================================ */
+const QUESTIONS_DB = [
+    { id: 1,  scrambled: ["freshly", "our", "Enjoy", "bread", "baked", "today"], answer: "Enjoy our freshly baked bread today!" },
+    { id: 2,  scrambled: ["special", "Get", "a", "discount", "today"], answer: "Get a special discount today!" },
+    { id: 3,  scrambled: ["your", "Don't", "miss", "this", "opportunity"], answer: "Don't miss this opportunity!" },
+    { id: 4,  scrambled: ["comfortable", "These", "are", "shoes", "very"], answer: "These shoes are very comfortable." },
+    { id: 5,  scrambled: ["now", "Order", "your", "favorite", "drink"], answer: "Order your favorite drink now!" },
+    { id: 6,  scrambled: ["looking", "for", "Are", "a", "stylish", "bag", "you"], answer: "Are you looking for a stylish bag?" },
+    { id: 7,  scrambled: ["amazing", "Discover", "our", "new", "collection"], answer: "Discover our amazing new collection!" },
+    { id: 8,  scrambled: ["Try", "our", "delicious", "and", "crunchy", "snacks"], answer: "Try our delicious and crunchy snacks!" },
+    { id: 9,  scrambled: ["today", "Buy", "and", "save", "money"], answer: "Buy today and save money!" },
+    { id: 10, scrambled: ["your", "Make", "day", "brighter", "with", "our", "products"], answer: "Make your day brighter with our products!" },
+    { id: 11, scrambled: ["beautiful", "This", "dress", "is", "perfect", "for", "you"], answer: "This dress is perfect for you." },
+    { id: 12, scrambled: ["Don't", "miss", "our", "special", "offer"], answer: "Don't miss our special offer!" },
+    { id: 13, scrambled: ["affordable", "Find", "products", "at", "amazing", "prices"], answer: "Find affordable products at amazing prices!" },
+    { id: 14, scrambled: ["your", "Upgrade", "style", "with", "our", "new", "shoes"], answer: "Upgrade your style with our new shoes!" },
+    { id: 15, scrambled: ["Why", "not", "try", "our", "delicious", "cake"], answer: "Why not try our delicious cake?" },
+    { id: 16, scrambled: ["fresh", "Enjoy", "juice", "every", "morning"], answer: "Enjoy fresh juice every morning!" },
+    { id: 17, scrambled: ["Get", "your", "favorite", "snacks", "here"], answer: "Get your favorite snacks here!" },
+    { id: 18, scrambled: ["Are", "you", "looking", "for", "comfortable", "clothes"], answer: "Are you looking for comfortable clothes?" },
+    { id: 19, scrambled: ["Make", "every", "moment", "more", "special", "with", "our", "products"], answer: "Make every moment more special with our products!" },
+    { id: 20, scrambled: ["Try", "our", "amazing", "products", "today"], answer: "Try our amazing products today!" },
+    { id: 21, scrambled: ["Experience", "the", "taste", "of", "delicious", "chocolate"], answer: "Experience the taste of delicious chocolate!" },
+    { id: 22, scrambled: ["Hurry", "up", "and", "get", "your", "discount"], answer: "Hurry up and get your discount!" },
+    { id: 23, scrambled: ["Choose", "our", "high", "quality", "products"], answer: "Choose our high-quality products!" },
+    { id: 24, scrambled: ["Looking", "for", "a", "special", "gift", "for", "your", "friend"], answer: "Looking for a special gift for your friend?" },
+    { id: 25, scrambled: ["Enjoy", "fresh", "food", "at", "affordable", "prices"], answer: "Enjoy fresh food at affordable prices!" },
+    { id: 26, scrambled: ["Get", "yours", "now", "and", "enjoy", "the", "benefits"], answer: "Get yours now and enjoy the benefits!" },
+    { id: 27, scrambled: ["Don't", "wait", "too", "long", "order", "today"], answer: "Don't wait too long. Order today!" },
+    { id: 28, scrambled: ["Find", "your", "favorite", "product", "in", "our", "store"], answer: "Find your favorite product in our store!" },
+    { id: 29, scrambled: ["Make", "your", "day", "special", "with", "our", "delicious", "drinks"], answer: "Make your day special with our delicious drinks!" },
+    { id: 30, scrambled: ["Try", "our", "new", "collection", "and", "enjoy", "the", "difference"], answer: "Try our new collection and enjoy the difference!" }
+];
+
+/* ============================================================================
+   2. OFFLINE WEB AUDIO ENGINE (Sound Effects & Game Show Loop)
+   ============================================================================ */
+class SoundEngine {
+    constructor() {
+        this.ctx = null;
+        this.sfxEnabled = true;
+        this.bgmEnabled = false;
+        this.bgmInterval = null;
+        this.bgmStep = 0;
+    }
+
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+
+    playTone(freq, type = 'sine', duration = 0.15, vol = 0.15, delay = 0) {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime + delay;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(vol, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + duration);
+    }
+
+    playPop() {
+        this.playTone(520, 'triangle', 0.09, 0.18);
+    }
+
+    playClick() {
+        this.playTone(400, 'sine', 0.07, 0.12);
+    }
+
+    playCorrect() {
+        this.playTone(523.25, 'triangle', 0.16, 0.22, 0);     // C5
+        this.playTone(659.25, 'triangle', 0.16, 0.22, 0.1);   // E5
+        this.playTone(783.99, 'triangle', 0.20, 0.25, 0.2);   // G5
+        this.playTone(1046.50, 'triangle', 0.40, 0.28, 0.3);  // C6
+    }
+
+    playWrong() {
+        this.playTone(220, 'sawtooth', 0.18, 0.16, 0);
+        this.playTone(185, 'sawtooth', 0.28, 0.16, 0.15);
+    }
+
+    playTick() {
+        this.playTone(880, 'sine', 0.05, 0.08);
+    }
+
+    playFanfare() {
+        const notes = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50];
+        notes.forEach((n, idx) => {
+            this.playTone(n, 'triangle', 0.22, 0.25, idx * 0.14);
+        });
+    }
+
+    startBGM() {
+        if (this.bgmInterval || !this.bgmEnabled) return;
+        this.init();
+        const bassNotes = [130.81, 164.81, 196.00, 164.81, 146.83, 174.61, 196.00, 146.83];
+        this.bgmInterval = setInterval(() => {
+            if (!this.bgmEnabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const freq = bassNotes[this.bgmStep % bassNotes.length];
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now);
+            gain.gain.setValueAtTime(0.04, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.34);
+            this.bgmStep++;
+        }, 380);
+    }
+
+    stopBGM() {
+        if (this.bgmInterval) {
+            clearInterval(this.bgmInterval);
+            this.bgmInterval = null;
+        }
+    }
+}
+
+const sound = new SoundEngine();
+
+/* ============================================================================
+   3. CONFETTI PARTICLE SYSTEM
+   ============================================================================ */
+class ConfettiSystem {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+        this.running = false;
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+    }
+
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+
+    burst(count = 110) {
+        const colors = ['#FACC15', '#3B82F6', '#10B981', '#FFFFFF', '#F97316', '#EC4899'];
+        for (let i = 0; i < count; i++) {
+            this.particles.push({
+                x: this.canvas.width * (0.2 + Math.random() * 0.6),
+                y: this.canvas.height * 0.45,
+                vx: (Math.random() - 0.5) * 18,
+                vy: (Math.random() - 1.1) * 16,
+                size: 8 + Math.random() * 8,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rotation: Math.random() * 360,
+                vRot: (Math.random() - 0.5) * 12,
+                life: 100 + Math.random() * 60
+            });
+        }
+        if (!this.running) {
+            this.running = true;
+            this.loop();
+        }
+    }
+
+    loop() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.42; // gravity
+            p.vx *= 0.98;
+            p.rotation += p.vRot;
+            p.life--;
+
+            this.ctx.save();
+            this.ctx.translate(p.x, p.y);
+            this.ctx.rotate((p.rotation * Math.PI) / 180);
+            this.ctx.fillStyle = p.color;
+            this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+            this.ctx.restore();
+        });
+
+        this.particles = this.particles.filter(p => p.life > 0 && p.y < this.canvas.height + 30);
+
+        if (this.particles.length > 0) {
+            requestAnimationFrame(() => this.loop());
+        } else {
+            this.running = false;
+        }
+    }
+}
+
+const confetti = new ConfettiSystem(document.getElementById('confetti-canvas'));
+
+/* ============================================================================
+   4. GAME STATE & LOCALSTORAGE PERSISTENCE
+   ============================================================================ */
+const STORAGE_KEY = 'sentence_scramble_adv_state_v2';
+
+let state = {
+    timerDuration: 45, // 30, 45, 60, or 0 (No timer)
+    sfxEnabled: true,
+    bgmEnabled: false,
+    stats: {
+        score: 0,
+        correct: 0,
+        wrong: 0,
+        skipped: 0
+    },
+    currentQuestionIdx: 0, // 0 to 29
+    attemptsForCurrentQ: 0,
+    questionResolved: false,
+    inProgress: false
+};
+
+function saveState() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+        console.warn('localStorage unavailable', e);
+    }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            state = {
+                ...state,
+                ...parsed,
+                stats: { ...state.stats, ...(parsed.stats || {}) }
+            };
+            sound.sfxEnabled = state.sfxEnabled;
+            sound.bgmEnabled = state.bgmEnabled;
+        }
+    } catch (e) {
+        console.warn('Failed to parse saved state', e);
+    }
+}
+
+/* ============================================================================
+   5. NAVIGATION & UI HELPERS
+   ============================================================================ */
+function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+}
+
+document.querySelectorAll('[data-nav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        sound.playClick();
+        showScreen(btn.getAttribute('data-nav'));
+    });
+});
+
+// Fullscreen toggle for PID
+document.getElementById('btn-fullscreen').addEventListener('click', () => {
+    sound.playClick();
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+        document.exitFullscreen().catch(() => {});
+    }
+});
+
+// Custom Confirmation Modal
+let confirmCallback = null;
+function showConfirm(title, message, onConfirm) {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-message').textContent = message;
+    confirmCallback = onConfirm;
+    document.getElementById('modal-confirm').classList.add('active');
+}
+
+document.getElementById('btn-confirm-no').addEventListener('click', () => {
+    sound.playClick();
+    document.getElementById('modal-confirm').classList.remove('active');
+    confirmCallback = null;
+});
+
+document.getElementById('btn-confirm-yes').addEventListener('click', () => {
+    sound.playClick();
+    document.getElementById('modal-confirm').classList.remove('active');
+    if (typeof confirmCallback === 'function') confirmCallback();
+    confirmCallback = null;
+});
+
+/* ============================================================================
+   6. DIRECT START & HOW TO PLAY NAVIGATION
+   ============================================================================ */
+function startNewChallenge() {
+    state.stats = { score: 0, correct: 0, wrong: 0, skipped: 0 };
+    state.currentQuestionIdx = 0;
+    state.attemptsForCurrentQ = 0;
+    state.questionResolved = false;
+    state.inProgress = true;
+    saveState();
+
+    if (state.bgmEnabled) sound.startBGM();
+    startQuestion(0);
+    showScreen('screen-game');
+}
+
+document.getElementById('btn-start-direct').addEventListener('click', () => {
+    sound.playClick();
+    startNewChallenge();
+});
+
+document.getElementById('btn-go-howto').addEventListener('click', () => {
+    sound.playClick();
+    showScreen('screen-howto');
+});
+
+/* ============================================================================
+   7. MAIN GAMEPLAY ENGINE, TIMER & TOUCH/MOUSE DRAG-AND-DROP
+   ============================================================================ */
+let timerInterval = null;
+let timeRemaining = 45;
+
+function updateAttemptIndicator() {
+    const el = document.getElementById('attempt-indicator');
+    const attemptNum = state.attemptsForCurrentQ + 1;
+    let pts = 100;
+    if (attemptNum === 2) pts = 75;
+    else if (attemptNum >= 3) pts = 50;
+    el.textContent = `Attempt ${attemptNum} • Potential: ${pts} pts`;
+}
+
+function startQuestion(qIdx) {
+    stopTimer();
+    state.currentQuestionIdx = qIdx;
+    state.attemptsForCurrentQ = 0;
+    state.questionResolved = false;
+    saveState();
+
+    const qObj = QUESTIONS_DB[qIdx];
+
+    // Update HUD
+    const qNumStr = String(qIdx + 1).padStart(2, '0');
+    document.getElementById('hud-question').textContent = `QUESTION ${qNumStr} / 30`;
+    document.getElementById('hud-score').textContent = `${state.stats.score} PTS`;
+    document.getElementById('game-progress-bar').style.width = `${((qIdx + 1) / QUESTIONS_DB.length) * 100}%`;
+
+    updateAttemptIndicator();
+
+    // Hide feedback & restore default action buttons
+    const banner = document.getElementById('feedback-banner');
+    banner.className = 'feedback-banner';
+    renderDefaultActionButtons();
+
+    // Populate Scrambled Words exactly from database
+    const answerZone = document.getElementById('answer-zone');
+    const scrambleZone = document.getElementById('scramble-zone');
+    answerZone.innerHTML = '';
+    scrambleZone.innerHTML = '';
+
+    qObj.scrambled.forEach((word, idx) => {
+        const tile = createWordTile(word, idx);
+        scrambleZone.appendChild(tile);
+    });
+
+    // Start Timer
+    startQuestionTimer();
+}
+
+function renderDefaultActionButtons() {
+    const container = document.getElementById('game-action-buttons');
+    container.innerHTML = `
+        <button class="btn btn-green" id="btn-check">✔ CHECK ANSWER</button>
+        <button class="btn btn-royal" id="btn-reset-words">↺ RESET</button>
+        <button class="btn btn-red" id="btn-skip">⏭ SKIP QUESTION</button>
+    `;
+    document.getElementById('btn-check').addEventListener('click', checkCurrentAnswer);
+    document.getElementById('btn-reset-words').addEventListener('click', resetCurrentWords);
+    document.getElementById('btn-skip').addEventListener('click', skipCurrentQuestion);
+}
+
+function renderNextButton() {
+    const container = document.getElementById('game-action-buttons');
+    const isLast = state.currentQuestionIdx >= QUESTIONS_DB.length - 1;
+    container.innerHTML = `
+        <button class="btn btn-yellow" id="btn-next-q" style="min-width: 260px; font-size: 1.3rem;">
+            ${isLast ? '🏆 VIEW FINAL RESULTS' : '➡ NEXT QUESTION'}
+        </button>
+    `;
+    document.getElementById('btn-next-q').addEventListener('click', handleProceedNext);
+}
+
+function startQuestionTimer() {
+    stopTimer();
+    const timerEl = document.getElementById('hud-timer');
+    timerEl.classList.remove('timer-warning');
+
+    if (state.timerDuration === 0) {
+        timerEl.textContent = '∞ NO LIMIT';
+        return;
+    }
+
+    timeRemaining = state.timerDuration;
+    updateTimerDisplay();
+
+    timerInterval = setInterval(() => {
+        if (state.questionResolved) {
+            stopTimer();
+            return;
+        }
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining <= 10 && timeRemaining > 0) {
+            timerEl.classList.add('timer-warning');
+            sound.playTick();
+        }
+
+        if (timeRemaining <= 0) {
+            stopTimer();
+            handleTimeUp();
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+function updateTimerDisplay() {
+    const mins = Math.floor(timeRemaining / 60);
+    const secs = timeRemaining % 60;
+    document.getElementById('hud-timer').textContent =
+        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+function handleTimeUp() {
+    if (state.questionResolved) return;
+    state.questionResolved = true;
+    sound.playWrong();
+
+    state.stats.wrong += 1;
+    saveState();
+
+    const banner = document.getElementById('feedback-banner');
+    banner.className = 'feedback-banner timeout show';
+    document.getElementById('feedback-title').textContent = "⏰ TIME'S UP! (0 POINTS)";
+    document.getElementById('feedback-sentence').textContent =
+        `Correct Sentence: ${QUESTIONS_DB[state.currentQuestionIdx].answer}`;
+
+    renderNextButton();
+}
+
+/* ============================================================================
+   8. UNIVERSAL POINTER DRAG-AND-DROP & TAP INTERACTION (PID TOUCHSCREEN READY)
+   ============================================================================ */
+function createWordTile(wordText, uid) {
+    const tile = document.createElement('div');
+    tile.className = 'word-tile';
+    tile.textContent = wordText;
+    tile.dataset.word = wordText;
+    tile.dataset.uid = uid;
+
+    attachTilePointerHandlers(tile);
+    return tile;
+}
+
+function attachTilePointerHandlers(tile) {
+    tile.addEventListener('pointerdown', (e) => {
+        if (state.questionResolved) return;
+        if (e.button !== 0 && e.pointerType === 'mouse') return;
+
+        e.preventDefault();
+        const startX = e.clientX;
+        const startY = e.clientY;
+        let isDragging = false;
+        let ghost = null;
+
+        const answerZone = document.getElementById('answer-zone');
+        const scrambleZone = document.getElementById('scramble-zone');
+
+        const onPointerMove = (moveEvent) => {
+            const dx = moveEvent.clientX - startX;
+            const dy = moveEvent.clientY - startY;
+
+            if (!isDragging && Math.hypot(dx, dy) > 8) {
+                isDragging = true;
+                tile.classList.add('dragging-source');
+
+                // Create floating ghost tile
+                ghost = tile.cloneNode(true);
+                ghost.classList.remove('dragging-source');
+                ghost.classList.add('drag-ghost');
+                ghost.style.width = `${tile.offsetWidth}px`;
+                document.body.appendChild(ghost);
+            }
+
+            if (isDragging && ghost) {
+                ghost.style.left = `${moveEvent.clientX}px`;
+                ghost.style.top = `${moveEvent.clientY}px`;
+
+                // Highlight drop zone under pointer
+                const ansRect = answerZone.getBoundingClientRect();
+                const scrRect = scrambleZone.getBoundingClientRect();
+
+                answerZone.classList.toggle('drag-over', isInsideRect(moveEvent.clientX, moveEvent.clientY, ansRect));
+                scrambleZone.classList.toggle('drag-over', isInsideRect(moveEvent.clientX, moveEvent.clientY, scrRect));
+            }
+        };
+
+        const onPointerUp = (upEvent) => {
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('pointerup', onPointerUp);
+            window.removeEventListener('pointercancel', onPointerUp);
+
+            answerZone.classList.remove('drag-over');
+            scrambleZone.classList.remove('drag-over');
+            tile.classList.remove('dragging-source');
+
+            if (ghost) {
+                ghost.remove();
+                ghost = null;
+            }
+
+            if (!isDragging) {
+                // Treat as direct tap/click: toggle between scramble zone and answer zone
+                sound.playPop();
+                if (tile.parentElement === scrambleZone) {
+                    answerZone.appendChild(tile);
+                } else {
+                    scrambleZone.appendChild(tile);
+                }
+                triggerTilePop(tile);
+                hideErrorBannerIfVisible();
+                return;
+            }
+
+            // Handle drop destination
+            const ansRect = answerZone.getBoundingClientRect();
+            const scrRect = scrambleZone.getBoundingClientRect();
+
+            if (isInsideRect(upEvent.clientX, upEvent.clientY, ansRect)) {
+                sound.playPop();
+                insertTileAtPointer(answerZone, tile, upEvent.clientX, upEvent.clientY);
+                triggerTilePop(tile);
+                hideErrorBannerIfVisible();
+            } else if (isInsideRect(upEvent.clientX, upEvent.clientY, scrRect)) {
+                sound.playPop();
+                scrambleZone.appendChild(tile);
+                triggerTilePop(tile);
+                hideErrorBannerIfVisible();
+            }
+        };
+
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+    });
+}
+
+function isInsideRect(x, y, rect) {
+    const pad = 16; // generous touch margin for PID boards
+    return x >= rect.left - pad && x <= rect.right + pad && y >= rect.top - pad && y <= rect.bottom + pad;
+}
+
+function insertTileAtPointer(container, draggedTile, x, y) {
+    const siblings = Array.from(container.querySelectorAll('.word-tile')).filter(t => t !== draggedTile);
+    let insertBeforeEl = null;
+
+    for (const sib of siblings) {
+        const box = sib.getBoundingClientRect();
+        const midX = box.left + box.width / 2;
+        const sameRow = Math.abs(y - (box.top + box.height / 2)) < box.height * 0.75;
+        if (sameRow && x < midX) {
+            insertBeforeEl = sib;
+            break;
+        }
+        if (y < box.top - 10) {
+            insertBeforeEl = sib;
+            break;
+        }
+    }
+
+    if (insertBeforeEl) {
+        container.insertBefore(draggedTile, insertBeforeEl);
+    } else {
+        container.appendChild(draggedTile);
+    }
+}
+
+function triggerTilePop(tile) {
+    tile.classList.remove('pop-in');
+    void tile.offsetWidth; // trigger reflow
+    tile.classList.add('pop-in');
+}
+
+function hideErrorBannerIfVisible() {
+    const banner = document.getElementById('feedback-banner');
+    if (banner.classList.contains('error')) {
+        banner.classList.remove('show');
+    }
+}
+
+/* ============================================================================
+   9. ANSWER VALIDATION, SCORING & TURN PROGRESSION
+   ============================================================================ */
+/**
+ * Normalizes a sentence for accurate validation:
+ * - Preserves exact word order, apostrophes (e.g. Don't), and word choices.
+ * - Normalizes punctuation/hyphenation so tiles ["high", "quality"] match "high-quality"
+ *   and terminal punctuation (! . ?) or internal sentence splits ("long. Order") match cleanly
+ *   while strictly enforcing exact word sequence and apostrophes.
+ */
+function normalizeTokensForValidation(wordsArray) {
+    // Join words, split on whitespace or hyphens, strip terminal/internal sentence punctuation (. ! ?)
+    // while keeping apostrophes intact (e.g., don't)
+    const joined = wordsArray.join(' ').trim();
+    return joined
+        .replace(/-/g, ' ')
+        .replace(/[.!?]/g, '')
+        .trim()
+        .split(/\s+/)
+        .map(w => w.toLowerCase())
+        .filter(Boolean);
+}
+
+function checkCurrentAnswer() {
+    if (state.questionResolved) return;
+
+    const answerTiles = Array.from(document.getElementById('answer-zone').querySelectorAll('.word-tile'));
+    const qObj = QUESTIONS_DB[state.currentQuestionIdx];
+
+    if (answerTiles.length === 0) {
+        sound.playWrong();
+        const banner = document.getElementById('feedback-banner');
+        banner.className = 'feedback-banner error show';
+        document.getElementById('feedback-title').textContent = '⚠ PLEASE ARRANGE THE WORDS FIRST!';
+        document.getElementById('feedback-sentence').textContent = 'Move the scrambled word tiles into the Answer Area above.';
+        return;
+    }
+
+    const userWords = answerTiles.map(t => t.dataset.word);
+    const userTokens = normalizeTokensForValidation(userWords);
+    const expectedTokens = normalizeTokensForValidation([qObj.answer]);
+
+    const isExactMatch =
+        userTokens.length === expectedTokens.length &&
+        userTokens.every((tok, idx) => tok === expectedTokens[idx]);
+
+    const banner = document.getElementById('feedback-banner');
+
+    if (isExactMatch) {
+        // CORRECT ANSWER!
+        state.questionResolved = true;
+        stopTimer();
+        sound.playCorrect();
+        confetti.burst(110);
+
+        // Calculate attempt points: 1st = 100, 2nd = 75, 3rd+ = 50
+        let earned = 100;
+        if (state.attemptsForCurrentQ === 1) earned = 75;
+        else if (state.attemptsForCurrentQ >= 2) earned = 50;
+
+        state.stats.score += earned;
+        state.stats.correct += 1;
+        saveState();
+
+        document.getElementById('hud-score').textContent = `${state.stats.score} PTS`;
+
+        banner.className = 'feedback-banner success show';
+        document.getElementById('feedback-title').textContent = `🎉 EXCELLENT! CORRECT ANSWER! (+${earned} POINTS)`;
+        document.getElementById('feedback-sentence').textContent = `"${qObj.answer}"`;
+
+        renderNextButton();
+    } else {
+        // INCORRECT ANSWER
+        state.attemptsForCurrentQ += 1;
+        sound.playWrong();
+        updateAttemptIndicator();
+        saveState();
+
+        banner.className = 'feedback-banner error show';
+        document.getElementById('feedback-title').textContent = '❌ NOT QUITE! TRY AGAIN!';
+        document.getElementById('feedback-sentence').textContent = 'Check your word order carefully and rearrange the tiles.';
+
+        // Show TRY AGAIN button alongside RESET & SKIP
+        const container = document.getElementById('game-action-buttons');
+        container.innerHTML = `
+            <button class="btn btn-yellow" id="btn-try-again">🔁 TRY AGAIN</button>
+            <button class="btn btn-royal" id="btn-reset-words">↺ RESET</button>
+            <button class="btn btn-red" id="btn-skip">⏭ SKIP QUESTION</button>
+        `;
+        document.getElementById('btn-try-again').addEventListener('click', () => {
+            sound.playClick();
+            banner.classList.remove('show');
+            renderDefaultActionButtons();
+        });
+        document.getElementById('btn-reset-words').addEventListener('click', resetCurrentWords);
+        document.getElementById('btn-skip').addEventListener('click', skipCurrentQuestion);
+    }
+}
+
+function resetCurrentWords() {
+    if (state.questionResolved) return;
+    sound.playClick();
+    const answerZone = document.getElementById('answer-zone');
+    const scrambleZone = document.getElementById('scramble-zone');
+    const qObj = QUESTIONS_DB[state.currentQuestionIdx];
+
+    answerZone.innerHTML = '';
+    scrambleZone.innerHTML = '';
+    qObj.scrambled.forEach((word, idx) => {
+        scrambleZone.appendChild(createWordTile(word, idx));
+    });
+
+    document.getElementById('feedback-banner').classList.remove('show');
+    renderDefaultActionButtons();
+}
+
+function skipCurrentQuestion() {
+    if (state.questionResolved) return;
+    sound.playClick();
+    state.questionResolved = true;
+    stopTimer();
+
+    state.stats.skipped += 1;
+    saveState();
+
+    const banner = document.getElementById('feedback-banner');
+    banner.className = 'feedback-banner timeout show';
+    document.getElementById('feedback-title').textContent = '⏭ QUESTION SKIPPED (0 POINTS)';
+    document.getElementById('feedback-sentence').textContent =
+        `Correct Sentence: "${QUESTIONS_DB[state.currentQuestionIdx].answer}"`;
+
+    renderNextButton();
+}
+
+function handleProceedNext() {
+    sound.playClick();
+    const nextIdx = state.currentQuestionIdx + 1;
+
+    if (nextIdx >= QUESTIONS_DB.length) {
+        // All 30 questions completed!
+        state.inProgress = false;
+        saveState();
+        showFinalResults();
+        return;
+    }
+
+    startQuestion(nextIdx);
+}
+
+/* ============================================================================
+   10. FINAL RESULTS & PERFORMANCE SUMMARY
+   ============================================================================ */
+function showFinalResults() {
+    stopTimer();
+    sound.playFanfare();
+    confetti.burst(180);
+
+    const { score, correct, wrong, skipped } = state.stats;
+    const totalAttempted = correct + wrong + skipped;
+    const pct = totalAttempted > 0 ? Math.round((correct / totalAttempted) * 100) : 0;
+
+    let awardBadge = '🌟 Great Effort!';
+    let awardTitle = 'Advertisement Explorer';
+    if (pct >= 85) {
+        awardBadge = '🥇 GOLD MEDAL';
+        awardTitle = '👑 Sentence Champion';
+    } else if (pct >= 65) {
+        awardBadge = '🥈 SILVER MEDAL';
+        awardTitle = '⭐ Excellent Advertiser';
+    } else if (pct >= 45) {
+        awardBadge = '🥉 BRONZE MEDAL';
+        awardTitle = '💡 Smart Learner';
+    }
+
+    const podiumEl = document.getElementById('result-podium');
+    podiumEl.innerHTML = `
+        <div class="podium-card rank-1" style="max-width: 520px; margin: 0 auto; width: 100%;">
+            <div class="award-badge">${awardBadge}</div>
+            <div style="color: var(--yellow); font-size: 1.5rem; font-weight: 900; margin-bottom: 8px;">${awardTitle}</div>
+            <div style="font-size: 2.8rem; font-weight: 900;">${score} <span style="font-size: 1.2rem;">PTS</span></div>
+            <div style="font-size: 1.05rem; color: #CBD5E1; margin-top: 8px;">
+                ✔ ${correct} / 30 Correct • Accuracy: ${pct}%
+            </div>
+        </div>
+    `;
+
+    const tbody = document.getElementById('result-table-body');
+    tbody.innerHTML = `
+        <tr>
+            <td style="font-size: 1.2rem; color: #34D399;">${score} pts</td>
+            <td>${correct}</td>
+            <td>${wrong}</td>
+            <td>${skipped}</td>
+            <td>${pct}%</td>
+        </tr>
+    `;
+
+    showScreen('screen-result');
+}
+
+document.getElementById('btn-play-again').addEventListener('click', () => {
+    sound.playClick();
+    startNewChallenge();
+});
+
+/* ============================================================================
+   11. TEACHER SETTINGS MENU & ANSWER KEY VIEWER
+   ============================================================================ */
+function openSettingsModal() {
+    sound.playClick();
+    renderSettingsUI();
+    document.getElementById('modal-settings').classList.add('active');
+}
+
+function renderSettingsUI() {
+    // Highlight active timer pill
+    document.querySelectorAll('#settings-timer-options .timer-pill').forEach(pill => {
+        const val = parseInt(pill.dataset.time, 10);
+        pill.classList.toggle('selected', val === state.timerDuration);
+    });
+
+    // Audio toggles
+    const sfxBtn = document.getElementById('toggle-sfx');
+    sfxBtn.textContent = state.sfxEnabled ? 'ON' : 'OFF';
+    sfxBtn.className = `btn btn-sm ${state.sfxEnabled ? 'btn-green' : 'btn-outline'}`;
+
+    const bgmBtn = document.getElementById('toggle-bgm');
+    bgmBtn.textContent = state.bgmEnabled ? 'ON' : 'OFF';
+    bgmBtn.className = `btn btn-sm ${state.bgmEnabled ? 'btn-green' : 'btn-outline'}`;
+}
+
+document.getElementById('btn-open-settings').addEventListener('click', openSettingsModal);
+document.getElementById('btn-home-settings').addEventListener('click', openSettingsModal);
+document.getElementById('btn-close-settings').addEventListener('click', () => {
+    sound.playClick();
+    document.getElementById('modal-settings').classList.remove('active');
+});
+
+document.querySelectorAll('#settings-timer-options .timer-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+        sound.playClick();
+        state.timerDuration = parseInt(pill.dataset.time, 10);
+        saveState();
+        renderSettingsUI();
+        if (document.getElementById('screen-game').classList.contains('active') && !state.questionResolved) {
+            startQuestionTimer();
+        }
+    });
+});
+
+document.getElementById('toggle-sfx').addEventListener('click', () => {
+    state.sfxEnabled = !state.sfxEnabled;
+    sound.sfxEnabled = state.sfxEnabled;
+    if (state.sfxEnabled) sound.playClick();
+    saveState();
+    renderSettingsUI();
+});
+
+document.getElementById('toggle-bgm').addEventListener('click', () => {
+    sound.playClick();
+    state.bgmEnabled = !state.bgmEnabled;
+    sound.bgmEnabled = state.bgmEnabled;
+    if (state.bgmEnabled) sound.startBGM();
+    else sound.stopBGM();
+    saveState();
+    renderSettingsUI();
+});
+
+// Reset Score (with Confirmation)
+document.getElementById('btn-reset-scores').addEventListener('click', () => {
+    sound.playClick();
+    showConfirm(
+        'RESET SCORE?',
+        'This will set the current score, correct, wrong, and skipped counts back to 0. Continue?',
+        () => {
+            state.stats = { score: 0, correct: 0, wrong: 0, skipped: 0 };
+            saveState();
+            if (document.getElementById('screen-game').classList.contains('active')) {
+                document.getElementById('hud-score').textContent = '0 PTS';
+            }
+            document.getElementById('modal-settings').classList.remove('active');
+        }
+    );
+});
+
+// Restart Game (with Confirmation)
+document.getElementById('btn-restart-game').addEventListener('click', () => {
+    sound.playClick();
+    showConfirm(
+        'RESTART ENTIRE GAME?',
+        'This will reset your score and return to Question 01 / 30 from the beginning. Continue?',
+        () => {
+            stopTimer();
+            document.getElementById('modal-settings').classList.remove('active');
+            startNewChallenge();
+        }
+    );
+});
+
+// Answer Key Modal
+function openAnswerKeyModal() {
+    sound.playClick();
+    const list = document.getElementById('answerkey-list');
+    list.innerHTML = '';
+    QUESTIONS_DB.forEach(q => {
+        const item = document.createElement('div');
+        item.className = 'answer-key-item';
+        item.innerHTML = `
+            <div class="ak-q"><strong>Q${String(q.id).padStart(2, '0')}:</strong> ${q.scrambled.join(' – ')}</div>
+            <div class="ak-a">✔ ${q.answer}</div>
+        `;
+        list.appendChild(item);
+    });
+    document.getElementById('modal-answerkey').classList.add('active');
+}
+
+document.getElementById('btn-settings-answerkey').addEventListener('click', openAnswerKeyModal);
+document.getElementById('btn-result-answerkey').addEventListener('click', openAnswerKeyModal);
+document.getElementById('btn-close-answerkey').addEventListener('click', () => {
+    sound.playClick();
+    document.getElementById('modal-answerkey').classList.remove('active');
+});
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+/* ============================================================================
+   12. INITIALIZATION ON WINDOW LOAD
+   ============================================================================ */
+window.addEventListener('load', () => {
+    loadState();
+});
+</script>
+</body>
+</html>
