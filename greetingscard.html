@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings Card — Interactive Learning Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Playpen+Sans:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        handwriting: ['Playpen Sans', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background grid pattern */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Smooth fade-in for tabs and sub-tabs */
+        .fade-in-panel {
+            animation: panelFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes panelFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hide horizontal scrollbar on mobile tab bars */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3 md:h-20 gap-3">
+                
+                <!-- Brand / Logo -->
+                <button onclick="switchTab('home')" class="flex items-center gap-3 text-left group focus:outline-none">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-200 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-envelope-open-text text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900 block leading-none">Greetings Card</span>
+                        <span class="text-xs font-medium text-slate-500">English Grade IX Learning Portal</span>
+                    </div>
+                </button>
+
+                <!-- Main Navigation Tabs -->
+                <nav class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 md:pb-0 no-scrollbar" aria-label="Main Navigation">
+                    <button onclick="switchTab('home')" id="nav-home" class="tab-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </button>
+                    <button onclick="switchTab('greeting')" id="nav-greeting" class="tab-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-slate-100">
+                        <i class="fa-solid fa-envelope-open-text text-blue-500"></i>
+                        <span>Greeting Card</span>
+                    </button>
+                    <button onclick="switchTab('congrats')" id="nav-congrats" class="tab-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-slate-100">
+                        <i class="fa-solid fa-trophy text-amber-500"></i>
+                        <span>Congratulations</span>
+                    </button>
+                    <button onclick="switchTab('condolences')" id="nav-condolences" class="tab-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-slate-100">
+                        <i class="fa-solid fa-dove text-teal-600"></i>
+                        <span>Condolences</span>
+                    </button>
+                </nav>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow flex flex-col">
+
+        <!-- =====================================================================
+             VIEW 0: LANDING PAGE (HOME)
+        ====================================================================== -->
+        <section id="view-home" class="view-section fade-in-panel flex-grow flex flex-col">
+            <!-- Hero Section -->
+            <div class="relative overflow-hidden bg-gradient-to-b from-blue-50/80 via-white to-slate-50 pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-slate-200/60">
+                <div class="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute top-32 -left-24 w-80 h-80 bg-indigo-200/40 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-blue-100 shadow-sm text-blue-700 text-xs sm:text-sm font-semibold mb-6">
+                        <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                        <span>Greetings Card &amp; Social Expressions • Grade IX</span>
+                    </div>
+
+                    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
+                        Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-500">Greetings Card</span><br class="hidden sm:inline">
+                        Interactive Web Portal
+                    </h1>
+
+                    <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 mb-10 leading-relaxed">
+                        A complete, structured learning resource covering Short Functional Texts (Greeting Cards), Expressions of Congratulations, and Expressions of Condolences—complete with real-life contexts, dialogues, and interactive practice.
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <button onclick="switchTab('greeting')" class="px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-200 transition-all flex items-center gap-2.5 text-sm sm:text-base">
+                            <span>Start with Greeting Card</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <a href="#modules-grid" class="px-7 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-semibold border border-slate-200 shadow-sm transition-all text-sm sm:text-base">
+                            Browse All 3 Modules
+                        </a>
+                    </div>
+
+                    <!-- Quick Stats Bar -->
+                    <div class="mt-14 grid grid-cols-3 gap-4 max-w-2xl mx-auto bg-white/90 backdrop-blur border border-slate-200/80 rounded-2xl p-4 shadow-sm">
+                        <div>
+                            <div class="font-display font-bold text-2xl sm:text-3xl text-blue-600">3</div>
+                            <div class="text-xs sm:text-sm text-slate-500 font-medium">Main Topics</div>
+                        </div>
+                        <div class="border-x border-slate-200">
+                            <div class="font-display font-bold text-2xl sm:text-3xl text-indigo-600">9</div>
+                            <div class="text-xs sm:text-sm text-slate-500 font-medium">Sub-Topic Sections</div>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-2xl sm:text-3xl text-teal-600">15+</div>
+                            <div class="text-xs sm:text-sm text-slate-500 font-medium">Real Situations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Selection Cards -->
+            <div id="modules-grid" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Explore Learning Modules</h2>
+                    <p class="text-slate-500 mt-2">Select a module below to read structured articles, examples, and exercises.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1: Greeting Card -->
+                    <div onclick="switchTab('greeting')" class="group cursor-pointer bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-6 relative z-10">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">
+                                <span>Module 01</span>
+                                <span>•</span>
+                                <span>3 Sub-Tabs</span>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">Greeting Card</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                Learn the definition, social function, occasions, types of cards, generic structure (Receiver, Body, Sender), and sample cards.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-blue-600">
+                            <span>Explore Module</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Congratulations -->
+                    <div onclick="switchTab('congrats')" class="group cursor-pointer bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-xl hover:border-amber-300 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-6 relative z-10">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">
+                                <span>Module 02</span>
+                                <span>•</span>
+                                <span>3 Sub-Tabs</span>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold text-slate-900 mb-3 group-hover:text-amber-600 transition-colors">Expression of Congratulations</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                Celebrate success across 10 real-life situations, master grammar patterns, and study polite chat dialogues and responses.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-amber-600">
+                            <span>Explore Module</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Condolences -->
+                    <div onclick="switchTab('condolences')" class="group cursor-pointer bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-teal-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center text-2xl mb-6 relative z-10">
+                                <i class="fa-solid fa-dove"></i>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-teal-600 mb-2">
+                                <span>Module 03</span>
+                                <span>•</span>
+                                <span>3 Sub-Tabs</span>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold text-slate-900 mb-3 group-hover:text-teal-600 transition-colors">Expression of Condolences</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                Understand how to express genuine sympathy, empathy, and comfort politely during difficult moments and loss.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-teal-600">
+                            <span>Explore Module</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             VIEW 1: GREETING CARD (WEBSITE LAYOUT WITH 3 SUB-TABS)
+        ====================================================================== -->
+        <section id="view-greeting" class="view-section hidden fade-in-panel flex-grow">
+            <!-- Module Banner -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-10 sm:py-14">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-blue-100 text-xs font-bold uppercase tracking-widest mb-3">Module 01 • Short Functional Text</span>
+                            <h1 class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight">Greeting Card</h1>
+                            <p class="text-blue-100 mt-2 max-w-2xl text-sm sm:text-base">
+                                Expressing feelings, appreciation, congratulations, sympathy, or good wishes through short written messages.
+                            </p>
+                        </div>
+                        <!-- Decorative SVG Bunting -->
+                        <div class="w-48 sm:w-56 flex-shrink-0">
+                            <svg viewBox="0 0 400 110" class="w-full h-auto drop-shadow overflow-visible">
+                                <path d="M 10 25 Q 200 80 390 25" fill="transparent" stroke="#bfdbfe" stroke-width="3" />
+                                <polygon points="35,36 75,48 55,82" fill="#f472b6" />
+                                <polygon points="95,52 135,60 115,95" fill="#fbbf24" />
+                                <polygon points="155,63 195,66 175,102" fill="#2dd4bf" />
+                                <polygon points="215,66 255,63 235,102" fill="#c084fc" />
+                                <polygon points="275,60 315,52 295,95" fill="#38bdf8" />
+                                <polygon points="335,48 375,36 355,82" fill="#fb7185" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Tabs Navigation Bar -->
+            <div class="bg-white border-b border-slate-200 sticky top-16 md:top-20 z-30 shadow-xs">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-2 overflow-x-auto py-3 no-scrollbar">
+                        <button onclick="switchSubTab('greeting', 'overview')" data-subbtn="greeting-overview" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-blue-600 text-white shadow-sm">
+                            1. Overview &amp; Purpose
+                        </button>
+                        <button onclick="switchSubTab('greeting', 'occasions')" data-subbtn="greeting-occasions" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+                            2. Occasions &amp; Card Types
+                        </button>
+                        <button onclick="switchSubTab('greeting', 'structure')" data-subbtn="greeting-structure" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+                            3. Generic Structure &amp; Example
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Tab Contents -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+                
+                <!-- SUB-TAB 1: Overview & Purpose -->
+                <div id="sub-greeting-overview" data-subpanel="greeting" class="fade-in-panel space-y-8">
+                    <!-- Definition Box -->
+                    <div class="bg-white p-7 sm:p-10 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-book-open"></i></span>
+                            <h2 class="font-display text-2xl font-bold text-slate-900">What is a Greeting Card?</h2>
+                        </div>
+                        <p class="text-lg sm:text-xl leading-relaxed text-slate-700 bg-blue-50/60 p-6 rounded-2xl border border-blue-100">
+                            A <strong class="text-blue-700 font-bold">Greeting Card</strong> is a short written message used to express feelings, appreciation, congratulations, sympathy, or good wishes for a particular occasion.
+                        </p>
+                    </div>
+
+                    <!-- Learning Objectives & Purpose Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Objectives -->
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="font-display text-xl font-bold text-slate-900 mb-5 flex items-center gap-2.5">
+                                <i class="fa-solid fa-bullseye text-rose-500"></i> Learning Objectives
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                    <span class="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-users"></i></span>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900">Social Function</h4>
+                                        <p class="text-slate-600 text-sm">Identify the social function of Greeting Cards.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                    <span class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-layer-group"></i></span>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900">Generic Structure</h4>
+                                        <p class="text-slate-600 text-sm">Identify the generic structure of Greeting Cards.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                    <span class="w-9 h-9 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-clock"></i></span>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900">Usage Context</h4>
+                                        <p class="text-slate-600 text-sm">Explain when Greeting Cards are used.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Purpose -->
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="font-display text-xl font-bold text-slate-900 mb-5 flex items-center gap-2.5">
+                                <i class="fa-solid fa-crosshairs text-orange-500"></i> Purpose &amp; Social Function
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="p-3.5 rounded-xl bg-pink-50/70 border border-pink-100 flex items-center gap-3.5">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-pink-500 text-lg w-6 text-center"></i>
+                                    <span class="font-medium text-slate-800">Express good wishes</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-100 flex items-center gap-3.5">
+                                    <i class="fa-solid fa-champagne-glasses text-amber-500 text-lg w-6 text-center"></i>
+                                    <span class="font-medium text-slate-800">Celebrate important events</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-blue-50/70 border border-blue-100 flex items-center gap-3.5">
+                                    <i class="fa-solid fa-hand-holding-heart text-blue-500 text-lg w-6 text-center"></i>
+                                    <span class="font-medium text-slate-800">Show gratitude or sympathy</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-100 flex items-center gap-3.5">
+                                    <i class="fa-solid fa-hand-fist text-emerald-500 text-lg w-6 text-center"></i>
+                                    <span class="font-medium text-slate-800">Send encouragement or support</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center gap-3.5">
+                                    <i class="fa-solid fa-people-arrows text-indigo-600 text-lg w-6 text-center"></i>
+                                    <span class="font-bold text-indigo-950">Maintain positive relationships</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 2: Occasions & Card Types -->
+                <div id="sub-greeting-occasions" data-subpanel="greeting" class="hidden fade-in-panel space-y-8">
+                    <!-- Occasions Grid -->
+                    <div class="bg-white p-7 sm:p-9 rounded-3xl border border-slate-200 shadow-sm">
+                        <h2 class="font-display text-2xl font-bold text-slate-900 mb-2">When Do We Send Greeting Cards?</h2>
+                        <p class="text-slate-500 text-sm mb-6">Greeting cards are sent on both joyful milestones and moments requiring care.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-graduation-cap text-3xl text-indigo-600 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Graduation</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-award text-3xl text-amber-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Congratulations</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-bed-pulse text-3xl text-rose-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Get Well Soon</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-ring text-3xl text-purple-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Wedding</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-hands-praying text-3xl text-blue-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Thank You</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-baby-carriage text-3xl text-pink-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">New Baby</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-plane-departure text-3xl text-sky-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Farewell</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition">
+                                <i class="fa-solid fa-dove text-3xl text-slate-500 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Sympathy</h3>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center hover:border-blue-300 transition col-span-2 sm:col-span-1 md:col-span-2">
+                                <i class="fa-solid fa-tree text-3xl text-emerald-600 mb-2.5"></i>
+                                <h3 class="font-semibold text-sm text-slate-800">Holiday Celebrations</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Types of Cards -->
+                    <div class="bg-white p-7 sm:p-9 rounded-3xl border border-slate-200 shadow-sm">
+                        <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2.5">
+                            <i class="fa-solid fa-layer-group text-blue-600"></i> Main Types of Greeting Cards
+                        </h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3 font-semibold text-slate-800">
+                                <i class="fa-solid fa-circle-check text-blue-600"></i> Congratulations Card
+                            </div>
+                            <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3 font-semibold text-slate-800">
+                                <i class="fa-solid fa-circle-check text-blue-600"></i> Thank You Card
+                            </div>
+                            <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3 font-semibold text-slate-800">
+                                <i class="fa-solid fa-circle-check text-blue-600"></i> Get Well Soon Card
+                            </div>
+                            <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3 font-semibold text-slate-800">
+                                <i class="fa-solid fa-circle-check text-blue-600"></i> Sympathy / Condolence Card
+                            </div>
+                            <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3 font-semibold text-slate-800">
+                                <i class="fa-solid fa-circle-check text-blue-600"></i> Holiday Card
+                            </div>
+                            <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3 font-semibold text-slate-800">
+                                <i class="fa-solid fa-circle-check text-blue-600"></i> Farewell Card
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 3: Generic Structure & Example -->
+                <div id="sub-greeting-structure" data-subpanel="greeting" class="hidden fade-in-panel space-y-8">
+                    <!-- Generic Structure Cards -->
+                    <div class="bg-white p-7 sm:p-9 rounded-3xl border border-slate-200 shadow-sm">
+                        <h2 class="font-display text-2xl font-bold text-slate-900 mb-6">Generic Structure of a Greeting Card</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="p-6 rounded-2xl bg-blue-50/50 border-t-4 border-blue-500 border-x border-b border-slate-200">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-sm mb-3">1</span>
+                                <h3 class="font-display font-bold text-xl text-slate-900 mb-2">Receiver (Addressee)</h3>
+                                <p class="text-slate-600 text-sm">The person or group who receives the card (e.g., <em>Dear Rina,</em> or <em>To my best friend,</em>).</p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-indigo-50/50 border-t-4 border-indigo-500 border-x border-b border-slate-200">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-sm mb-3">2</span>
+                                <h3 class="font-display font-bold text-xl text-slate-900 mb-2">Body / Message</h3>
+                                <p class="text-slate-600 text-sm">The main content expressing feelings, appreciation, prayers, or good wishes.</p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-emerald-50/50 border-t-4 border-emerald-500 border-x border-b border-slate-200">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-sm mb-3">3</span>
+                                <h3 class="font-display font-bold text-xl text-slate-900 mb-2">Sender (Signature)</h3>
+                                <p class="text-slate-600 text-sm">The person or group sending the card (e.g., <em>Best wishes, Class IX A</em>).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Annotated Example Card -->
+                    <div class="bg-white p-7 sm:p-9 rounded-3xl border border-slate-200 shadow-sm flex flex-col lg:flex-row items-center gap-8">
+                        <div class="flex-1 space-y-4">
+                            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">Sample Analysis</span>
+                            <h3 class="font-display text-2xl font-bold text-slate-900">How the Structure Works in Practice</h3>
+                            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                                Look at the greeting card example. Notice how clear, warm, and concise the message is—starting with the <strong>Receiver</strong>, followed by a celebratory <strong>Body</strong>, and ending with the <strong>Sender</strong>.
+                            </p>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-sm text-slate-700 italic font-handwriting">
+                                "Keep spreading kindness with simple messages."
+                            </div>
+                        </div>
+
+                        <div class="w-full max-w-md bg-amber-50 border-2 border-dashed border-amber-300 rounded-3xl p-7 sm:p-8 shadow-sm font-handwriting text-lg text-slate-800">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="px-2.5 py-0.5 rounded bg-blue-100 text-blue-700 font-sans text-xs font-bold">1. Receiver</span>
+                                <div class="flex gap-1 text-amber-400">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="text-center mb-5">
+                                <h4 class="text-2xl sm:text-3xl font-bold text-rose-600 font-display">Congratulations!</h4>
+                                <p class="text-xs tracking-widest text-rose-400 font-sans font-bold uppercase mt-1">You Did It!</p>
+                            </div>
+                            <p class="mb-3 text-blue-800 font-bold">Dear Rina,</p>
+                            <div class="mb-6 pl-3 border-l-2 border-indigo-300">
+                                <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-sans text-xs font-bold inline-block mb-1">2. Body / Message</span>
+                                <p class="leading-relaxed text-slate-700">
+                                    Congratulations on winning the competition! We are very proud of you. Keep inspiring everyone.
+                                </p>
+                            </div>
+                            <div class="text-right border-t border-amber-200 pt-3">
+                                <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-sans text-xs font-bold inline-block mb-1">3. Sender</span>
+                                <p class="text-sm text-slate-500 font-sans">Best wishes,</p>
+                                <p class="font-bold text-xl text-rose-700">Class IX A</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             VIEW 2: CONGRATULATIONS (WEBSITE LAYOUT WITH 3 SUB-TABS)
+        ====================================================================== -->
+        <section id="view-congrats" class="view-section hidden fade-in-panel flex-grow">
+            <!-- Module Banner -->
+            <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white py-10 sm:py-14">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-widest mb-3">Module 02 • Social Expression</span>
+                            <h1 class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight">Expression of Congratulations</h1>
+                            <p class="text-amber-50 mt-2 max-w-2xl text-sm sm:text-base">
+                                Celebrate Success, Share Happiness! Learn how to express pride, joy, and appreciation for others' achievements.
+                            </p>
+                        </div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl shadow-inner flex-shrink-0">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Tabs Navigation Bar -->
+            <div class="bg-white border-b border-slate-200 sticky top-16 md:top-20 z-30 shadow-xs">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-2 overflow-x-auto py-3 no-scrollbar">
+                        <button onclick="switchSubTab('congrats', 'overview')" data-subbtn="congrats-overview" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-amber-500 text-white shadow-sm">
+                            1. Concept, Grammar &amp; Responses
+                        </button>
+                        <button onclick="switchSubTab('congrats', 'situations')" data-subbtn="congrats-situations" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+                            2. 10 Real-Life Situations
+                        </button>
+                        <button onclick="switchSubTab('congrats', 'quiz')" data-subbtn="congrats-quiz" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+                            3. Example Dialogue &amp; Summary
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Tab Contents -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+
+                <!-- SUB-TAB 1: Concept, Grammar & Responses -->
+                <div id="sub-congrats-overview" data-subpanel="congrats" class="fade-in-panel space-y-8">
+                    <!-- Definition & Social Function -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Definition &amp; Purpose</span>
+                            <h2 class="font-display text-2xl font-bold text-slate-900 mt-1 mb-4">What is It?</h2>
+                            <p class="text-slate-700 leading-relaxed mb-5">
+                                An expression of congratulations is used to show <strong>happiness</strong>, <strong>appreciation</strong>, and <strong>support</strong> for someone's success or happy occasion.
+                            </p>
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-100">
+                                    <strong class="text-slate-900 block"><i class="fa-solid fa-hands-clapping text-amber-600 mr-1.5"></i>Celebrate</strong>
+                                    <span class="text-slate-600 text-xs">Someone's success</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-100">
+                                    <strong class="text-slate-900 block"><i class="fa-solid fa-heart text-rose-500 mr-1.5"></i>Appreciate</strong>
+                                    <span class="text-slate-600 text-xs">Someone's achievement</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-100">
+                                    <strong class="text-slate-900 block"><i class="fa-regular fa-face-laugh-squint text-blue-500 mr-1.5"></i>Show Joy</strong>
+                                    <span class="text-slate-600 text-xs">Share happiness</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-100">
+                                    <strong class="text-slate-900 block"><i class="fa-solid fa-fire text-orange-500 mr-1.5"></i>Encourage</strong>
+                                    <span class="text-slate-600 text-xs">Keep them motivated</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grammar Focus -->
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Language Focus</span>
+                            <h2 class="font-display text-2xl font-bold text-slate-900 mt-1 mb-4">Grammar Patterns</h2>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-200">
+                                    <div class="text-xs font-bold text-blue-700 uppercase mb-1">Pattern 1: Followed by a Noun</div>
+                                    <p class="font-semibold text-slate-900 mb-2">Congratulations + <span class="text-blue-700 underline">on</span> + <em>Noun</em></p>
+                                    <ul class="text-sm text-slate-700 space-y-1">
+                                        <li>• Congratulations on <strong>your graduation</strong>.</li>
+                                        <li>• Congratulations on <strong>your success</strong>.</li>
+                                    </ul>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-200">
+                                    <div class="text-xs font-bold text-purple-700 uppercase mb-1">Pattern 2: Followed by Verb-ing</div>
+                                    <p class="font-semibold text-slate-900 mb-2">Congratulations + <span class="text-purple-700 underline">on</span> + <em>Verb(-ing)</em></p>
+                                    <ul class="text-sm text-slate-700 space-y-1">
+                                        <li>• Congratulations on <strong>winning</strong> the game.</li>
+                                        <li>• Congratulations on <strong>passing</strong> the exam.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Common Expressions & Polite Responses -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="font-display font-bold text-lg text-amber-600 mb-4">Short &amp; Casual</h3>
+                            <ul class="space-y-2.5 text-sm font-medium text-slate-700">
+                                <li class="p-3 rounded-xl bg-amber-50/60">Congratulations!</li>
+                                <li class="p-3 rounded-xl bg-amber-50/60">Well done!</li>
+                                <li class="p-3 rounded-xl bg-amber-50/60">Good job!</li>
+                                <li class="p-3 rounded-xl bg-amber-50/60">Awesome!</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="font-display font-bold text-lg text-indigo-600 mb-4">Longer &amp; Formal</h3>
+                            <ul class="space-y-2.5 text-sm font-medium text-slate-700">
+                                <li class="p-3 rounded-xl bg-indigo-50/60">Congrats on your achievement.</li>
+                                <li class="p-3 rounded-xl bg-indigo-50/60">We're so proud of you.</li>
+                                <li class="p-3 rounded-xl bg-indigo-50/60">You really deserve it.</li>
+                                <li class="p-3 rounded-xl bg-indigo-50/60">Keep up the good work!</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="font-display font-bold text-lg text-emerald-600 mb-4">Polite Responses</h3>
+                            <ul class="space-y-2.5 text-sm font-medium text-slate-700">
+                                <li class="p-3 rounded-xl bg-emerald-50/60">"Thank you!"</li>
+                                <li class="p-3 rounded-xl bg-emerald-50/60">"Thanks a lot."</li>
+                                <li class="p-3 rounded-xl bg-emerald-50/60">"I really appreciate it."</li>
+                                <li class="p-3 rounded-xl bg-emerald-50/60">"That's very kind of you."</li>
+                            </ul>
+                        </div>
+                <!-- SUB-TAB 3: Example Dialogue & Summary -->
+                <div id="sub-congrats-quiz" data-subpanel="congrats" class="hidden fade-in-panel space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                        <!-- Dialogue Card -->
+                        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Conversation Practice</span>
+                                <h2 class="font-display text-2xl font-bold text-slate-900 mt-1 mb-6">Example Dialogue</h2>
+                                <div class="flex flex-col gap-4 text-sm sm:text-base">
+                                    <div class="self-start max-w-[88%] bg-slate-100 text-slate-800 px-5 py-3.5 rounded-2xl rounded-bl-sm">
+                                        <span class="text-xs font-bold text-indigo-600 block mb-0.5">Rafi</span>
+                                        Hey! Congratulations on winning the English Speech Competition! 🎉✨
+                                    </div>
+                                    <div class="self-end max-w-[88%] bg-amber-500 text-white px-5 py-3.5 rounded-2xl rounded-br-sm">
+                                        <span class="text-xs font-bold text-amber-100 block mb-0.5">Nadia</span>
+                                        Omg, thank you very much! 😄
+                                    </div>
+                                    <div class="self-start max-w-[88%] bg-slate-100 text-slate-800 px-5 py-3.5 rounded-2xl rounded-bl-sm">
+                                        <span class="text-xs font-bold text-indigo-600 block mb-0.5">Rafi</span>
+                                        You really deserved it. Your speech was amazing! 🔥
+                                    </div>
+                                    <div class="self-end max-w-[88%] bg-amber-500 text-white px-5 py-3.5 rounded-2xl rounded-br-sm">
+                                        <span class="text-xs font-bold text-amber-100 block mb-0.5">Nadia</span>
+                                        Thanks a lot. I'm very happy right now! 😊
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Key Takeaways / Summary Card -->
+                        <div class="bg-amber-50/70 p-6 sm:p-8 rounded-3xl border border-amber-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Lesson Summary</span>
+                                <h2 class="font-display text-2xl font-bold text-slate-900 mt-1 mb-6 flex items-center gap-2">
+                                    <i class="fa-solid fa-lightbulb text-amber-500"></i> Remember!
+                                </h2>
+                                <ul class="space-y-4 text-sm sm:text-base font-medium text-slate-800">
+                                    <li class="p-4 rounded-2xl bg-white border border-amber-100 flex items-start gap-3">
+                                        <i class="fa-solid fa-circle-check text-amber-500 mt-1"></i>
+                                        <span>Use expressions of congratulations for <strong>happy occasions</strong> and achievements.</span>
+                                    </li>
+                                    <li class="p-4 rounded-2xl bg-white border border-amber-100 flex items-start gap-3">
+                                        <i class="fa-solid fa-circle-check text-amber-500 mt-1"></i>
+                                        <span>Choose an expression that <strong>matches the situation</strong> (casual for close friends, formal for teachers or elders).</span>
+                                    </li>
+                                    <li class="p-4 rounded-2xl bg-white border border-amber-100 flex items-start gap-3">
+                                        <i class="fa-solid fa-circle-check text-amber-500 mt-1"></i>
+                                        <span>Always <strong>respond politely</strong> with gratitude when someone congratulates you.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-6 p-4 rounded-2xl bg-amber-500 text-white text-center font-display font-bold">
+                                Congratulations = Celebrate someone's happiness! 🎉
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             VIEW 3: CONDOLENCES (WEBSITE LAYOUT WITH 3 SUB-TABS)
+        ====================================================================== -->
+        <section id="view-condolences" class="view-section hidden fade-in-panel flex-grow">
+            <!-- Module Banner -->
+            <div class="bg-gradient-to-r from-slate-800 to-teal-900 text-white py-10 sm:py-14">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-teal-200 text-xs font-bold uppercase tracking-widest mb-3">Module 03 • Empathy &amp; Care</span>
+                            <h1 class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight">Expression of Condolences</h1>
+                            <p class="text-slate-200 mt-2 max-w-2xl text-sm sm:text-base">
+                                "Showing Sympathy and Caring for Others" — Learn how to comfort friends and family during moments of sorrow and loss.
+                            </p>
+                        </div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white/10 backdrop-blur flex items-center justify-center text-4xl text-teal-200 shadow-inner flex-shrink-0">
+                            <i class="fa-solid fa-dove"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Tabs Navigation Bar -->
+            <div class="bg-white border-b border-slate-200 sticky top-16 md:top-20 z-30 shadow-xs">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-2 overflow-x-auto py-3 no-scrollbar">
+                        <button onclick="switchSubTab('condolences', 'overview')" data-subbtn="condolences-overview" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-teal-600 text-white shadow-sm">
+                            1. Meaning, Function &amp; Context
+                        </button>
+                        <button onclick="switchSubTab('condolences', 'expressions')" data-subbtn="condolences-expressions" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+                            2. Expressions, Responses &amp; Situations
+                        </button>
+                        <button onclick="switchSubTab('condolences', 'dialogues')" data-subbtn="condolences-dialogues" class="subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all bg-slate-100 text-slate-600 hover:bg-slate-200/70">
+                            3. Example Dialogues
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Tab Contents -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+
+                <!-- SUB-TAB 1: Meaning, Function & Context -->
+                <div id="sub-condolences-overview" data-subpanel="condolences" class="fade-in-panel space-y-8">
+                    <!-- Meaning & Social Function -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                            <h2 class="font-display text-xl font-bold text-slate-900 border-b-2 border-slate-800 pb-2.5 mb-4">📝 Meaning</h2>
+                            <p class="font-semibold text-slate-700 mb-3">An expression of condolence is used to show:</p>
+                            <ul class="space-y-2.5 font-medium text-slate-700 mb-4">
+                                <li class="flex items-center gap-2.5"><span class="text-rose-500">❤️</span> Sympathy</li>
+                                <li class="flex items-center gap-2.5"><span class="text-rose-500">❤️</span> Sadness</li>
+                                <li class="flex items-center gap-2.5"><span class="text-rose-500">❤️</span> Care &amp; Support</li>
+                            </ul>
+                            <p class="text-sm text-slate-500">To someone who is experiencing loss or difficult times.</p>
+                        </div>
+
+                        <div class="bg-teal-50/70 p-7 rounded-3xl border border-teal-200">
+                            <h2 class="font-display text-xl font-bold text-teal-950 border-b-2 border-teal-500 pb-2.5 mb-4">🌟 Social Function</h2>
+                            <p class="font-semibold text-teal-900 mb-3">We use expressions of condolence to...</p>
+                            <ul class="space-y-2.5 font-medium text-slate-800">
+                                <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-teal-600"></i> Express sympathy</li>
+                                <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-teal-600"></i> Comfort someone</li>
+                                <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-teal-600"></i> Show empathy</li>
+                                <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-teal-600"></i> Support people in hard times</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- When Do We Use Them -->
+                    <div class="bg-white p-7 sm:p-9 rounded-3xl border border-slate-200 shadow-sm">
+                        <h2 class="font-display text-2xl font-bold text-slate-900 mb-2">When Do We Use Them?</h2>
+                        <p class="text-slate-500 text-sm mb-6">We usually say expressions of condolence when someone experiences sad or tragic moments:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3.5 font-semibold text-slate-800">
+                                <span class="text-2xl">🕊️</span> Loses a family member
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3.5 font-semibold text-slate-800">
+                                <span class="text-2xl">🤕</span> Has an accident
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3.5 font-semibold text-slate-800">
+                                <span class="text-2xl">🔥</span> Experiences a house fire
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3.5 font-semibold text-slate-800">
+                                <span class="text-2xl">🌊</span> Becomes a flood victim
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3.5 font-semibold text-slate-800">
+                                <span class="text-2xl">🐱</span> Loses a beloved pet
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3.5 font-semibold text-slate-800">
+                                <span class="text-2xl">🏥</span> Is seriously ill / hospitalized
+                            </div>
+                            <div class="p-4 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center gap-3 font-bold text-teal-950 sm:col-span-2 lg:col-span-3">
+                                <span class="text-2xl">💔</span> Experiences any great loss or hardship
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 2: Expressions, Responses & Situations -->
+                <div id="sub-condolences-expressions" data-subpanel="condolences" class="hidden fade-in-panel space-y-8">
+                    <!-- Simple vs Longer Expressions -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="font-display font-bold text-lg text-slate-900 border-b-2 border-slate-800 pb-2 mb-4">💬 Simple Expressions</h3>
+                            <ul class="space-y-2.5 text-sm sm:text-base font-medium text-slate-700">
+                                <li class="p-3 rounded-xl bg-slate-50">✓ I'm sorry to hear that.</li>
+                                <li class="p-3 rounded-xl bg-slate-50">✓ I'm so sorry.</li>
+                                <li class="p-3 rounded-xl bg-slate-50">✓ I'm sorry for your loss.</li>
+                                <li class="p-3 rounded-xl bg-slate-50">✓ Please accept my deepest sympathy.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-teal-50/70 p-7 rounded-3xl border border-teal-200">
+                            <h3 class="font-display font-bold text-lg text-teal-950 border-b-2 border-teal-500 pb-2 mb-4">🕊️ Longer &amp; Heartfelt Expressions</h3>
+                            <ul class="space-y-2.5 text-sm sm:text-base font-medium text-slate-800">
+                                <li class="p-3 rounded-xl bg-white/80">✓ My thoughts are with you.</li>
+                                <li class="p-3 rounded-xl bg-white/80">✓ My heart goes out to you.</li>
+                                <li class="p-3 rounded-xl bg-white/80">✓ May you find strength during this difficult time.</li>
+                                <li class="p-3 rounded-xl bg-white/80">✓ May Allah give you patience.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Responses -->
+                    <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm">
+                        <h3 class="font-display text-xl font-bold text-slate-900 mb-4">How to Respond Politely</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-sm font-semibold text-slate-700">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">✨ Thank you.</div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">✨ Thank you for your kindness.</div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">✨ I appreciate your support.</div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">✨ Thank you for your prayers.</div>
+                            <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-teal-900 font-bold sm:col-span-2">✨ That means a lot to me.</div>
+                        </div>
+                    </div>
+
+                    <!-- Situations Table -->
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-slate-100">
+                            <h3 class="font-display text-xl font-bold text-slate-900">Situation &amp; Expression Reference Table</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-800 text-white text-sm">
+                                        <th class="p-4 w-2/5">Situation</th>
+                                        <th class="p-4">Appropriate Expression</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm sm:text-base text-slate-700">
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-4 font-bold text-slate-900">Family member passed away</td>
+                                        <td class="p-4">Please accept my deepest sympathy.</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-4 font-bold text-slate-900">Friend lost his father</td>
+                                        <td class="p-4">I'm so sorry for your loss.</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-4 font-bold text-slate-900">House burned down</td>
+                                        <td class="p-4">My thoughts are with you during this time.</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-4 font-bold text-slate-900">Friend hospitalized</td>
+                                        <td class="p-4">I hope you recover soon. Take care.</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-4 font-bold text-slate-900">Pet died</td>
+                                        <td class="p-4">I'm sorry to hear about your pet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 3: Example Dialogues -->
+                <div id="sub-condolences-dialogues" data-subpanel="condolences" class="hidden fade-in-panel space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Dialogue 1 -->
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Dialogue 01 • Family Loss</span>
+                                <h3 class="font-display text-xl font-bold text-slate-900 mt-1 mb-5">Comforting a Grieving Friend</h3>
+                                <div class="flex flex-col gap-4 text-sm sm:text-base">
+                                    <div class="self-start max-w-[88%] bg-slate-800 text-white px-5 py-4 rounded-2xl rounded-bl-sm">
+                                        <span class="text-xs font-bold text-teal-300 block mb-1">Speaker A</span>
+                                        I heard about your grandmother. I'm so sorry for your loss.
+                                    </div>
+                                    <div class="self-end max-w-[88%] bg-teal-50 border border-teal-200 text-slate-800 px-5 py-4 rounded-2xl rounded-br-sm">
+                                        <span class="text-xs font-bold text-teal-700 block mb-1">Speaker B</span>
+                                        Thank you very much. Your support means a lot to me.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dialogue 2 -->
+                        <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Dialogue 02 • Natural Disaster</span>
+                                <h3 class="font-display text-xl font-bold text-slate-900 mt-1 mb-5">Supporting a Flood Victim</h3>
+                                <div class="flex flex-col gap-4 text-sm sm:text-base">
+                                    <div class="self-start max-w-[88%] bg-slate-800 text-white px-5 py-4 rounded-2xl rounded-bl-sm">
+                                        <span class="text-xs font-bold text-teal-300 block mb-1">Speaker A</span>
+                                        I heard your house was damaged by the flood. My thoughts are with you.
+                                    </div>
+                                    <div class="self-end max-w-[88%] bg-teal-50 border border-teal-200 text-slate-800 px-5 py-4 rounded-2xl rounded-br-sm">
+                                        <span class="text-xs font-bold text-teal-700 block mb-1">Speaker B</span>
+                                        Thank you. We're trying our best.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 px-4 sm:px-8 text-xs sm:text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p class="font-display font-bold text-slate-800">Greetings Card — Interactive English Learning Portal</p>
+            <p>Greeting Card • Expression of Congratulations • Expression of Condolences</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data for the 10 Congratulations Situations
+        const congratsSituations = [
+            {
+                num: "01",
+                title: "Winning a Competition",
+                icon: "fa-trophy",
+                color: "amber",
+                context: "Your friend wins the English Speech Competition.",
+                phrases: ["Congrats on winning!", "Well done!", "That's an amazing achievement!", "You really deserved it!"]
+            },
+            {
+                num: "02",
+                title: "Graduation",
+                icon: "fa-user-graduate",
+                color: "indigo",
+                context: "Your cousin graduates from junior high school.",
+                phrases: ["Congrats on your graduation!", "Well done on completing your studies!", "Wishing you success in the future.", "Best wishes for your next journey!"]
+            },
+            {
+                num: "03",
+                title: "Top Achievement",
+                icon: "fa-star",
+                color: "amber",
+                context: "Your classmate becomes the best student.",
+                phrases: ["Congrats on your achievement!", "Great job!", "You deserve this success!", "Keep inspiring everyone!"]
+            },
+            {
+                num: "04",
+                title: "New Home",
+                icon: "fa-house-chimney",
+                color: "emerald",
+                context: "Your neighbor moves into a new house.",
+                phrases: ["Congrats on your new home!", "Wishing you happiness in your new house.", "May your home be filled with joy.", "Best wishes in your new place."]
+            },
+            {
+                num: "05",
+                title: "New Baby",
+                icon: "fa-baby-carriage",
+                color: "pink",
+                context: "Your aunt has a baby girl.",
+                phrases: ["Congrats on your new baby!", "Wishing your family happiness.", "Welcome to the newest member!", "May she grow healthy and happy."]
+            },
+            {
+                num: "06",
+                title: "Wedding",
+                icon: "fa-ring",
+                color: "purple",
+                context: "Your teacher gets married.",
+                phrases: ["Congrats on your wedding!", "Wishing you a lifetime of love.", "Best wishes to both of you.", "Have a wonderful life together!"]
+            },
+            {
+                num: "07",
+                title: "Promotion",
+                icon: "fa-briefcase",
+                color: "blue",
+                context: "Your father gets promoted at work.",
+                phrases: ["Congrats on your promotion!", "You truly deserve it.", "Wishing you continued success.", "Best wishes in your new position."]
+            },
+            {
+                num: "08",
+                title: "Passing an Exam",
+                icon: "fa-file-signature",
+                color: "indigo",
+                context: "Your sister passes the entrance exam.",
+                phrases: ["Congrats on passing the exam!", "Well done!", "Your hard work has paid off.", "Keep reaching for your dreams."]
+            },
+            {
+                num: "09",
+                title: "Winning a Match",
+                icon: "fa-futbol",
+                color: "emerald",
+                context: "Your friend wins a football tournament.",
+                phrases: ["Congrats on your victory!", "Fantastic job!", "What a great achievement!", "Keep up the excellent performance!"]
+            },
+            {
+                num: "10",
+                title: "Becoming Class Leader",
+                icon: "fa-crown",
+                color: "amber",
+                context: "Your friend is elected as class leader.",
+                phrases: ["Congrats on becoming leader!", "I'm sure you'll do a great job.", "Best of luck in your new role.", "You deserve this opportunity."]
+            }
+        ];
+
+        // Render the 10 Situations cleanly on load
+        function renderCongratsSituations() {
+            const container = document.getElementById('congrats-situations-grid');
+            if (!container) return;
+
+            container.innerHTML = congratsSituations.map(item => `
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-${item.color}-50 text-${item.color}-700 text-xs font-bold border border-${item.color}-200">
+                                Situation ${item.num}
+                            </span>
+                            <span class="w-10 h-10 rounded-xl bg-${item.color}-100 text-${item.color}-600 flex items-center justify-center text-lg">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-slate-900 mb-1">${item.title}</h3>
+                        <p class="text-sm text-slate-500 mb-4">${item.context}</p>
+                    </div>
+                    <div class="space-y-2 pt-3 border-t border-slate-100">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">You can say:</span>
+                        ${item.phrases.map(p => `
+                            <div class="px-3.5 py-2 rounded-xl bg-slate-50 border-l-4 border-${item.color}-500 text-sm font-medium text-slate-800">
+                                "${p}"
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Main Tab Styling Map
+        const mainTabStyles = {
+            home: 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200',
+            greeting: 'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
+            congrats: 'bg-amber-50 text-amber-800 ring-1 ring-amber-200',
+            condolences: 'bg-teal-50 text-teal-800 ring-1 ring-teal-200'
+        };
+
+        // Sub-Tab Active Accent Colors per Module
+        const subTabActiveStyles = {
+            greeting: 'bg-blue-600 text-white shadow-sm',
+            congrats: 'bg-amber-500 text-white shadow-sm',
+            condolences: 'bg-teal-600 text-white shadow-sm'
+        };
+
+        // Switch Main Top-Level Tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+            const targetView = document.getElementById(`view-${tabName}`);
+            if (targetView) targetView.classList.remove('hidden');
+
+            ['home', 'greeting', 'congrats', 'condolences'].forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                btn.className = 'tab-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap ';
+                btn.className += (t === tabName) ? mainTabStyles[t] : 'text-slate-600 hover:bg-slate-100';
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Switch Sub-Tabs inside a Module
+        function switchSubTab(moduleName, subName) {
+            // Hide all sub-panels in this module
+            document.querySelectorAll(`[data-subpanel="${moduleName}"]`).forEach(panel => {
+                panel.classList.add('hidden');
+            });
+
+            // Show selected sub-panel
+            const targetPanel = document.getElementById(`sub-${moduleName}-${subName}`);
+            if (targetPanel) {
+                targetPanel.classList.remove('hidden');
+            }
+
+            // Update sub-tab button styles
+            document.querySelectorAll(`[data-subbtn^="${moduleName}-"]`).forEach(btn => {
+                const isTarget = btn.getAttribute('data-subbtn') === `${moduleName}-${subName}`;
+                btn.className = 'subtab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ';
+                btn.className += isTarget ? subTabActiveStyles[moduleName] : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70';
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCongratsSituations();
+        });
+    </script>
+</body>
+</html>
