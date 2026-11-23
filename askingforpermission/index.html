@@ -155,6 +155,12 @@
                     <i class="fa-solid fa-volume-high text-sm"></i>
                     <span class="hidden xl:inline">Tes Audio</span>
                 </button>
+
+                <!-- Fullscreen Toggle Button -->
+                <button onclick="toggleFullscreen()" id="btn-fullscreen" class="bg-white/10 hover:bg-white/20 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20 text-xs font-bold text-sky-200 hover:text-white transition-colors btn-bounce flex items-center gap-1.5 flex-shrink-0" title="Tampilan Layar Penuh">
+                    <i id="icon-fullscreen" class="fa-solid fa-expand text-sm"></i>
+                    <span id="lbl-fullscreen" class="hidden xl:inline">Fullscreen</span>
+                </button>
             </div>
         </div>
     </header>
@@ -1256,6 +1262,41 @@
                 console.log("Audio FX fallback", e);
             }
         }
+
+        // FULLSCREEN TOGGLE CONTROLLER
+        function toggleFullscreen() {
+            playAudioFx('click');
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                const docEl = document.documentElement;
+                if (docEl.requestFullscreen) {
+                    docEl.requestFullscreen().catch(() => {});
+                } else if (docEl.webkitRequestFullscreen) {
+                    docEl.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenButton() {
+            const icon = document.getElementById('icon-fullscreen');
+            const label = document.getElementById('lbl-fullscreen');
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+
+            if (icon) {
+                icon.className = isFs ? 'fa-solid fa-compress text-sm' : 'fa-solid fa-expand text-sm';
+            }
+            if (label) {
+                label.innerText = isFs ? 'Exit Fullscreen' : 'Fullscreen';
+            }
+        }
+
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
     </script>
 </body>
 </html>
