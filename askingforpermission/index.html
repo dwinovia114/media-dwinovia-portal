@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASKING FOR PERMISSION - English For 4th Grade</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Nunito & Baloo 2 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            700: '#1e3a8a',
+                            800: '#172554',
+                            900: '#0f172a',
+                        },
+                        sky: {
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                        },
+                        amber: {
+                            100: '#fef3c7',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        baloo: ['"Baloo 2"', 'cursive'],
+                        nunito: ['"Nunito"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f9ff;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Baloo 2', cursive;
+        }
+        
+        /* Perspective & Flip Card Styling */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flipped .transform-style-3d {
+            transform: rotateY(180deg);
+        }
+
+        /* Bounce Animation for Interactive Buttons */
+        .btn-bounce:active {
+            transform: scale(0.95);
+        }
+
+        /* Highlight roleplay opacity effects */
+        .role-dimmed {
+            opacity: 0.35;
+            filter: grayscale(40%);
+            transition: all 0.3s ease;
+        }
+        .role-active {
+            opacity: 1;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        /* Hide horizontal scrollbar on mobile nav */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0f2fe;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-amber-300 selection:text-navy-900">
+
+    <!-- HEADER / NAVIGATION HERO -->
+    <header class="bg-gradient-to-r from-navy-800 via-navy-700 to-navy-900 text-white shadow-xl sticky top-0 z-50 border-b-4 border-amber-400">
+        <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-2.5 flex flex-col lg:flex-row justify-between items-center gap-2.5">
+            <!-- Judul Kiri -->
+            <div class="flex items-center gap-3 text-left">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 bg-amber-400 text-navy-900 rounded-xl flex items-center justify-center font-bold text-xl sm:text-2xl shadow-md transform rotate-2 hover:rotate-0 transition-transform flex-shrink-0">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white leading-none">
+                        ASKING FOR PERMISSION
+                    </h1>
+                    <p class="text-amber-300 text-xs sm:text-sm font-bold tracking-wide mt-0.5">
+                        English For 4th Grade
+                    </p>
+                </div>
+            </div>
+
+            <!-- Menu Tab Navigasi & Audio Tes Sejajar di Sisi Kanan -->
+            <div class="flex items-center gap-2 w-full lg:w-auto justify-center lg:justify-end overflow-x-auto no-scrollbar py-0.5">
+                <nav class="flex items-center gap-1.5 bg-navy-900/50 p-1 rounded-xl border border-white/10 whitespace-nowrap" id="tabNav">
+                    <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all duration-200 bg-amber-400 text-navy-900 shadow-md">
+                        <i class="fa-solid fa-hand-holding-hand"></i>
+                        <span>Asking for Permission</span>
+                    </button>
+                    <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all duration-200 text-sky-100 hover:bg-white/10">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Example of Dialogues</span>
+                    </button>
+                    <button onclick="switchTab('tab4')" id="btn-tab4" class="tab-btn px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all duration-200 text-amber-300 hover:bg-white/10">
+                        <i class="fa-solid fa-users-viewfinder"></i>
+                        <span>Student Practice</span>
+                    </button>
+                </nav>
+
+                <!-- Speech Voice Test Button -->
+                <button onclick="speakText('Welcome to our English lesson! Let us learn together!')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20 text-xs font-bold text-amber-300 hover:text-white transition-colors btn-bounce flex items-center gap-1.5 flex-shrink-0" title="Tes Suara Audio">
+                    <i class="fa-solid fa-volume-high text-sm"></i>
+                    <span class="hidden xl:inline">Tes Audio</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 flex-grow">
+
+        <!-- ================= TAB 1: ASKING FOR PERMISSION ================= -->
+        <section id="tab1" class="tab-content space-y-8 sm:space-y-10">
+            
+            <!-- HERO SECTION PENGANTAR MATERI (ONLY APPEARS IN TAB 1) -->
+            <div class="bg-gradient-to-br from-navy-800 via-sky-700 to-sky-500 text-white rounded-[2rem] p-6 sm:p-8 lg:p-10 shadow-2xl border-4 border-white relative overflow-hidden">
+                <!-- Decorative Background Shapes -->
+                <div class="absolute -top-20 -right-20 w-72 h-72 bg-amber-400/20 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-16 w-80 h-80 bg-sky-300/20 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute top-6 right-10 text-white/10 text-7xl sm:text-8xl pointer-events-none rotate-12 hidden md:block">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                    <!-- Left Content: Pengertian Asking for Permission -->
+                    <div class="lg:col-span-7 space-y-4 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 bg-amber-400 text-navy-900 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider shadow-md">
+                            <i class="fa-solid fa-star"></i>
+                            <span>Pengantar Materi • Let's Learn!</span>
+                        </div>
+
+                        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
+                            Meminta Izin dengan Sopan <span class="text-amber-300">dalam Bahasa Inggris!</span>
+                        </h2>
+
+                        <div class="bg-white/15 backdrop-blur-md border border-white/25 rounded-2xl p-4 sm:p-5 shadow-inner text-left">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-400 text-navy-900 rounded-xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 shadow">
+                                    <i class="fa-solid fa-lightbulb"></i>
+                                </div>
+                                <p class="text-sm sm:text-base md:text-lg leading-relaxed text-white font-semibold">
+                                    <strong class="text-amber-300 font-black">Asking for permission</strong> adalah ungkapan untuk meminta izin kepada orang lain.
+                                    Dalam materi ini, kita belajar meminta izin untuk <span class="bg-navy-900/40 px-2 py-0.5 rounded-lg text-amber-200 font-bold">meminjam barang</span> atau <span class="bg-navy-900/40 px-2 py-0.5 rounded-lg text-amber-200 font-bold">melihat sesuatu</span>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Action Pill Buttons -->
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+                            <button onclick="speakText('May I borrow your pencil? Can I see your book?')" class="bg-amber-400 hover:bg-amber-300 text-navy-900 font-black px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow-lg btn-bounce transition-all">
+                                <i class="fa-solid fa-volume-high"></i>
+                                <span>Dengarkan Contoh</span>
+                            </button>
+                            <div class="flex items-center gap-2 bg-white/15 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-sky-100 border border-white/20">
+                                <i class="fa-solid fa-book-open text-amber-300"></i>
+                                <span>2 Fokus: Meminjam & Melihat</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Content: Interactive Visual Illustration Card -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="w-full max-w-md bg-white/15 backdrop-blur-md border-2 border-white/30 rounded-3xl p-5 sm:p-6 shadow-2xl relative">
+                            <!-- Floating Speech Bubble 1 -->
+                            <div class="bg-white text-navy-900 rounded-2xl rounded-bl-none p-3.5 shadow-lg mb-3 transform -rotate-1 hover:rotate-0 transition-transform">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-xs font-black text-sky-600 uppercase">Meminta Izin</span>
+                                    <button onclick="speakText('May I borrow your book?')" class="text-sky-600 hover:text-sky-800 text-sm btn-bounce" title="Putar Suara">
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                </div>
+                                <p class="text-base sm:text-lg font-black mt-0.5">"May I borrow your book?" 📚</p>
+                            </div>
+
+                            <!-- Central Classroom Illustration SVG -->
+                            <div class="flex items-center justify-center gap-4 my-3">
+                                <!-- Student 1 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-amber-400 rounded-2xl p-1.5 shadow-lg border-2 border-white">
+                                        <svg class="w-full h-full" viewBox="0 0 36 36" fill="none">
+                                            <circle cx="18" cy="18" r="18" fill="#0284C7"/>
+                                            <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FCE7F3"/>
+                                            <path d="M11 15C11 11.686 14.134 9 18 9C21.866 9 25 11.686 25 15V16H11V15Z" fill="#1E293B"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs font-extrabold text-amber-200 mt-1">Asking</span>
+                                </div>
+
+                                <!-- Exchange Icon -->
+                                <div class="w-10 h-10 bg-white/25 rounded-full flex items-center justify-center text-amber-300 text-lg animate-pulse">
+                                    <i class="fa-solid fa-arrows-left-right"></i>
+                                </div>
+
+                                <!-- Student 2 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-400 rounded-2xl p-1.5 shadow-lg border-2 border-white">
+                                        <svg class="w-full h-full" viewBox="0 0 36 36" fill="none">
+                                            <circle cx="18" cy="18" r="18" fill="#9333EA"/>
+                                            <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#F3E8FF"/>
+                                            <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FCE7F3"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs font-extrabold text-emerald-200 mt-1">Responding</span>
+                                </div>
+                            </div>
+
+                            <!-- Floating Speech Bubble 2 -->
+                            <div class="bg-emerald-500 text-white rounded-2xl rounded-br-none p-3.5 shadow-lg mt-3 ml-auto max-w-[85%] border-2 border-white/40 transform rotate-1 hover:rotate-0 transition-transform text-right">
+                                <div class="flex items-center justify-between gap-2 flex-row-reverse">
+                                    <span class="text-xs font-black text-emerald-100 uppercase">Menjawab</span>
+                                    <button onclick="speakText('Sure! Yes, please.')" class="text-white hover:text-amber-200 text-sm btn-bounce" title="Putar Suara">
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                </div>
+                                <p class="text-base sm:text-lg font-black mt-0.5">"Sure! Yes, please." ✨</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROMINENT HIGHLIGHT: SENTENCE PATTERNS SECTION -->
+            <div class="bg-white rounded-3xl p-1 sm:p-2 shadow-2xl border-4 border-amber-400 relative overflow-hidden ring-4 ring-amber-400/30">
+                <!-- Glowing Golden Banner Header -->
+                <div class="bg-gradient-to-r from-navy-800 via-navy-700 to-amber-600 text-white p-4 sm:p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 bg-amber-400 text-navy-900 rounded-xl flex items-center justify-center text-xl sm:text-2xl font-black shadow flex-shrink-0">
+                            <i class="fa-solid fa-cubes-stacked"></i>
+                        </div>
+                        <div>
+                            <span class="bg-amber-400/30 text-amber-300 text-xs font-black uppercase px-2.5 py-0.5 rounded-full border border-amber-300/30">Materi Utama</span>
+                            <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-wide text-white">Sentence Patterns (Pola Kalimat)</h2>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold bg-white/15 px-3 py-1.5 rounded-lg text-amber-200 border border-white/20">
+                        <i class="fa-solid fa-circle-info"></i> Pelajari 4 Pola Utama Ini!
+                    </span>
+                </div>
+
+                <!-- 4 PROMINENT PATTERN CARDS GRID -->
+                <div class="p-3 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 bg-amber-50/40 rounded-b-2xl">
+                    
+                    <!-- PATTERN 1 -->
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-2 border-amber-300 hover:border-amber-500 transition-all space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <span class="bg-amber-400 text-navy-900 font-black px-3 py-1 rounded-lg text-xs sm:text-sm shadow-sm">Pattern 1</span>
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">Meminjam</span>
+                        </div>
+                        
+                        <!-- Visual Syntax Blocks -->
+                        <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-3 rounded-xl border border-slate-200 font-extrabold text-xs sm:text-sm md:text-base">
+                            <span class="bg-navy-800 text-white px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">May I borrow your</span>
+                            <span class="text-slate-700">+</span>
+                            <span class="bg-amber-400 text-navy-900 px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">benda?</span>
+                        </div>
+
+                        <!-- Example Box -->
+                        <div class="bg-sky-50 border-2 border-sky-200 p-3.5 sm:p-4 rounded-xl space-y-1">
+                            <span class="text-[11px] font-black uppercase text-sky-700 tracking-wider">Example:</span>
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-base sm:text-lg font-black text-navy-900">May I borrow your book?</span>
+                                <button onclick="speakText('May I borrow your book?')" class="w-10 h-10 bg-sky-500 hover:bg-sky-600 text-white rounded-xl flex items-center justify-center shadow btn-bounce flex-shrink-0" title="Putar Suara">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs sm:text-sm font-bold text-slate-600 italic">Bolehkah saya meminjam bukumu?</p>
+                        </div>
+                    </div>
+
+                    <!-- PATTERN 2 -->
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-2 border-amber-300 hover:border-amber-500 transition-all space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <span class="bg-amber-400 text-navy-900 font-black px-3 py-1 rounded-lg text-xs sm:text-sm shadow-sm">Pattern 2</span>
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">Meminjam</span>
+                        </div>
+                        
+                        <!-- Visual Syntax Blocks -->
+                        <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-3 rounded-xl border border-slate-200 font-extrabold text-xs sm:text-sm md:text-base">
+                            <span class="bg-navy-800 text-white px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">Can I borrow your</span>
+                            <span class="text-slate-700">+</span>
+                            <span class="bg-amber-400 text-navy-900 px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">benda?</span>
+                        </div>
+
+                        <!-- Example Box -->
+                        <div class="bg-sky-50 border-2 border-sky-200 p-3.5 sm:p-4 rounded-xl space-y-1">
+                            <span class="text-[11px] font-black uppercase text-sky-700 tracking-wider">Example:</span>
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-base sm:text-lg font-black text-navy-900">Can I borrow your pencil?</span>
+                                <button onclick="speakText('Can I borrow your pencil?')" class="w-10 h-10 bg-sky-500 hover:bg-sky-600 text-white rounded-xl flex items-center justify-center shadow btn-bounce flex-shrink-0" title="Putar Suara">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs sm:text-sm font-bold text-slate-600 italic">Bolehkah saya meminjam pensilmu?</p>
+                        </div>
+                    </div>
+
+                    <!-- PATTERN 3 -->
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-2 border-amber-300 hover:border-amber-500 transition-all space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <span class="bg-amber-400 text-navy-900 font-black px-3 py-1 rounded-lg text-xs sm:text-sm shadow-sm">Pattern 3</span>
+                            <span class="text-xs font-bold text-sky-700 bg-sky-100 px-2.5 py-0.5 rounded-full">Melihat</span>
+                        </div>
+                        
+                        <!-- Visual Syntax Blocks -->
+                        <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-3 rounded-xl border border-slate-200 font-extrabold text-xs sm:text-sm md:text-base">
+                            <span class="bg-navy-800 text-white px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">May I see your</span>
+                            <span class="text-slate-700">+</span>
+                            <span class="bg-amber-400 text-navy-900 px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">benda?</span>
+                        </div>
+
+                        <!-- Example Box -->
+                        <div class="bg-sky-50 border-2 border-sky-200 p-3.5 sm:p-4 rounded-xl space-y-1">
+                            <span class="text-[11px] font-black uppercase text-sky-700 tracking-wider">Example:</span>
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-base sm:text-lg font-black text-navy-900">May I see your wardrobe?</span>
+                                <button onclick="speakText('May I see your wardrobe?')" class="w-10 h-10 bg-sky-500 hover:bg-sky-600 text-white rounded-xl flex items-center justify-center shadow btn-bounce flex-shrink-0" title="Putar Suara">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs sm:text-sm font-bold text-slate-600 italic">Bolehkah saya melihat lemari pakaianmu?</p>
+                        </div>
+                    </div>
+
+                    <!-- PATTERN 4 -->
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-2 border-amber-300 hover:border-amber-500 transition-all space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <span class="bg-amber-400 text-navy-900 font-black px-3 py-1 rounded-lg text-xs sm:text-sm shadow-sm">Pattern 4</span>
+                            <span class="text-xs font-bold text-sky-700 bg-sky-100 px-2.5 py-0.5 rounded-full">Melihat</span>
+                        </div>
+                        
+                        <!-- Visual Syntax Blocks -->
+                        <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-3 rounded-xl border border-slate-200 font-extrabold text-xs sm:text-sm md:text-base">
+                            <span class="bg-navy-800 text-white px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">Can I see your</span>
+                            <span class="text-slate-700">+</span>
+                            <span class="bg-amber-400 text-navy-900 px-2.5 sm:px-3 py-1.5 rounded-lg shadow-sm">benda?</span>
+                        </div>
+
+                        <!-- Example Box -->
+                        <div class="bg-sky-50 border-2 border-sky-200 p-3.5 sm:p-4 rounded-xl space-y-1">
+                            <span class="text-[11px] font-black uppercase text-sky-700 tracking-wider">Example:</span>
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-base sm:text-lg font-black text-navy-900">Can I see your picture?</span>
+                                <button onclick="speakText('Can I see your picture?')" class="w-10 h-10 bg-sky-500 hover:bg-sky-600 text-white rounded-xl flex items-center justify-center shadow btn-bounce flex-shrink-0" title="Putar Suara">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs sm:text-sm font-bold text-slate-600 italic">Bolehkah saya melihat gambarmu?</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RESPONDING TO PERMISSION REQUESTS (MERGED INTO TAB 1) -->
+            <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-lg border-2 border-emerald-200 space-y-5">
+                <div class="flex items-center gap-3 border-b-2 border-emerald-100 pb-3">
+                    <div class="w-10 h-10 bg-emerald-600 text-white font-extrabold rounded-xl flex items-center justify-center text-lg flex-shrink-0 shadow-sm">
+                        <i class="fa-solid fa-reply"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-emerald-600 tracking-wider">Cara Menjawab Izin</span>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-navy-800">Responding to Permission Requests</h3>
+                    </div>
+                </div>
+
+                <p class="text-sm sm:text-base font-bold text-slate-700 bg-emerald-50/80 border-l-4 border-emerald-500 p-3.5 sm:p-4 rounded-r-2xl">
+                    Berikut ungkapan yang dapat digunakan untuk menjawab permintaan izin:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    <!-- Responding 1: Sure. -->
+                    <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-5 sm:p-6 shadow-md border-4 border-white flex items-center justify-between gap-3 group hover:scale-[1.02] transition-transform">
+                        <div>
+                            <span class="text-xs font-extrabold uppercase bg-white/20 px-3 py-1 rounded-full">Expression</span>
+                            <h4 class="text-3xl sm:text-4xl font-black mt-3 tracking-wide">Sure.</h4>
+                            <p class="text-emerald-100 font-bold text-lg sm:text-xl mt-1 italic">Tentu.</p>
+                        </div>
+                        <button onclick="speakText('Sure.')" class="w-14 h-14 sm:w-16 sm:h-16 bg-white text-emerald-600 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg btn-bounce group-hover:bg-amber-300 group-hover:text-navy-900 transition-colors flex-shrink-0">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+
+                    <!-- Responding 2: Yes, please. -->
+                    <div class="bg-gradient-to-br from-sky-500 to-indigo-600 text-white rounded-3xl p-5 sm:p-6 shadow-md border-4 border-white flex items-center justify-between gap-3 group hover:scale-[1.02] transition-transform">
+                        <div>
+                            <span class="text-xs font-extrabold uppercase bg-white/20 px-3 py-1 rounded-full">Expression</span>
+                            <h4 class="text-3xl sm:text-4xl font-black mt-3 tracking-wide">Yes, please.</h4>
+                            <p class="text-sky-100 font-bold text-lg sm:text-xl mt-1 italic">Ya, silakan.</p>
+                        </div>
+                        <button onclick="speakText('Yes, please.')" class="w-14 h-14 sm:w-16 sm:h-16 bg-white text-indigo-600 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg btn-bounce group-hover:bg-amber-300 group-hover:text-navy-900 transition-colors flex-shrink-0">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEANING OF IMPORTANT WORDS (INTERACTIVE FLIP CARDS) -->
+            <div class="bg-white rounded-3xl p-4 sm:p-7 shadow-lg border-2 border-sky-100 space-y-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b pb-3">
+                    <div>
+                        <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-navy-800 flex items-center gap-2">
+                            <i class="fa-solid fa-spell-check text-sky-500"></i> Meaning of Important Words
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-500 font-semibold">Klik pada kartu kata di bawah untuk membalik kartu! 🔄</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+                    <!-- Word 1: May -->
+                    <div class="flip-card h-36 perspective-1000 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md border-2 border-sky-300">
+                            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-sky-400 to-sky-600 text-white rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mb-1">Word</span>
+                                <span class="text-xl sm:text-2xl font-black">May</span>
+                                <button onclick="event.stopPropagation(); speakText('May');" class="mt-2 text-amber-300 hover:text-white p-1 btn-bounce" title="Audio">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span class="text-[10px] text-sky-100 mt-1">Klik untuk Balik 🔄</span>
+                            </div>
+                            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-amber-400 text-navy-900 rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-navy-900/10 px-2 py-0.5 rounded-full mb-1">Arti</span>
+                                <span class="text-lg sm:text-xl font-black">Bolehkah</span>
+                                <span class="text-[10px] text-navy-800 mt-2">Klik lagi 🔄</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Word 2: Can -->
+                    <div class="flip-card h-36 perspective-1000 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md border-2 border-sky-300">
+                            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-sky-400 to-sky-600 text-white rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mb-1">Word</span>
+                                <span class="text-xl sm:text-2xl font-black">Can</span>
+                                <button onclick="event.stopPropagation(); speakText('Can');" class="mt-2 text-amber-300 hover:text-white p-1 btn-bounce" title="Audio">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span class="text-[10px] text-sky-100 mt-1">Klik untuk Balik 🔄</span>
+                            </div>
+                            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-amber-400 text-navy-900 rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-navy-900/10 px-2 py-0.5 rounded-full mb-1">Arti</span>
+                                <span class="text-lg sm:text-xl font-black">Bolehkah</span>
+                                <span class="text-[10px] text-navy-800 mt-2">Klik lagi 🔄</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Word 3: Borrow -->
+                    <div class="flip-card h-36 perspective-1000 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md border-2 border-sky-300">
+                            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-sky-400 to-sky-600 text-white rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mb-1">Word</span>
+                                <span class="text-xl sm:text-2xl font-black">Borrow</span>
+                                <button onclick="event.stopPropagation(); speakText('Borrow');" class="mt-2 text-amber-300 hover:text-white p-1 btn-bounce" title="Audio">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span class="text-[10px] text-sky-100 mt-1">Klik untuk Balik 🔄</span>
+                            </div>
+                            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-amber-400 text-navy-900 rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-navy-900/10 px-2 py-0.5 rounded-full mb-1">Arti</span>
+                                <span class="text-lg sm:text-xl font-black">Meminjam</span>
+                                <span class="text-[10px] text-navy-800 mt-2">Klik lagi 🔄</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Word 4: See -->
+                    <div class="flip-card h-36 perspective-1000 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md border-2 border-sky-300">
+                            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-sky-400 to-sky-600 text-white rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mb-1">Word</span>
+                                <span class="text-xl sm:text-2xl font-black">See</span>
+                                <button onclick="event.stopPropagation(); speakText('See');" class="mt-2 text-amber-300 hover:text-white p-1 btn-bounce" title="Audio">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span class="text-[10px] text-sky-100 mt-1">Klik untuk Balik 🔄</span>
+                            </div>
+                            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-amber-400 text-navy-900 rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-navy-900/10 px-2 py-0.5 rounded-full mb-1">Arti</span>
+                                <span class="text-lg sm:text-xl font-black">Melihat</span>
+                                <span class="text-[10px] text-navy-800 mt-2">Klik lagi 🔄</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Word 5: Your -->
+                    <div class="flip-card h-36 perspective-1000 cursor-pointer col-span-2 sm:col-span-1" onclick="this.classList.toggle('flipped')">
+                        <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md border-2 border-sky-300">
+                            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-sky-400 to-sky-600 text-white rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mb-1">Word</span>
+                                <span class="text-xl sm:text-2xl font-black">Your</span>
+                                <button onclick="event.stopPropagation(); speakText('Your');" class="mt-2 text-amber-300 hover:text-white p-1 btn-bounce" title="Audio">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span class="text-[10px] text-sky-100 mt-1">Klik untuk Balik 🔄</span>
+                            </div>
+                            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-amber-400 text-navy-900 rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                                <span class="text-xs font-bold bg-navy-900/10 px-2 py-0.5 rounded-full mb-1">Arti</span>
+                                <span class="text-sm font-black leading-snug">Milikmu atau -mu</span>
+                                <span class="text-[10px] text-navy-800 mt-2">Klik lagi 🔄</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 3: EXAMPLE OF DIALOGUES ================= -->
+        <section id="tab3" class="tab-content space-y-8 sm:space-y-10 hidden">
+            <!-- DIALOGUE 1 (C) -->
+            <div class="bg-white rounded-3xl p-5 sm:p-8 lg:p-10 shadow-lg border-2 border-sky-100">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-5 mb-8 gap-4">
+                    <div>
+                        <span class="bg-sky-500 text-white text-xs sm:text-sm font-extrabold px-3.5 py-1 rounded-full uppercase">Dialog 1</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-800 mt-1.5">Example of Dialogue</h2>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button onclick="playFullDialogue('dialogC')" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                            <i class="fa-solid fa-play"></i> Putar Percakapan
+                        </button>
+                        <button onclick="toggleTranslation('transC')" class="bg-amber-400 hover:bg-amber-500 text-navy-900 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                            <i class="fa-solid fa-language"></i> <span id="lbl-transC">Sembunyikan Artinya</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dialogue Chat Simulation C -->
+                <div class="space-y-5 sm:space-y-6 w-full max-w-5xl mx-auto bg-slate-50 p-4 sm:p-8 rounded-3xl border border-slate-200">
+                    <!-- Rafi Line 1 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-sky-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#0284C7"/>
+                                <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FCE7F3"/>
+                                <path d="M11 15C11 11.686 14.134 9 18 9C21.866 9 25 11.686 25 15V16H11V15Z" fill="#1E293B"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-sky-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Rafi</span>
+                                <button onclick="speakText('May I borrow your pencil?', 'rafi')" class="bg-sky-100 hover:bg-sky-200 text-sky-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">May I borrow your pencil?</p>
+                            <p class="transC text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Bolehkah saya meminjam pensilmu?</p>
+                        </div>
+                    </div>
+
+                    <!-- Dika Line 1 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#059669"/>
+                                <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FFEDD5"/>
+                                <rect x="11" y="9" width="14" height="6" rx="2" fill="#0F172A"/>
+                            </svg>
+                        </div>
+                        <div class="bg-emerald-50 border-2 border-emerald-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Dika</span>
+                                <button onclick="speakText('Sure.', 'dika')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Sure.</p>
+                            <p class="transC text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Tentu.</p>
+                        </div>
+                    </div>
+
+                    <!-- Rafi Line 2 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-sky-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#0284C7"/>
+                                <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FCE7F3"/>
+                                <path d="M11 15C11 11.686 14.134 9 18 9C21.866 9 25 11.686 25 15V16H11V15Z" fill="#1E293B"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-sky-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Rafi</span>
+                                <button onclick="speakText('Thank you.', 'rafi')" class="bg-sky-100 hover:bg-sky-200 text-sky-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Thank you.</p>
+                            <p class="transC text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Terima kasih.</p>
+                        </div>
+                    </div>
+
+                    <!-- Dika Line 2 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#059669"/>
+                                <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FFEDD5"/>
+                                <rect x="11" y="9" width="14" height="6" rx="2" fill="#0F172A"/>
+                            </svg>
+                        </div>
+                        <div class="bg-emerald-50 border-2 border-emerald-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Dika</span>
+                                <button onclick="speakText('You\'re welcome.', 'dika')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">You're welcome.</p>
+                            <p class="transC text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Sama-sama.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIALOGUE 2 (D) -->
+            <div class="bg-white rounded-3xl p-5 sm:p-8 lg:p-10 shadow-lg border-2 border-amber-200">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-5 mb-8 gap-4">
+                    <div>
+                        <span class="bg-amber-500 text-navy-900 text-xs sm:text-sm font-extrabold px-3.5 py-1 rounded-full uppercase">Dialog 2</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-800 mt-1.5">Dialogue Combining Permission and Position</h2>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button onclick="playFullDialogue('dialogD')" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                            <i class="fa-solid fa-play"></i> Putar Percakapan
+                        </button>
+                        <button onclick="toggleTranslation('transD')" class="bg-amber-400 hover:bg-amber-500 text-navy-900 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                            <i class="fa-solid fa-language"></i> <span id="lbl-transD">Sembunyikan Artinya</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dialogue Chat Simulation D -->
+                <div class="space-y-5 sm:space-y-6 w-full max-w-5xl mx-auto bg-amber-50/50 p-4 sm:p-8 rounded-3xl border border-amber-200">
+                    <!-- Ana Line 1 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#9333EA"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#F3E8FF"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FCE7F3"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-purple-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Ana</span>
+                                <button onclick="speakText('May I see your wardrobe?', 'ana')" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">May I see your wardrobe?</p>
+                            <p class="transD text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Bolehkah saya melihat lemari pakaianmu?</p>
+                        </div>
+                    </div>
+
+                    <!-- Patricia Line 1 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#DB2777"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#FCE7F3"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FFEDD5"/>
+                            </svg>
+                        </div>
+                        <div class="bg-pink-50 border-2 border-pink-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Patricia</span>
+                                <button onclick="speakText('Sure.', 'patricia')" class="bg-pink-100 hover:bg-pink-200 text-pink-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Sure.</p>
+                            <p class="transD text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Tentu.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ana Line 2 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#9333EA"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#F3E8FF"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FCE7F3"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-purple-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Ana</span>
+                                <button onclick="speakText('Where is the wardrobe?', 'ana')" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Where is the wardrobe?</p>
+                            <p class="transD text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Di mana lemari pakaian itu?</p>
+                        </div>
+                    </div>
+
+                    <!-- Patricia Line 2 -->
+                    <div class="flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#DB2777"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#FCE7F3"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FFEDD5"/>
+                            </svg>
+                        </div>
+                        <div class="bg-pink-50 border-2 border-pink-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-navy-800 text-sm sm:text-base">Patricia</span>
+                                <button onclick="speakText('It is beside the bed.', 'patricia')" class="bg-pink-100 hover:bg-pink-200 text-pink-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">It is beside the bed.</p>
+                            <p class="transD text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Lemari itu berada di samping tempat tidur.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: STUDENT PRACTICE (SPEAKING ROLEPLAY) ================= -->
+        <section id="tab4" class="tab-content space-y-8 sm:space-y-10 hidden">
+            <!-- PRACTICE BANNER HEADER -->
+            <div class="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-navy-900 rounded-3xl p-5 sm:p-7 shadow-xl border-4 border-white flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4">
+                    <div class="w-16 h-16 bg-navy-900 text-amber-300 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-lg flex-shrink-0">
+                        <i class="fa-solid fa-people-arrows"></i>
+                    </div>
+                    <div>
+                        <span class="bg-navy-900 text-white text-xs sm:text-sm font-black px-3.5 py-1 rounded-full uppercase">Praktik Berdua di Kelas</span>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black mt-1">Student Speaking Practice</h2>
+                        <p class="text-sm sm:text-base font-extrabold text-navy-900/80">Latihlah dialog ini secara berpasangan dengan teman sebangkumu!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRACTICE DIALOGUE 1 -->
+            <div class="bg-white rounded-3xl p-5 sm:p-8 lg:p-10 shadow-lg border-2 border-sky-200 space-y-6">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between border-b pb-5 gap-4">
+                    <div>
+                        <span class="bg-sky-500 text-white font-extrabold text-xs sm:text-sm px-3.5 py-1 rounded-full">Latihan 1: Meminjam Barang</span>
+                        <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-navy-800 mt-1.5">Praktik Asking for Permission (Can I borrow...)</h3>
+                    </div>
+
+                    <!-- Roleplay Mode Controller for Practice 1 -->
+                    <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-2 rounded-2xl border border-slate-200 text-xs sm:text-sm font-bold">
+                        <span class="px-2 text-slate-500">Sorot Peran:</span>
+                        <button onclick="setRoleFilter('p1', 'all')" id="btn-p1-all" class="px-3 sm:px-4 py-2 rounded-xl bg-navy-800 text-white font-black">Semua</button>
+                        <button onclick="setRoleFilter('p1', 'roleA')" id="btn-p1-roleA" class="px-3 sm:px-4 py-2 rounded-xl bg-white text-slate-700 hover:bg-slate-200">Student A</button>
+                        <button onclick="setRoleFilter('p1', 'roleB')" id="btn-p1-roleB" class="px-3 sm:px-4 py-2 rounded-xl bg-white text-slate-700 hover:bg-slate-200">Student B</button>
+                    </div>
+                </div>
+
+                <!-- Global Action Controls -->
+                <div class="flex flex-wrap items-center justify-between gap-3 bg-sky-50 p-4 rounded-2xl border border-sky-100">
+                    <button onclick="playPracticeFull('p1')" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                        <i class="fa-solid fa-play"></i> Putar Audio Seluruh Dialog
+                    </button>
+                    <button onclick="toggleTranslation('transP1')" class="bg-amber-400 hover:bg-amber-500 text-navy-900 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                        <i class="fa-solid fa-language"></i> <span id="lbl-transP1">Sembunyikan Artinya</span>
+                    </button>
+                </div>
+
+                <!-- Dialogue Bubble List 1 -->
+                <div class="space-y-5 sm:space-y-6 w-full max-w-5xl mx-auto">
+                    <!-- Line 1: Student A (Zaid) -->
+                    <div id="p1-line1" class="role-line p1-roleA flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#2563EB"/>
+                                <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FFEDD5"/>
+                                <rect x="11" y="9" width="14" height="6" rx="2" fill="#1E3A8A"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-blue-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-blue-700 text-sm sm:text-base">Student A</span>
+                                <button onclick="speakText('Can I borrow your book?', 'zaid')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Can I borrow your book?</p>
+                            <p class="transP1 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Bolehkah saya meminjam bukumu?</p>
+                        </div>
+                    </div>
+
+                    <!-- Line 2: Student B (Nadia) -->
+                    <div id="p1-line2" class="role-line p1-roleB flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-teal-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#0D9488"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#CCFBF1"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FFEDD5"/>
+                            </svg>
+                        </div>
+                        <div class="bg-teal-50 border-2 border-teal-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-teal-700 text-sm sm:text-base">Student B</span>
+                                <button onclick="speakText('Yes, please.', 'nadia')" class="bg-teal-100 hover:bg-teal-200 text-teal-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Yes, please.</p>
+                            <p class="transP1 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Ya, silakan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Line 3: Student A (Zaid) -->
+                    <div id="p1-line3" class="role-line p1-roleA flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#2563EB"/>
+                                <path d="M18 10C14.134 10 11 13.134 11 17C11 19.5 12.3 21.7 14.3 22.9C10.5 24.5 8 28 8 32H28C28 28 25.5 24.5 21.7 22.9C23.7 21.7 25 19.5 25 17C25 13.134 21.866 10 18 10Z" fill="#FFEDD5"/>
+                                <rect x="11" y="9" width="14" height="6" rx="2" fill="#1E3A8A"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-blue-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-blue-700 text-sm sm:text-base">Student A</span>
+                                <button onclick="speakText('Thank you.', 'zaid')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Thank you.</p>
+                            <p class="transP1 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Terima kasih.</p>
+                        </div>
+                    </div>
+
+                    <!-- Line 4: Student B (Nadia) -->
+                    <div id="p1-line4" class="role-line p1-roleB flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-teal-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#0D9488"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#CCFBF1"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FFEDD5"/>
+                            </svg>
+                        </div>
+                        <div class="bg-teal-50 border-2 border-teal-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-teal-700 text-sm sm:text-base">Student B</span>
+                                <button onclick="speakText('You\'re welcome.', 'nadia')" class="bg-teal-100 hover:bg-teal-200 text-teal-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">You're welcome.</p>
+                            <p class="transP1 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Sama-sama.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRACTICE DIALOGUE 2 -->
+            <div class="bg-white rounded-3xl p-5 sm:p-8 lg:p-10 shadow-lg border-2 border-amber-200 space-y-6">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between border-b pb-5 gap-4">
+                    <div>
+                        <span class="bg-amber-500 text-navy-900 font-extrabold text-xs sm:text-sm px-3.5 py-1 rounded-full">Latihan 2: Melihat Gambar & Posisi</span>
+                        <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-navy-800 mt-1.5">Praktik Permission + Position (Where is...)</h3>
+                    </div>
+
+                    <!-- Roleplay Mode Controller for Practice 2 -->
+                    <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-2 rounded-2xl border border-slate-200 text-xs sm:text-sm font-bold">
+                        <span class="px-2 text-slate-500">Sorot Peran:</span>
+                        <button onclick="setRoleFilter('p2', 'all')" id="btn-p2-all" class="px-3 sm:px-4 py-2 rounded-xl bg-navy-800 text-white font-black">Semua</button>
+                        <button onclick="setRoleFilter('p2', 'roleA')" id="btn-p2-roleA" class="px-3 sm:px-4 py-2 rounded-xl bg-white text-slate-700 hover:bg-slate-200">Student A</button>
+                        <button onclick="setRoleFilter('p2', 'roleB')" id="btn-p2-roleB" class="px-3 sm:px-4 py-2 rounded-xl bg-white text-slate-700 hover:bg-slate-200">Student B</button>
+                    </div>
+                </div>
+
+                <!-- Global Action Controls -->
+                <div class="flex flex-wrap items-center justify-between gap-3 bg-amber-50 p-4 rounded-2xl border border-amber-100">
+                    <button onclick="playPracticeFull('p2')" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                        <i class="fa-solid fa-play"></i> Putar Audio Seluruh Dialog
+                    </button>
+                    <button onclick="toggleTranslation('transP2')" class="bg-amber-400 hover:bg-amber-500 text-navy-900 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 shadow btn-bounce">
+                        <i class="fa-solid fa-language"></i> <span id="lbl-transP2">Sembunyikan Artinya</span>
+                    </button>
+                </div>
+
+                <!-- Dialogue Bubble List 2 -->
+                <div class="space-y-5 sm:space-y-6 w-full max-w-5xl mx-auto">
+                    <!-- Line 1: Student A (Aisyah) -->
+                    <div id="p2-line1" class="role-line p2-roleA flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-rose-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#E11D48"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#FFE4E6"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FFEDD5"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-rose-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-rose-700 text-sm sm:text-base">Student A</span>
+                                <button onclick="speakText('Can I see your picture?', 'aisyah')" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Can I see your picture?</p>
+                            <p class="transP2 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Bolehkah saya melihat gambarmu?</p>
+                        </div>
+                    </div>
+
+                    <!-- Line 2: Student B (Fatimah) -->
+                    <div id="p2-line2" class="role-line p2-roleB flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#4F46E5"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#E0E7FF"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FCE7F3"/>
+                            </svg>
+                        </div>
+                        <div class="bg-indigo-50 border-2 border-indigo-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-indigo-700 text-sm sm:text-base">Student B</span>
+                                <button onclick="speakText('Yes, please.', 'fatimah')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Yes, please.</p>
+                            <p class="transP2 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Ya, silakan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Line 3: Student A (Aisyah) -->
+                    <div id="p2-line3" class="role-line p2-roleA flex items-start gap-3.5 sm:gap-5">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-rose-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#E11D48"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#FFE4E6"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FFEDD5"/>
+                            </svg>
+                        </div>
+                        <div class="bg-white border-2 border-rose-200 p-4 sm:p-5 rounded-2xl rounded-tl-none shadow-sm flex-grow">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-black text-rose-700 text-sm sm:text-base">Student A</span>
+                                <button onclick="speakText('Where is the picture?', 'aisyah')" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">Where is the picture?</p>
+                            <p class="transP2 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Di mana gambar itu?</p>
+                        </div>
+                    </div>
+
+                    <!-- Line 4: Student B (Fatimah) -->
+                    <div id="p2-line4" class="role-line p2-roleB flex items-start gap-3.5 sm:gap-5 flex-row-reverse">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow flex-shrink-0">
+                            <svg class="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 36 36" fill="none">
+                                <circle cx="18" cy="18" r="18" fill="#4F46E5"/>
+                                <path d="M18 8C12 8 9 12 9 18C9 24 10 32 18 32C26 32 27 24 27 18C27 12 24 8 18 8Z" fill="#E0E7FF"/>
+                                <path d="M18 12C15.5 12 14 14 14 16.5C14 19 15.5 21 18 21C20.5 21 22 19 22 16.5C22 14 20.5 12 18 12Z" fill="#FCE7F3"/>
+                            </svg>
+                        </div>
+                        <div class="bg-indigo-50 border-2 border-indigo-200 p-4 sm:p-5 rounded-2xl rounded-tr-none shadow-sm flex-grow text-right">
+                            <div class="flex items-center justify-between mb-1.5 flex-row-reverse">
+                                <span class="font-black text-indigo-700 text-sm sm:text-base">Student B</span>
+                                <button onclick="speakText('It is beside the book.', 'fatimah')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold btn-bounce"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            </div>
+                            <p class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800">It is beside the book.</p>
+                            <p class="transP2 text-sm sm:text-base text-slate-500 italic mt-1.5 font-semibold">Gambar itu berada di samping buku.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-navy-900 text-white py-6 text-center border-t-4 border-amber-400 mt-12">
+        <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 space-y-2">
+            <p class="font-extrabold text-amber-300 text-base sm:text-lg">Media Pembelajaran Interaktif Bahasa Inggris SD</p>
+            <p class="text-xs text-sky-200">Materi: ASKING FOR PERMISSION - English For 4th Grade</p>
+            <p class="text-[11px] text-slate-400">Dirancang khusus untuk Siswa Kelas 4 Sekolah Dasar dengan UI/UX Ceria & Interaktif.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT ENGINE -->
+    <script>
+        // CHARACTER VOICE & INTONATION PROFILES FOR WEB SPEECH API
+        let availableVoices = [];
+        function loadSpeechVoices() {
+            if ('speechSynthesis' in window) {
+                availableVoices = window.speechSynthesis.getVoices();
+            }
+        }
+        if ('speechSynthesis' in window) {
+            loadSpeechVoices();
+            window.speechSynthesis.onvoiceschanged = loadSpeechVoices;
+        }
+
+        // Select distinct male/female English voices when available on the device
+        function getVoiceByGender(gender) {
+            if (!availableVoices.length) loadSpeechVoices();
+            const enVoices = availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+            if (!enVoices.length) return null;
+
+            if (gender === 'male') {
+                return enVoices.find(v => /david|mark|alex|daniel|fred|james|thomas|male|guy|google us english/i.test(v.name) && !/female|zira|samantha|victoria|karen|moira|tessa/i.test(v.name))
+                    || enVoices[0];
+            } else {
+                return enVoices.find(v => /zira|samantha|victoria|karen|moira|tessa|fiona|susan|aria|jenny|female|woman|girl|google uk english female/i.test(v.name))
+                    || enVoices[enVoices.length > 1 ? 1 : 0];
+            }
+        }
+
+        // Character voice configurations (differentiated gender, pitch, and base rate)
+        const characterProfiles = {
+            rafi:     { gender: 'male',   pitch: 1.12, rate: 0.88 }, // Energetic boy
+            dika:     { gender: 'male',   pitch: 0.92, rate: 0.85 }, // Calm boy
+            zaid:     { gender: 'male',   pitch: 1.05, rate: 0.88 }, // Polite boy
+            ana:      { gender: 'female', pitch: 1.24, rate: 0.88 }, // Bright girl
+            patricia: { gender: 'female', pitch: 1.08, rate: 0.85 }, // Friendly girl
+            nadia:    { gender: 'female', pitch: 1.18, rate: 0.86 }, // Sweet girl
+            aisyah:   { gender: 'female', pitch: 1.26, rate: 0.88 }, // Curious girl
+            fatimah:  { gender: 'female', pitch: 1.06, rate: 0.84 }, // Gentle girl
+            default:  { gender: 'female', pitch: 1.10, rate: 0.86 }
+        };
+
+        // Adjust intonation dynamically based on sentence type (question, exclamation, polite response)
+        function createUtterance(text, character = 'default') {
+            const profile = characterProfiles[character] || characterProfiles.default;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+
+            const selectedVoice = getVoiceByGender(profile.gender);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+
+            let pitch = profile.pitch;
+            let rate = profile.rate;
+
+            const trimmed = text.trim();
+            if (trimmed.endsWith('?')) {
+                // Slightly higher pitch & lively cadence for polite questions
+                pitch = Math.min(1.45, pitch + 0.08);
+                rate = rate * 0.98;
+            } else if (trimmed.endsWith('!')) {
+                pitch = Math.min(1.45, pitch + 0.06);
+                rate = rate * 1.02;
+            } else if (/^(sure|yes|thank|you're)/i.test(trimmed)) {
+                // Warm, friendly affirmation / gratitude tone
+                pitch = Math.min(1.4, pitch + 0.04);
+                rate = rate * 0.96;
+            }
+
+            utterance.pitch = pitch;
+            utterance.rate = rate;
+            return utterance;
+        }
+
+        // WEB SPEECH SYNTHESIS ENGINE (SINGLE LINE)
+        function speakText(text, character = 'default') {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = createUtterance(text, character);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // TAB SWITCHING SYSTEM
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(c => c.classList.add('hidden'));
+
+            const navBtns = document.querySelectorAll('.tab-btn');
+            navBtns.forEach(b => {
+                b.classList.remove('bg-amber-400', 'text-navy-900', 'shadow-md');
+                b.classList.add('text-sky-100');
+            });
+
+            const targetTab = document.getElementById(tabId);
+            if(targetTab) targetTab.classList.remove('hidden');
+
+            const targetBtn = document.getElementById('btn-' + tabId);
+            if(targetBtn) {
+                targetBtn.classList.add('bg-amber-400', 'text-navy-900', 'shadow-md');
+                targetBtn.classList.remove('text-sky-100');
+            }
+
+            playAudioFx('click');
+        }
+
+        // TOGGLE TRANSLATIONS
+        function toggleTranslation(className) {
+            const elements = document.querySelectorAll('.' + className);
+            const label = document.getElementById('lbl-' + className);
+            
+            let isHidden = false;
+            elements.forEach(el => {
+                if (el.classList.contains('hidden')) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                    isHidden = true;
+                }
+            });
+
+            if (label) {
+                label.innerText = isHidden ? 'Tampilkan Artinya' : 'Sembunyikan Artinya';
+            }
+            playAudioFx('click');
+        }
+
+        // SEQUENTIAL DIALOGUE PLAYER (DIRECT DIALOGUE WITHOUT NARRATION)
+        function playDialogueSequence(dialogueLines) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            let index = 0;
+            function speakNext() {
+                if (index >= dialogueLines.length) return;
+                const item = dialogueLines[index];
+                const utterance = createUtterance(item.text, item.character);
+                utterance.onend = () => {
+                    index++;
+                    setTimeout(speakNext, 280); // Natural conversational pause between speakers
+                };
+                utterance.onerror = () => {
+                    index++;
+                    speakNext();
+                };
+                window.speechSynthesis.speak(utterance);
+            }
+            speakNext();
+        }
+
+        // PLAY FULL DIALOGUES (EXAMPLES & PRACTICE)
+        function playFullDialogue(dialogType) {
+            let lines = [];
+            if (dialogType === 'dialogC') {
+                lines = [
+                    { character: 'rafi', text: "May I borrow your pencil?" },
+                    { character: 'dika', text: "Sure." },
+                    { character: 'rafi', text: "Thank you." },
+                    { character: 'dika', text: "You're welcome." }
+                ];
+            } else if (dialogType === 'dialogD') {
+                lines = [
+                    { character: 'ana', text: "May I see your wardrobe?" },
+                    { character: 'patricia', text: "Sure." },
+                    { character: 'ana', text: "Where is the wardrobe?" },
+                    { character: 'patricia', text: "It is beside the bed." }
+                ];
+            }
+            playDialogueSequence(lines);
+        }
+
+        function playPracticeFull(practiceId) {
+            let lines = [];
+            if (practiceId === 'p1') {
+                lines = [
+                    { character: 'zaid', text: "Can I borrow your book?" },
+                    { character: 'nadia', text: "Yes, please." },
+                    { character: 'zaid', text: "Thank you." },
+                    { character: 'nadia', text: "You're welcome." }
+                ];
+            } else if (practiceId === 'p2') {
+                lines = [
+                    { character: 'aisyah', text: "Can I see your picture?" },
+                    { character: 'fatimah', text: "Yes, please." },
+                    { character: 'aisyah', text: "Where is the picture?" },
+                    { character: 'fatimah', text: "It is beside the book." }
+                ];
+            }
+            playDialogueSequence(lines);
+        }
+
+        // ROLEPLAY HIGHLIGHT FILTER FOR STUDENT PRACTICE
+        function setRoleFilter(practiceId, role) {
+            const roleALines = document.querySelectorAll(`.${practiceId}-roleA`);
+            const roleBLines = document.querySelectorAll(`.${practiceId}-roleB`);
+
+            const btnAll = document.getElementById(`btn-${practiceId}-all`);
+            const btnA = document.getElementById(`btn-${practiceId}-roleA`);
+            const btnB = document.getElementById(`btn-${practiceId}-roleB`);
+
+            // Reset buttons styling
+            [btnAll, btnA, btnB].forEach(b => {
+                if(b) b.className = 'px-3 sm:px-4 py-2 rounded-xl bg-white text-slate-700 hover:bg-slate-200';
+            });
+
+            if (role === 'all') {
+                if(btnAll) btnAll.className = 'px-3 sm:px-4 py-2 rounded-xl bg-navy-800 text-white font-black';
+                roleALines.forEach(el => el.className = el.className.replace('role-dimmed', 'role-active'));
+                roleBLines.forEach(el => el.className = el.className.replace('role-dimmed', 'role-active'));
+            } else if (role === 'roleA') {
+                if(btnA) btnA.className = 'px-3 sm:px-4 py-2 rounded-xl bg-blue-600 text-white font-black';
+                roleALines.forEach(el => {
+                    el.classList.remove('role-dimmed');
+                    el.classList.add('role-active');
+                });
+                roleBLines.forEach(el => {
+                    el.classList.remove('role-active');
+                    el.classList.add('role-dimmed');
+                });
+            } else if (role === 'roleB') {
+                if(btnB) btnB.className = 'px-3 sm:px-4 py-2 rounded-xl bg-teal-600 text-white font-black';
+                roleBLines.forEach(el => {
+                    el.classList.remove('role-dimmed');
+                    el.classList.add('role-active');
+                });
+                roleALines.forEach(el => {
+                    el.classList.remove('role-active');
+                    el.classList.add('role-dimmed');
+                });
+            }
+            playAudioFx('click');
+        }
+
+        // SOUND EFFECTS VIA WEB AUDIO API
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playAudioFx(type) {
+            try {
+                if(!audioCtx) audioCtx = new AudioCtx();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
+                    osc.start(now);
+                    osc.stop(now + 0.04);
+                }
+            } catch(e) {
+                console.log("Audio FX fallback", e);
+            }
+        }
+    </script>
+</body>
+</html>
